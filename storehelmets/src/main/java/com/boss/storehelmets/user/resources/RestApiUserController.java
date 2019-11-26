@@ -4,18 +4,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.boss.storehelmets.model.CustomUserDetails;
+import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.securityconfig.LoginRequest;
 import com.boss.storehelmets.securityconfig.LoginResponse;
 import com.boss.storehelmets.securityjwt.JwtTokenProvider;
+import com.boss.storehelmets.service.ProductService;
 
 @RestController
 @Controller
@@ -25,11 +32,15 @@ public class RestApiUserController {
     AuthenticationManager authenticationManager;;
 	@Autowired
     private JwtTokenProvider tokenProvider;
+	@Autowired
+	private ProductService productService;
 	
 	
-	@RequestMapping(value = "/users",method = RequestMethod.GET)
-	public String getUser() {
-		return "<h1>user<h1>";
+	@RequestMapping(value = "/products",method = RequestMethod.GET)
+	public List<Product>   getAllProduct(Model model) {
+		List<Product> products = productService.getAll();
+		model.addAttribute("products", products);
+		return products;
 	}
 	
 	@PostMapping("/login")

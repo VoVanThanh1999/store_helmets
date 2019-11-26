@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.boss.storehelmets.user.service.UserDetailServiceImlp;
+import com.boss.storehelmets.service.UserDetailServiceImlp;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	@Autowired

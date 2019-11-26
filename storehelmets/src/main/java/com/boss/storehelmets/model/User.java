@@ -12,7 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
 import org.hibernate.annotations.GenericGenerator;
 
 
@@ -27,6 +26,7 @@ public class User {
 	
 	@Column(name="email")
 	@NotBlank
+	@Email
 	private String email;
 	
 	@Column(name="pass_word")

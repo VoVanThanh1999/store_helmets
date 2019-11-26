@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.boss.storehelmets.model.Roles;
 import com.boss.storehelmets.model.User;
-import com.boss.storehelmets.user.repository.UserRepository;
+import com.boss.storehelmets.repository.UserRepository;
 
 
 @SpringBootApplication
@@ -25,8 +25,8 @@ import com.boss.storehelmets.user.repository.UserRepository;
 						"com.boss.storehelmets.securityconfig",
 					"com.boss.storehelmets.securityjwt",
 				"com.boss.storehelmets.user.resources",
-			"com.boss.storehelmets.user.service"})
-@EnableJpaRepositories(basePackages = {"com.boss.storehelmets.user.repository"})
+			"com.boss.storehelmets.service"})
+@EnableJpaRepositories(basePackages = {"com.boss.storehelmets.repository"})
 public class StorehelmetsApplication implements CommandLineRunner{
 	@Autowired
 	UserRepository userRepository;

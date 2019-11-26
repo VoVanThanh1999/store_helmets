@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.boss.storehelmets.securityjwt.JwtAuthenticationFilter;
-import com.boss.storehelmets.user.service.UserDetailServiceImlp;
+import com.boss.storehelmets.service.UserDetailServiceImlp;
 
 @EnableWebSecurity
 @Configuration
@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
-	    http.authorizeRequests().antMatchers("/api/login","logout").permitAll();
+	    http.authorizeRequests().antMatchers("/api/login","logout","/api/products").permitAll();
 	    http.authorizeRequests().antMatchers("/api/users").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
 	    http.authorizeRequests()
 	    .antMatchers("/admin").access("hasRole('ROLE_ADMIN')");	   

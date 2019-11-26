@@ -1,4 +1,4 @@
-package com.boss.storehelmets.user.repository;
+package com.boss.storehelmets.repository;
 
 import java.util.Optional;
 
