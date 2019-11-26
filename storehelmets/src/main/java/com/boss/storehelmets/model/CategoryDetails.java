@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="caregory_details")
+@Table(name="category_details")
 public class CategoryDetails {
 	@Id
 	@GeneratedValue(generator="system-uuid")

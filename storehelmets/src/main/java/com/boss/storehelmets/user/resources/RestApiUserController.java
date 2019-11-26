@@ -26,22 +26,12 @@ import com.boss.storehelmets.service.ProductService;
 
 @RestController
 @Controller
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/v1/user")
 public class RestApiUserController {
 	@Autowired(required = false)
     AuthenticationManager authenticationManager;;
 	@Autowired
     private JwtTokenProvider tokenProvider;
-	@Autowired
-	private ProductService productService;
-	
-	
-	@RequestMapping(value = "/products",method = RequestMethod.GET)
-	public List<Product>   getAllProduct(Model model) {
-		List<Product> products = productService.getAll();
-		model.addAttribute("products", products);
-		return products;
-	}
 	
 	@PostMapping("/login")
 	public LoginResponse authenticateUser( @RequestBody LoginRequest loginRequest) {

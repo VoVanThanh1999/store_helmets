@@ -23,6 +23,12 @@ public class ProductsDetails {
 	@Column(name="description")
 	private String description;
 	
+	@Column(name="structure")
+	private String structure;
+	
+	@Column(name="year_of_manufacture")
+	private String yearOfManufacture;
+	
 	@Column(name="brand")
 	private String brand;
 	
@@ -40,62 +46,132 @@ public class ProductsDetails {
 	@JoinColumn(name="id_products_details")
 	private Set<ProductSize> productSizes;
 
+	/**
+	 * @return the idProductsDetails
+	 */
 	public String getIdProductsDetails() {
 		return idProductsDetails;
 	}
 
+	/**
+	 * @param idProductsDetails the idProductsDetails to set
+	 */
 	public void setIdProductsDetails(String idProductsDetails) {
 		this.idProductsDetails = idProductsDetails;
 	}
 
+	/**
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * @param description the description to set
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * @return the structure
+	 */
+	public String getStructure() {
+		return structure;
+	}
+
+	/**
+	 * @param structure the structure to set
+	 */
+	public void setStructure(String structure) {
+		this.structure = structure;
+	}
+
+	/**
+	 * @return the yearOfManufacture
+	 */
+	public String getYearOfManufacture() {
+		return yearOfManufacture;
+	}
+
+	/**
+	 * @param yearOfManufacture the yearOfManufacture to set
+	 */
+	public void setYearOfManufacture(String yearOfManufacture) {
+		this.yearOfManufacture = yearOfManufacture;
+	}
+
+	/**
+	 * @return the brand
+	 */
 	public String getBrand() {
 		return brand;
 	}
 
+	/**
+	 * @param brand the brand to set
+	 */
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
 
+	/**
+	 * @return the amount
+	 */
 	public int getAmount() {
 		return amount;
 	}
 
+	/**
+	 * @param amount the amount to set
+	 */
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 
+	/**
+	 * @return the weight
+	 */
 	public String getWeight() {
 		return weight;
 	}
 
+	/**
+	 * @param weight the weight to set
+	 */
 	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
+	/**
+	 * @return the productImages
+	 */
 	public Set<ProductImage> getProductImages() {
 		return productImages;
 	}
 
+	/**
+	 * @param productImages the productImages to set
+	 */
 	public void setProductImages(Set<ProductImage> productImages) {
 		this.productImages = productImages;
 	}
 
+	/**
+	 * @return the productSizes
+	 */
 	public Set<ProductSize> getProductSizes() {
 		return productSizes;
 	}
 
+	/**
+	 * @param productSizes the productSizes to set
+	 */
 	public void setProductSizes(Set<ProductSize> productSizes) {
 		this.productSizes = productSizes;
 	}
-	
+
 	
 
 }

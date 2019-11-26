@@ -29,7 +29,6 @@ public class Product {
 	private String nameProduct;
 	
 	@Column(name="date_create")
-	
 	private Date dateCreate;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
