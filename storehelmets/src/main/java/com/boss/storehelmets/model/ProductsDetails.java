@@ -29,6 +29,18 @@ public class ProductsDetails {
 	@Column(name="year_of_manufacture")
 	private String yearOfManufacture;
 	
+//	Số lượng nhập vào
+	@Column(name="number_entered")
+	private int numberEntered;
+	
+//	số lượng đã bán
+	@Column(name="quantity_sold")
+	private int quantitySold;
+//  số lượng tồn tại
+	@Column(name="quantity_exists")
+	private int	quantityExists;
+	
+//	thương hiệu
 	@Column(name="brand")
 	private String brand;
 	
@@ -100,6 +112,48 @@ public class ProductsDetails {
 	 */
 	public void setYearOfManufacture(String yearOfManufacture) {
 		this.yearOfManufacture = yearOfManufacture;
+	}
+
+	/**
+	 * @return the numberEntered
+	 */
+	public int getNumberEntered() {
+		return numberEntered;
+	}
+
+	/**
+	 * @param numberEntered the numberEntered to set
+	 */
+	public void setNumberEntered(int numberEntered) {
+		this.numberEntered = numberEntered;
+	}
+
+	/**
+	 * @return the quantitySold
+	 */
+	public int getQuantitySold() {
+		return quantitySold;
+	}
+
+	/**
+	 * @param quantitySold the quantitySold to set
+	 */
+	public void setQuantitySold(int quantitySold) {
+		this.quantitySold = quantitySold;
+	}
+
+	/**
+	 * @return the quantityExists
+	 */
+	public int getQuantityExists() {
+		return quantityExists;
+	}
+
+	/**
+	 * @param quantityExists the quantityExists to set
+	 */
+	public void setQuantityExists(int quantityExists) {
+		this.quantityExists = quantityExists;
 	}
 
 	/**

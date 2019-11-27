@@ -43,7 +43,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    		"logout",
 	    		"/api/v1/products",
 	    		"/api/v1/products/{id}",
-	    		"/api/v1/category"
+	    		"/api/v1/products/{id}",
+	    		"/api/v1/products/newlyadded",
+	    		"/api/v1/products/popular",
+	    		"/api/v1/products/amountdesc",
+	    		"/api/v1/products/amountasc",
+	    		"/api/v1/products/categorydetails/{id}"
 	    		).permitAll();
 	    http.authorizeRequests().antMatchers("/api/users").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
 	    http.authorizeRequests()

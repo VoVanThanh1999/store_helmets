@@ -1,5 +1,6 @@
 package com.boss.storehelmets.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,14 +16,15 @@ import com.boss.storehelmets.repository.ProductRepository;
 public class ProductServiceImlp implements ProductService{
 	@Autowired
 	ProductRepository productRepository;
+	
 	@Transactional
 	@Override
 	public List<Product> getAll() {
 		// TODO Auto-generated method stub
-		List<Product> product = productRepository.findAll()
-								.stream()
-								.collect(Collectors.toList());
 		try {
+			List<Product> product = productRepository.findAll()
+					.stream()
+					.collect(Collectors.toList());
 			return product;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -39,6 +41,63 @@ public class ProductServiceImlp implements ProductService{
 		}
 		return null;
 		
+	}
+//	get sản phẩm mới thêm vào
+	@Transactional
+	@Override
+	public List<Product> getProductNewlyAdd() {
+		// TODO Auto-generated method stub
+		try {
+			List<Product> products = productRepository.findAll();
+			List<Product> products2 = new ArrayList<Product>();
+			for (int i = products.size()-1; i >=0; i--) {
+				products2.add(products.get(i));
+			}
+			return products2;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
+//	get sản phẩm được nhiều người mua nhất
+	@Transactional
+	@Override
+	public List<Product> getProductByPopular() {
+		// TODO Auto-generated method stub
+		try {
+			List<Product> products = productRepository.findByOrderByPopular();
+			return products;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		
+	}
+	@Transactional
+	@Override
+	public List<Product> getByOrderByAmountAsc() {
+		// TODO Auto-generated method stub
+		try {
+			List<Product> products = productRepository.findByOrderByAmountAsc();
+			return products;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
+	@Transactional
+	@Override
+	public List<Product> getByOrderByAmountDesc() {
+		// TODO Auto-generated method stub
+		try {
+			List<Product> products = productRepository.findByOrderByAmountDest();
+			return products;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 
 	
