@@ -32,7 +32,7 @@ public class Product {
 	private Date dateCreate;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinTable(name = "product_productDetails",joinColumns = @JoinColumn(name="id_product"),
+	@JoinTable(name = "product_category",joinColumns = @JoinColumn(name="id_product"),
 		inverseJoinColumns = @JoinColumn(name="id_details_category")
 	)
 	private Set<CategoryDetails> categoryDetails;
