@@ -70,4 +70,9 @@ public class RestApiUserController {
 		}
 		return null;
 	}
+	
+	public String changeInformationUser(UserDto userDto) {
+		
+		return null;
+	}
 }
