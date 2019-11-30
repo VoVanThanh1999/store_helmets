@@ -1,7 +1,5 @@
 package com.boss.storehelmets.dto;
-
-
-import com.boss.storehelmets.model.Product;
+import javax.validation.constraints.Size;
 
 public class BasketDto {
 	 private String idBasket;
@@ -9,6 +7,7 @@ public class BasketDto {
 	 private String imageProduct;
 	 private float price;
 	 private float totalMoney;
+	 @Size(min = 0)
 	 private int numOfCart;
 
 	/**

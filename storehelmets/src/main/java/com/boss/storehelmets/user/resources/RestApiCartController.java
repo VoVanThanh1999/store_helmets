@@ -4,11 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.boss.storehelmets.dto.BasketDto;
+import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.service.BasketDtoService;
 
@@ -41,10 +43,9 @@ public class RestApiCartController {
 	@RequestMapping(value = "/basket",method = RequestMethod.GET)
 	public List<BasketDto> getBasketProduct (HttpServletRequest httpServletRequest) {
 		try {
-			HttpSession httpSession = httpServletRequest.getSession();
-			List<BasketDto> basketDtoSession = (List<BasketDto>) httpSession.getAttribute("basketDtoSession");
-			int number = (int) httpSession.getAttribute("numberOfCart");
-			System.out.println(number);
+			HttpSession session = httpServletRequest.getSession();
+			List<BasketDto> basketDtoSession = (List<BasketDto>) session.getAttribute("basketDtoSession");
+			session.setAttribute("numberOfCart", basketDtoSession.size());
 			return basketDtoSession;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -52,5 +53,38 @@ public class RestApiCartController {
 		}
 		return null;
 	}
-
+	
+	@RequestMapping(value = "/basket/{id}",method = RequestMethod.DELETE)
+	public String delelteBasketProduct(HttpServletRequest httpServletRequest,@PathVariable("id") String id) {
+		try {
+			basketDtoService.deleteProductInBasket(id, httpServletRequest);
+			return "xoa thanh cong";
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/basket",method = RequestMethod.PUT)
+	public String updateBasketProduct(HttpServletRequest httpServletRequest, @RequestBody BasketDto basketDto) {
+		try {
+			basketDtoService.updateProductInBasket(basketDto, httpServletRequest);
+			return "update thanh cong";
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/basketdetails",method = RequestMethod.GET)
+	public BastketDtoTotal basketDetailsDto (HttpServletRequest request) {
+		try {
+			BastketDtoTotal basketDetailsDto = basketDtoService.getTotalBasketDto(request);
+			return basketDetailsDto;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
 }

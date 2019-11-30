@@ -2,7 +2,6 @@ package com.boss.storehelmets.dto;
 import java.util.Set;
 import com.boss.storehelmets.model.Roles;
 
-
 public class UserDto {
 	private String email;
 	private String password;

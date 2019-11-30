@@ -5,11 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import com.boss.storehelmets.dto.BasketDto;
+import com.boss.storehelmets.dto.BastketDtoTotal;
 
 @Service
 public class BasketDtoServiceImlp implements BasketDtoService{
 	static List<BasketDto> basketDtos = new ArrayList<BasketDto>();
-	static int numberOfCart = 0;
 
 	@Override
 	public void addProductToBasket(BasketDto basketInput,HttpServletRequest request) {
@@ -27,9 +27,7 @@ public class BasketDtoServiceImlp implements BasketDtoService{
 				float totalMoney = basketDto.getPrice() * basketDto.getNumOfCart();
 				basketDto.setTotalMoney(totalMoney);
 				basketDtos.add(basketDto);
-				numberOfCart++;
 				session.setAttribute("basketDtoSession", basketDtos);
-				session.setAttribute("numberOfCart", numberOfCart);
 			}else {
 				if (checkProductToBasket(basketInput,request) == null) {
 					BasketDto basketDto = new BasketDto();
@@ -41,9 +39,7 @@ public class BasketDtoServiceImlp implements BasketDtoService{
 					float totalMoney = basketDto.getPrice() * basketDto.getNumOfCart();
 					basketDto.setTotalMoney(totalMoney);
 					basketDtos.add(basketDto);
-					numberOfCart++;
 					session.setAttribute("basketDtoSession", basketDtos);
-					session.setAttribute("numberOfCart", numberOfCart);
 				}else {
 					BasketDto basketDto = checkProductToBasket(basketInput,request);
 					basketDto.setNumOfCart(basketDto.getNumOfCart()+1);
@@ -74,14 +70,58 @@ public class BasketDtoServiceImlp implements BasketDtoService{
 	}
 
 	@Override
-	public String deleteProductInBasket(BasketDto basketDto) {
+	public void deleteProductInBasket(String id,HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+			HttpSession session = request.getSession();
+			List<BasketDto> basketDtos = (List<BasketDto>) session.getAttribute("basketDtoSession");
+			for (BasketDto basket : basketDtos) {
+				if (basket.getIdBasket().equalsIgnoreCase(id)) {
+					basketDtos.remove(basket);
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ;
+		}
 	}
 
 	@Override
-	public String updateProductInBasket(BasketDto basketDto) {
+	public void updateProductInBasket(BasketDto basketDto,HttpServletRequest request) {
 		// TODO Auto-generated method stub
+		try {
+			HttpSession session = request.getSession();
+			List<BasketDto> basketDtos = (List<BasketDto>) session.getAttribute("basketDtoSession");
+			for (BasketDto basket : basketDtos) {		
+				if (basket.getIdBasket().equalsIgnoreCase(basketDto.getIdBasket())) {
+					basket.setNumOfCart(basketDto.getNumOfCart());
+					float totalMoney = basketDto.getNumOfCart() * basket.getPrice();
+					basket.setTotalMoney(totalMoney);
+				}
+			}
+			session.setAttribute("basketDtoSession", basketDtos);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return;
+		}
+	}
+
+	@Override
+	public BastketDtoTotal getTotalBasketDto(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		List<BasketDto> basketDtos = (List<BasketDto>) session.getAttribute("basketDtoSession");
+		float totalMoneyBasket = 0;
+		if (basketDtos!= null) {
+			BastketDtoTotal basketDetailsDto = new BastketDtoTotal();
+			basketDetailsDto.setBasketDtos(basketDtos);
+			for (BasketDto basketDto : basketDtos) {
+				totalMoneyBasket += basketDto.getTotalMoney();
+			}
+			basketDetailsDto.setTotalMoneyBasket(totalMoneyBasket);
+			session.setAttribute("basketDetailsDto", basketDetailsDto);
+			return basketDetailsDto;
+		}
 		return null;
 	}
 
