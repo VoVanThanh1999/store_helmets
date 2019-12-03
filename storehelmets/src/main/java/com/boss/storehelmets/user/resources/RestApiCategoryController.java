@@ -1,5 +1,4 @@
 package com.boss.storehelmets.user.resources;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.boss.storehelmets.model.Category;
 import com.boss.storehelmets.model.CategoryDetails;
-import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.service.CategoryService;
 
 @Controller
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/user")
 public class RestApiCategoryController {
 	
 	@Autowired

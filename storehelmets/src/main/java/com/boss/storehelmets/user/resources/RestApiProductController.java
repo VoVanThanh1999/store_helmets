@@ -15,7 +15,7 @@ import com.boss.storehelmets.service.ProductService;
 
 @Controller
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/user")
 public class RestApiProductController {
 	@Autowired
 	private ProductService productService;

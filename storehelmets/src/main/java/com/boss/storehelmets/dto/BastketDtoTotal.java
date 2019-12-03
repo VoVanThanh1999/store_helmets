@@ -1,9 +1,10 @@
 package com.boss.storehelmets.dto;
 import java.util.List;
-
 public class BastketDtoTotal {
-	private List<BasketDto> basketDtos;
 	private float totalMoneyBasket;
+	
+	private List<BasketDto> basketDtos;
+
 	/**
 	 * @return the basketDtos
 	 */

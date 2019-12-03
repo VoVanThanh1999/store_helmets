@@ -36,27 +36,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	        return super.authenticationManagerBean();
 	 }
 	 
+
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
 	    http.authorizeRequests().antMatchers("/api/v1/user/login",
 	    		"logout",
-	    		"/api/v1/products",
-	    		"/api/v1/products/{id}",
-	    		"/api/v1/products/{id}",
-	    		"/api/v1/products/newlyadded",
-	    		"/api/v1/products/popular",
-	    		"/api/v1/products/amountdesc",
-	    		"/api/v1/products/amountasc",
-	    		"/api/v1/products/categorydetails/{id}",
-	    		"/api/v1/products/basket",
-	    		"/api/v1/news",
-	    		"/api/v1/news/{id}",
-	    		"/api/v1/news/newspost"
+	    		"/api/v1/user/category",
+	    		"/api/v1/user/category/{id}",
+	    		"/api/v1/user/products",
+	    		"/api/v1/user/products/{id}",
+	    		"/api/v1/user/products/{id}",
+	    		"/api/v1/user/products/newlyadded",
+	    		"/api/v1/user/products/popular",
+	    		"/api/v1/user/products/amountdesc",
+	    		"/api/v1/user/products/amountasc",
+	    		"/api/v1/user/products/categorydetails/{id}",
+	    		"/api/v1/user/products/basket",
+	    		"/api/v1/user/news",
+	    		"/api/v1/user/news/{id}",
+	    		"/api/v1/user/news/newspost",
+	    		"/api/v1/user/basket",
+	    		"/api/v1/user/basket/{id}",
+	    		"/api/v1/user/basket/total",
+	    		"/api/v1/user/basket/invoice"
 	    		).permitAll();
-	    http.authorizeRequests().antMatchers("/api/users").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
+	    
+	    http.authorizeRequests().antMatchers(
+	    		"/api/users"
+	    	).access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
 	    http.authorizeRequests()
-	    .antMatchers("/admin").access("hasRole('ROLE_ADMIN')");	   
+	    .antMatchers("/api/user/invoice").access("hasRole('ROLE_USER')")
+	    .anyRequest().authenticated();
+	    
 	    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	 }
 }

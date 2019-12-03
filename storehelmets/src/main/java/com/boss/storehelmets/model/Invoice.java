@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -17,6 +18,7 @@ public class Invoice {
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@Column(name="id_invoice")
 	private String idInvoice;
 	
 	@Column(name="name_customer")
@@ -35,10 +37,12 @@ public class Invoice {
 	@Email
 	private String email;
 	
+	@Column(name="status")
 	private boolean status;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	BasketTotal basketTotal;
+	@JoinColumn(name="id_basket_total")
+	BastketTotal bastketTotal;
 
 	/**
 	 * @return the idInvoice
@@ -139,19 +143,19 @@ public class Invoice {
 	}
 
 	/**
-	 * @return the basketTotal
+	 * @return the bastketTotal
 	 */
-	public BasketTotal getBasketTotal() {
-		return basketTotal;
+	public BastketTotal getBastketTotal() {
+		return bastketTotal;
 	}
 
 	/**
-	 * @param basketTotal the basketTotal to set
+	 * @param bastketTotal the bastketTotal to set
 	 */
-	public void setBasketTotal(BasketTotal basketTotal) {
-		this.basketTotal = basketTotal;
+	public void setBastketTotal(BastketTotal bastketTotal) {
+		this.bastketTotal = bastketTotal;
 	}
-	
+
 	
 	
 	

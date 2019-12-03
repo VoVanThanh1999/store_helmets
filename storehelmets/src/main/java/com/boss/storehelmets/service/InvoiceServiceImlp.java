@@ -1,17 +1,21 @@
 package com.boss.storehelmets.service;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.boss.storehelmets.dto.BasketDto;
 import com.boss.storehelmets.dto.BastketDtoTotal;
-import com.boss.storehelmets.model.BasketTotal;
+import com.boss.storehelmets.model.Basket;
+import com.boss.storehelmets.model.BastketTotal;
 import com.boss.storehelmets.model.Invoice;
-import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.User;
+import com.boss.storehelmets.repository.BasketRepository;
+import com.boss.storehelmets.repository.BasketTotalRepository;
+import com.boss.storehelmets.repository.InvoiceRepository;
 import com.boss.storehelmets.repository.ProductRepository;
 
 @Service
@@ -19,45 +23,63 @@ public class InvoiceServiceImlp implements InvoiceService{
 	@Autowired
 	ProductRepository productRepository;
 	
+	@Autowired
+	InvoiceRepository invoiceRepository;
 	
+	@Autowired
+	BasketDtoService basketDtoService;
+	
+	@Autowired
+	BasketTotalRepository basketTotalRepository;
+	
+	@Autowired
+	BasketRepository basketRepository;
+	
+	@Transactional
 	@Override
-	@SuppressWarnings("unchecked")
 	public void inserNewInvoice(HttpServletRequest request, User user) {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession();
-		List<Product> products = new ArrayList<Product>();
-//		lay value sesion tu basketdto
-		List<BasketDto> basketDtos = (List<BasketDto>) session.getAttribute("basketDtoSession");
-		
-//		lay tong value sesion tu basketDetailsDto
-		BastketDtoTotal bastketDtoTotal = (BastketDtoTotal) session.getAttribute("basketDetailsDto");
 		try {
-			if (basketDtos!= null && bastketDtoTotal != null) {
-//				save value cho bill
+			HttpSession session = request.getSession();
+			BastketDtoTotal bastketDtoTotal = basketDtoService.getTotalBasketDto(request);
+			List<BasketDto> basketDtoSession = (List<BasketDto>) session.getAttribute("basketDtoSession");
+			if (basketDtoSession != null ) {
 				Invoice invoice = new Invoice();
 				invoice.setNameCustomer(user.getFullName());
 				invoice.setEmail(user.getEmail());
-				invoice.setStatus(false);
 				invoice.setAddress1(user.getAddress1());
 				invoice.setAddress2(user.getAddress2());
+				invoice.setStatus(false);
 				invoice.setTel(user.getTel());
-				BasketTotal basketTotal = new BasketTotal();
-				basketTotal.setTotalMoney(bastketDtoTotal.getTotalMoneyBasket());
-//				set value cho basketTotal bang value tu bastkettotaldto
-				bastketDtoTotal.getBasketDtos().forEach(temp ->{
-					Optional<Product> productOptinal = productRepository.findById(temp.getIdBasket());
-					if (productOptinal.isPresent()) {
-						products.add(productOptinal.get());
-					}
-				});
-				basketTotal.setProducts(products);
-				invoice.setBasketTotal(basketTotal);
-			}		
+				BastketTotal bastketTotal = new BastketTotal();
+				Set<Basket> batkets = new HashSet<Basket>();
+				for (BasketDto basketDto : basketDtoSession) {
+					Basket basket = new Basket();
+					basket.setPrice(basketDto.getPrice());
+					basket.setIdProduct(basketDto.getIdBasket());
+					basket.setNameProduct(basketDto.getNameProduct());
+					basket.setImageProduct(basketDto.getImageProduct());
+					basket.setPrice(basket.getPrice());
+					basket.setNumOfCart(basketDto.getNumOfCart());
+					basket.setTotalMoney(basketDto.getTotalMoney());
+					basketRepository.save(basket);
+					batkets.add(basket);
+				}
+				bastketTotal.setTotalMoneyBasket(bastketDtoTotal.getTotalMoneyBasket());
+				bastketTotal.setBaskets(batkets);
+				invoice.setBastketTotal(bastketTotal);
+				invoiceRepository.save(invoice);
+			}
+
+		
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println(e.getMessage());
+			return ;
 		}
-	
+		
 	}
+	
 
 	
 	

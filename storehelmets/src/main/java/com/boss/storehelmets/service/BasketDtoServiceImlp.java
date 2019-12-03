@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
+
 import com.boss.storehelmets.dto.BasketDto;
 import com.boss.storehelmets.dto.BastketDtoTotal;
 
@@ -43,7 +44,8 @@ public class BasketDtoServiceImlp implements BasketDtoService{
 				}else {
 					BasketDto basketDto = checkProductToBasket(basketInput,request);
 					basketDto.setNumOfCart(basketDto.getNumOfCart()+1);
-					basketDto.setTotalMoney(basketDto.getNumOfCart()*basketDto.getPrice());
+					float totalMoney = basketDto.getPrice() * basketDto.getNumOfCart();
+					basketDto.setTotalMoney(totalMoney);
 					for (BasketDto basket : basketDtos) {
 						if (basket.getIdBasket().equals(basketDto.getIdBasket())) {
 							basketDtos.set(i, basketDto);
@@ -111,16 +113,18 @@ public class BasketDtoServiceImlp implements BasketDtoService{
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		List<BasketDto> basketDtos = (List<BasketDto>) session.getAttribute("basketDtoSession");
-		float totalMoneyBasket = 0;
 		if (basketDtos!= null) {
-			BastketDtoTotal basketDetailsDto = new BastketDtoTotal();
-			basketDetailsDto.setBasketDtos(basketDtos);
-			for (BasketDto basketDto : basketDtos) {
-				totalMoneyBasket += basketDto.getTotalMoney();
+			float totalMoneyBasket = 0;
+			if (basketDtos!= null) {
+				BastketDtoTotal basketDetailsDto = new BastketDtoTotal();
+				basketDetailsDto.setBasketDtos(basketDtos);
+				for (BasketDto basketDto : basketDtos) {
+					totalMoneyBasket += basketDto.getTotalMoney();
+				}
+				basketDetailsDto.setTotalMoneyBasket(totalMoneyBasket);
+				session.setAttribute("basketDetailsDto", basketDetailsDto);
+				return basketDetailsDto;
 			}
-			basketDetailsDto.setTotalMoneyBasket(totalMoneyBasket);
-			session.setAttribute("basketDetailsDto", basketDetailsDto);
-			return basketDetailsDto;
 		}
 		return null;
 	}

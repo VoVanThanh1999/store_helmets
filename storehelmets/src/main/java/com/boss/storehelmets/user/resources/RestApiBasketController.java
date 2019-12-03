@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.boss.storehelmets.dto.BasketDto;
 import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Product;
@@ -17,8 +18,8 @@ import com.boss.storehelmets.service.BasketDtoService;
 
 @Controller
 @RestController
-@RequestMapping("/api/v1")
-public class RestApiCartController {
+@RequestMapping("/api/v1/user")
+public class RestApiBasketController {
 	
 	@Autowired
 	BasketDtoService basketDtoService;
@@ -31,10 +32,13 @@ public class RestApiCartController {
 			basketDto.setIdBasket(product.getIdProduct());
 			basketDto.setNameProduct(product.getNameProduct());
 			basketDto.setPrice(product.getProductsDetails().getAmount());
+		
 			basketDtoService.addProductToBasket(basketDto, httpServletRequest);
+		
 			return "them thanh cong";
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println(e.getMessage());
 			return null;
 		}
 
@@ -76,8 +80,8 @@ public class RestApiCartController {
 		}
 	}
 	
-	@RequestMapping(value = "/basketdetails",method = RequestMethod.GET)
-	public BastketDtoTotal basketDetailsDto (HttpServletRequest request) {
+	@RequestMapping(value = "/basket/total",method = RequestMethod.GET)
+	public BastketDtoTotal getBastketDtoTotal (HttpServletRequest request) {
 		try {
 			BastketDtoTotal basketDetailsDto = basketDtoService.getTotalBasketDto(request);
 			return basketDetailsDto;

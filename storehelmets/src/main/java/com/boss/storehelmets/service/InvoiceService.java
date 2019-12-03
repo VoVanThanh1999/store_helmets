@@ -1,8 +1,6 @@
 package com.boss.storehelmets.service;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.User;
 
 public interface InvoiceService {

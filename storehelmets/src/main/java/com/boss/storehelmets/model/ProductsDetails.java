@@ -42,6 +42,9 @@ public class ProductsDetails {
 	@Column(name="quantity_exists")
 	private int	quantityExists;
 	
+	@Column(name="product_has_been_ordered")
+	private int  productHasBeenOrDered;
+	
 //	thương hiệu
 	@Column(name="brand")
 	private String brand;
@@ -51,11 +54,7 @@ public class ProductsDetails {
 	
 	@Column(name="weight")
 	private String weight;
-	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinColumn(name="id_products_details")
-	private Product product;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_products_details")
 	private Set<ProductImage> productImages;
@@ -163,6 +162,20 @@ public class ProductsDetails {
 	}
 
 	/**
+	 * @return the productHasBeenOrDered
+	 */
+	public int getProductHasBeenOrDered() {
+		return productHasBeenOrDered;
+	}
+
+	/**
+	 * @param productHasBeenOrDered the productHasBeenOrDered to set
+	 */
+	public void setProductHasBeenOrDered(int productHasBeenOrDered) {
+		this.productHasBeenOrDered = productHasBeenOrDered;
+	}
+
+	/**
 	 * @return the brand
 	 */
 	public String getBrand() {
@@ -231,7 +244,6 @@ public class ProductsDetails {
 	public void setProductSizes(Set<ProductSize> productSizes) {
 		this.productSizes = productSizes;
 	}
-
 	
 
 }
