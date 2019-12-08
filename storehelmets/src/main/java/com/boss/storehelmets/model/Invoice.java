@@ -1,4 +1,6 @@
 package com.boss.storehelmets.model;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +35,9 @@ public class Invoice {
 	@Column(name="tel")
 	private int tel;
 	
+	@Column(name="date_create")
+	private Date dateCreat;
+	
 	@Column(name="email")
 	@Email
 	private String email;
@@ -43,7 +48,12 @@ public class Invoice {
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="id_basket_total")
 	BastketTotal bastketTotal;
-
+	
+	@OneToOne
+	@JoinColumn(name="id_user")
+	User userConfirm;
+	
+	
 	/**
 	 * @return the idInvoice
 	 */
@@ -115,6 +125,20 @@ public class Invoice {
 	}
 
 	/**
+	 * @return the dateCreat
+	 */
+	public Date getDateCreat() {
+		return dateCreat;
+	}
+
+	/**
+	 * @param dateCreat the dateCreat to set
+	 */
+	public void setDateCreat(Date dateCreat) {
+		this.dateCreat = dateCreat;
+	}
+
+	/**
 	 * @return the email
 	 */
 	public String getEmail() {
@@ -156,6 +180,24 @@ public class Invoice {
 		this.bastketTotal = bastketTotal;
 	}
 
+	/**
+	 * @return the userConfirm
+	 */
+	public User getUserConfirm() {
+		return userConfirm;
+	}
+
+	/**
+	 * @param userConfirm the userConfirm to set
+	 */
+	public void setUserConfirm(User userConfirm) {
+		this.userConfirm = userConfirm;
+	}
+
+	
+
+	
+	
 	
 	
 	

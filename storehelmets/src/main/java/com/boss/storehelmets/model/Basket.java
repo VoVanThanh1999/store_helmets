@@ -139,20 +139,7 @@ public class Basket {
 		this.numOfCart = numOfCart;
 	}
 
-	/**
-	 * @return the bastketTotals
-	 */
-	public Set<BastketTotal> getBastketTotals() {
-		return bastketTotals;
-	}
 
-	/**
-	 * @param bastketTotals the bastketTotals to set
-	 */
-	public void setBastketTotals(Set<BastketTotal> bastketTotals) {
-		this.bastketTotals = bastketTotals;
-	}
-	
 	
 	
 	

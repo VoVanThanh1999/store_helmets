@@ -64,6 +64,13 @@ public class UserServiceImlp implements UserSevice{
 		return null;
 	}
 
+	@Override
+	public Optional<User> findUserById(String id) {
+		// TODO Auto-generated method stub
+		Optional<User> user = userRepository.findById(id);
+		return user;
+	}
+
 
 
 }

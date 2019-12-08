@@ -24,8 +24,8 @@ public class RestApiBasketController {
 	@Autowired
 	BasketDtoService basketDtoService;
 	
-	@RequestMapping(value = "/basket",method = RequestMethod.POST)
-	public String addProductToCart(@RequestBody Product product,HttpServletRequest httpServletRequest) {
+	@RequestMapping(value = "/baskets",method = RequestMethod.POST)
+	private String addProductToCart(@RequestBody Product product,HttpServletRequest httpServletRequest) {
 		HttpSession httpSession = httpServletRequest.getSession();
 		try {
 			BasketDto basketDto = new BasketDto();
@@ -39,13 +39,14 @@ public class RestApiBasketController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
-			return null;
+			return "them that bai";
 		}
+	
 
 		
 	}
-	@RequestMapping(value = "/basket",method = RequestMethod.GET)
-	public List<BasketDto> getBasketProduct (HttpServletRequest httpServletRequest) {
+	@RequestMapping(value = "/baskets",method = RequestMethod.GET)
+	private List<BasketDto> getBasketProduct (HttpServletRequest httpServletRequest) {
 		try {
 			HttpSession session = httpServletRequest.getSession();
 			List<BasketDto> basketDtoSession = (List<BasketDto>) session.getAttribute("basketDtoSession");
@@ -58,8 +59,8 @@ public class RestApiBasketController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/basket/{id}",method = RequestMethod.DELETE)
-	public String delelteBasketProduct(HttpServletRequest httpServletRequest,@PathVariable("id") String id) {
+	@RequestMapping(value = "/baskets/{id}",method = RequestMethod.DELETE)
+	private String delelteBasketProduct(HttpServletRequest httpServletRequest,@PathVariable("id") String id) {
 		try {
 			basketDtoService.deleteProductInBasket(id, httpServletRequest);
 			return "xoa thanh cong";
@@ -69,8 +70,8 @@ public class RestApiBasketController {
 		}
 	}
 	
-	@RequestMapping(value = "/basket",method = RequestMethod.PUT)
-	public String updateBasketProduct(HttpServletRequest httpServletRequest, @RequestBody BasketDto basketDto) {
+	@RequestMapping(value = "/baskets",method = RequestMethod.PUT)
+	private String updateBasketProduct(HttpServletRequest httpServletRequest, @RequestBody BasketDto basketDto) {
 		try {
 			basketDtoService.updateProductInBasket(basketDto, httpServletRequest);
 			return "update thanh cong";
@@ -80,8 +81,8 @@ public class RestApiBasketController {
 		}
 	}
 	
-	@RequestMapping(value = "/basket/total",method = RequestMethod.GET)
-	public BastketDtoTotal getBastketDtoTotal (HttpServletRequest request) {
+	@RequestMapping(value = "/baskets/total",method = RequestMethod.GET)
+	private BastketDtoTotal getBastketDtoTotal (HttpServletRequest request) {
 		try {
 			BastketDtoTotal basketDetailsDto = basketDtoService.getTotalBasketDto(request);
 			return basketDetailsDto;

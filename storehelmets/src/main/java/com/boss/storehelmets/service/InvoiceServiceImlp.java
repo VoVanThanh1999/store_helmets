@@ -1,6 +1,8 @@
 package com.boss.storehelmets.service;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +14,8 @@ import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Basket;
 import com.boss.storehelmets.model.BastketTotal;
 import com.boss.storehelmets.model.Invoice;
+import com.boss.storehelmets.model.Product;
+import com.boss.storehelmets.model.ProductsDetails;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.BasketRepository;
 import com.boss.storehelmets.repository.BasketTotalRepository;
@@ -35,6 +39,10 @@ public class InvoiceServiceImlp implements InvoiceService{
 	@Autowired
 	BasketRepository basketRepository;
 	
+	@Autowired
+	ProductService productService;
+
+	
 	@Transactional
 	@Override
 	public void inserNewInvoice(HttpServletRequest request, User user) {
@@ -45,11 +53,14 @@ public class InvoiceServiceImlp implements InvoiceService{
 			List<BasketDto> basketDtoSession = (List<BasketDto>) session.getAttribute("basketDtoSession");
 			if (basketDtoSession != null ) {
 				Invoice invoice = new Invoice();
+				java.util.Date dateData = new java.util.Date();
+				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
 				invoice.setNameCustomer(user.getFullName());
 				invoice.setEmail(user.getEmail());
 				invoice.setAddress1(user.getAddress1());
 				invoice.setAddress2(user.getAddress2());
 				invoice.setStatus(false);
+				invoice.setDateCreat(date);
 				invoice.setTel(user.getTel());
 				BastketTotal bastketTotal = new BastketTotal();
 				Set<Basket> batkets = new HashSet<Basket>();
@@ -70,17 +81,67 @@ public class InvoiceServiceImlp implements InvoiceService{
 				invoice.setBastketTotal(bastketTotal);
 				invoiceRepository.save(invoice);
 			}
-
 		
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
 			return ;
 		}
-		
 	}
 	
+	@Transactional
+	@Override
+	public String confimInvoice( User user,String id) {
+		// TODO Auto-generated method stub
+		Optional<Invoice> invoice = invoiceRepository.findById(id);
+		if (invoice.isPresent()) {
+		   if  (!invoice.get().isStatus()) {
+					invoice.get().setStatus(true);
+					invoice.get().setUserConfirm(user);
+					Set<Basket> bastketTotals = invoice.get().getBastketTotal().getBaskets();
+					for (Basket basket : bastketTotals) {
+						Optional<Product> product = productService.getById(basket.getIdProduct());
+						ProductsDetails productsDetails = product.get().getProductsDetails();			
+						int quantitySold = productsDetails.getQuantitySold() + basket.getNumOfCart();
+						productsDetails.setQuantitySold(quantitySold);
+						productsDetails.setQuantityExists(productsDetails.getNumberEntered() - productsDetails.getQuantitySold());
+						product.get().setProductsDetails(productsDetails);
+						if (productsDetails.getQuantityExists() > 1) {
+							productRepository.save(product.get());
+						}
+					}
+				invoiceRepository.save(invoice.get());
+				return "Cap nhap thanh cong";
+			}
+		}
+		return null;
+	}
 
+	@Override
+	public List<Invoice> getAllInvoice() {
+		// TODO Auto-generated method stub
+		if (invoiceRepository.findAll() != null) {
+			return invoiceRepository.findAll();
+		}
+		return null;
+	}
+
+	@Override
+	public void deleteInvoice() {
+		// TODO Auto-generated method stub
+		List<Invoice> invoices = invoiceRepository.findAll();
+		java.util.Date dateData = new java.util.Date();
+		Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
+		for (Invoice invoice : invoices) {
+			int year = dateData.getYear() - invoice.getDateCreat().getYear();
+			int mounth = dateData.getMonth() - invoice.getDateCreat().getMonth();
+			if (year>1 || mounth >2) {
+				invoiceRepository.delete(invoice);
+			}
+		}
+	}
+	
+	
 	
 	
 }

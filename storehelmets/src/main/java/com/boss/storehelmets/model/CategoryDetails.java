@@ -1,10 +1,16 @@
 package com.boss.storehelmets.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -21,18 +27,55 @@ public class CategoryDetails {
 	@Column(name="name_details_category")
 	private String nameDetailsCategory;
 	
+	@OneToOne()
+	@JoinColumn(name = "id_category")
+	private Category category;
+	
+	@ManyToMany(mappedBy = "categoryDetails")
+	Set<Product> products;
+
+	/**
+	 * @return the id
+	 */
 	public String getId() {
 		return id;
 	}
+
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	/**
+	 * @return the nameDetailsCategory
+	 */
 	public String getNameDetailsCategory() {
 		return nameDetailsCategory;
 	}
+
+	/**
+	 * @param nameDetailsCategory the nameDetailsCategory to set
+	 */
 	public void setNameDetailsCategory(String nameDetailsCategory) {
 		this.nameDetailsCategory = nameDetailsCategory;
 	}
+
+	/**
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
 	
 
 }

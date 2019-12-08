@@ -42,8 +42,7 @@ public class ProductsDetails {
 	@Column(name="quantity_exists")
 	private int	quantityExists;
 	
-	@Column(name="product_has_been_ordered")
-	private int  productHasBeenOrDered;
+
 	
 //	thương hiệu
 	@Column(name="brand")
@@ -161,20 +160,7 @@ public class ProductsDetails {
 		this.quantityExists = quantityExists;
 	}
 
-	/**
-	 * @return the productHasBeenOrDered
-	 */
-	public int getProductHasBeenOrDered() {
-		return productHasBeenOrDered;
-	}
-
-	/**
-	 * @param productHasBeenOrDered the productHasBeenOrDered to set
-	 */
-	public void setProductHasBeenOrDered(int productHasBeenOrDered) {
-		this.productHasBeenOrDered = productHasBeenOrDered;
-	}
-
+	
 	/**
 	 * @return the brand
 	 */

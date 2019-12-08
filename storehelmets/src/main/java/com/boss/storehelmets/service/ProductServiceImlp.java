@@ -1,15 +1,14 @@
 package com.boss.storehelmets.service;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.boss.storehelmets.model.Product;
+import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.ProductRepository;
 
 @Service
@@ -99,6 +98,69 @@ public class ProductServiceImlp implements ProductService{
 			return null;
 		}
 	}
+	
+	@Transactional
+	@Override
+	public String deleteProduct(String id) {
+		// TODO Auto-generated method stub
+		try {
+			Optional<Product> optionalProduct = getById(id);
+			productRepository.delete(optionalProduct.get());
+			return "xoa thanh cong";
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	@Transactional
+	@Override
+	public String updateProduct(Product productInput,User user) {
+		// TODO Auto-generated method stub
+		try {
+			Product product = getById(productInput.getIdProduct()).get();
+			if (product!= null) {
+				product.setNameProduct(productInput.getNameProduct());
+				product.setCategoryDetails(productInput.getCategoryDetails());
+				product.setProductsDetails(productInput.getProductsDetails());
+				product.setIdUserUpdate(user.getIdUser());
+				productRepository.save(product);
+			
+			}
+			return "update thanh cong";	
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			return null;
+		}
+
+	}
+	
+	@Transactional
+	@Override
+	public String addProduct(Product productInput, User user) {
+		// TODO Auto-generated method stub
+		try {
+			if (productInput != null && user!= null) {
+				Product product = new Product();
+				Date date1 = new Date();
+				java.sql.Date date = new java.sql.Date(date1.getYear(), date1.getMonth(), date1.getDate());
+				product.setNameProduct(productInput.getNameProduct());
+				product.setDateCreate(date);
+				product.setProductsDetails(productInput.getProductsDetails());
+				product.setCategoryDetails(productInput.getCategoryDetails());
+				product.setUserCreat(user);
+				productRepository.save(product);
+				return "them thanh cong";
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+
 
 	
 

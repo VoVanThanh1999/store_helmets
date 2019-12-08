@@ -41,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
 	    http.authorizeRequests().antMatchers("/api/v1/user/login",
+	    		"/api/v1/admin/login",
 	    		"logout",
 	    		"/api/v1/user/category",
 	    		"/api/v1/user/category/{id}",
@@ -56,17 +57,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    		"/api/v1/user/news",
 	    		"/api/v1/user/news/{id}",
 	    		"/api/v1/user/news/newspost",
-	    		"/api/v1/user/basket",
-	    		"/api/v1/user/basket/{id}",
-	    		"/api/v1/user/basket/total",
-	    		"/api/v1/user/basket/invoice"
+	    		"/api/v1/user/baskets",
+	    		"/api/v1/user/baskets/{id}",
+	    		"/api/v1/user/baskets/total",
+	    		"/api/v1/user/baskets/invoice"
 	    		).permitAll();
 	    
 	    http.authorizeRequests().antMatchers(
-	    		"/api/users"
+	    		"/api/v1/user/invoice"
 	    	).access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
 	    http.authorizeRequests()
-	    .antMatchers("/api/user/invoice").access("hasRole('ROLE_USER')")
+	    .antMatchers(
+	    		"/api/v1/admin/products/{id}",
+	    		"/api/v1/admin/products",
+	    		"/api/v1/admin/category"
+	    		).access("hasRole('ROLE_ADMIN')")
 	    .anyRequest().authenticated();
 	    
 	    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

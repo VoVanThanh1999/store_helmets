@@ -19,7 +19,7 @@ public class RestApiNewsController {
 	NewsService newsService;
 	
 	@RequestMapping(value = "/news",method = RequestMethod.GET)
-	public List<News> loadAll(){
+	private List<News> loadAll(){
 		try {
 			List<News> news = newsService.getNewsAll();
 			return news;
@@ -30,7 +30,7 @@ public class RestApiNewsController {
 	}
 	
 	@RequestMapping(value = "/news/{id}",method = RequestMethod.GET)
-	public Optional<News> loadById(String id) {
+	private Optional<News> loadById(String id) {
 		try {
 			Optional<News> news = newsService.getNewsById(id);
 			return news;
@@ -41,7 +41,7 @@ public class RestApiNewsController {
 	}
 	
 	@RequestMapping(value = "/news/newpost",method = RequestMethod.GET)
-	public List<News> loadByNewsPost(){
+	private List<News> loadByNewsPost(){
 		try {
 			List<News> news = newsService.getNewsAll();
 			return news;

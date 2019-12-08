@@ -29,7 +29,6 @@ public class Category {
 		
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_user")
-	@NotNull
 	private User user;
 	
 	@OneToMany(cascade = CascadeType.ALL)
