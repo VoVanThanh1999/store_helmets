@@ -18,7 +18,7 @@ public class RestApiCategoryController {
 	@Autowired
 	CategoryService categoryService;
 	
-	@RequestMapping(value = "category",method = RequestMethod.GET)
+	@RequestMapping(value = "categorys",method = RequestMethod.GET)
 	private List<Category> loadAllCategory(){
 		try {
 			List<Category> categories = categoryService.getAllCategory();
@@ -29,7 +29,7 @@ public class RestApiCategoryController {
 		}
 	}
 	
-	@RequestMapping(value = "category/{id}",method = RequestMethod.GET)
+	@RequestMapping(value = "categorys/{id}",method = RequestMethod.GET)
 	private CategoryDetails loadCategoryDetailsByid(@PathVariable("id") String id){
 		try {
 			CategoryDetails categories = categoryService.getCategoryDetailsById(id);

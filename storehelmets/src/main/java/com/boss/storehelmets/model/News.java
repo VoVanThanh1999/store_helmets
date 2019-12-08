@@ -27,6 +27,9 @@ public class News {
 	@Column(name="title")
 	private String title;
 	
+	@Column(name="id_user_update")
+	private String idUserUpdate;
+	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name = "news_category_details",joinColumns = @JoinColumn(name="id_news"),
 		inverseJoinColumns = @JoinColumn(name="id_details_category")
@@ -70,6 +73,20 @@ public class News {
 	}
 
 	/**
+	 * @return the idUserUpdate
+	 */
+	public String getIdUserUpdate() {
+		return idUserUpdate;
+	}
+
+	/**
+	 * @param idUserUpdate the idUserUpdate to set
+	 */
+	public void setIdUserUpdate(String idUserUpdate) {
+		this.idUserUpdate = idUserUpdate;
+	}
+
+	/**
 	 * @return the categoryDetails
 	 */
 	public Set<CategoryDetails> getCategoryDetails() {
@@ -110,6 +127,8 @@ public class News {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	
 	
 	
 	

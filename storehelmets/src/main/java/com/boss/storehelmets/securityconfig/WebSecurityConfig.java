@@ -36,15 +36,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	        return super.authenticationManagerBean();
 	 }
 	 
-
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
 	    http.authorizeRequests().antMatchers("/api/v1/user/login",
 	    		"/api/v1/admin/login",
 	    		"logout",
-	    		"/api/v1/user/category",
-	    		"/api/v1/user/category/{id}",
+	    		"/api/v1/user/categorys",
+	    		"/api/v1/user/categorys/{id}",
 	    		"/api/v1/user/products",
 	    		"/api/v1/user/products/{id}",
 	    		"/api/v1/user/products/{id}",
@@ -70,10 +69,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    .antMatchers(
 	    		"/api/v1/admin/products/{id}",
 	    		"/api/v1/admin/products",
-	    		"/api/v1/admin/category"
+	    		"/api/v1/admin/categorys",
+	    		"/api/v1/admin/categorys/{id}",
+	    		"/api/v1/admin/categorys/details",
+	    		"/api/v1/admin/categorys/details/{id}"
 	    		).access("hasRole('ROLE_ADMIN')")
 	    .anyRequest().authenticated();
-	    
 	    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	 }
 }

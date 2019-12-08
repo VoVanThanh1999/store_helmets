@@ -47,7 +47,7 @@ public class RestApiCategoryAdminController {
 	@Autowired 
 	CategoryDetailsRepository categoryDetailsRepository;
 	
-	@RequestMapping(value = "/category",method = RequestMethod.POST)
+	@RequestMapping(value = "/categorys",method = RequestMethod.POST)
 	public String addCategory(@RequestBody Category categoryInput,HttpServletRequest request) {
 		try {
 			Category category = categoryInput;
@@ -67,7 +67,7 @@ public class RestApiCategoryAdminController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/category/{id}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/categorys/{id}",method = RequestMethod.DELETE)
 	public String deleteCategory(@PathVariable("id") String id) {
 		try {
 			categoryService.deleteCategory(id);
@@ -79,7 +79,7 @@ public class RestApiCategoryAdminController {
 		}
 	}
 	
-	@RequestMapping(value = "/category",method = RequestMethod.PUT)
+	@RequestMapping(value = "/categorys",method = RequestMethod.PUT)
 	public String updateCategory(@RequestBody Category categoryInput,HttpServletRequest request) {
 		try {
 			Category category = categoryInput;
@@ -99,7 +99,7 @@ public class RestApiCategoryAdminController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/category/details",method = RequestMethod.PUT)
+	@RequestMapping(value = "/categorys/details",method = RequestMethod.PUT)
 	public String updateCategoryDetails(@RequestBody CategoryDetails CategoryDetailsInput,HttpServletRequest request) {
 		try {
 			String jwt = authenticationFilter.getJwtFromRequest(request);
@@ -117,7 +117,7 @@ public class RestApiCategoryAdminController {
 	}
 	
 	
-	@RequestMapping(value = "/category/details/{id}")
+	@RequestMapping(value = "/categorys/details/{id}")
 	public String deleteCategoryDetails(@PathVariable("id") String id) {
 		try {
 			categoryService.deleteCategoryDetails(id);
@@ -128,7 +128,7 @@ public class RestApiCategoryAdminController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/category/details",method = RequestMethod.POST)
+	@RequestMapping(value = "/categorys/details",method = RequestMethod.POST)
 	public String addCategoryDetails(@RequestBody CategoryDetails categoryDetails) {
 		try {
 			categoryService.addCategoryDetails( categoryDetails);

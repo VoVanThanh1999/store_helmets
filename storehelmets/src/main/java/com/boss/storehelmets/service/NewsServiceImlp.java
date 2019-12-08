@@ -4,6 +4,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.boss.storehelmets.model.News;
+import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.NewsRepository;
 
 @Service
@@ -39,6 +40,43 @@ public class NewsServiceImlp implements NewsService{
 		// TODO Auto-generated method stub
 		return newsRepository.findByOrderByDateCreatedDesc();
 	}
+
+	@Override
+	public String addNews(News newsInput, User user) {
+		// TODO Auto-generated method stub
+		News news = new News();
+		news.setCategoryDetails(newsInput.getCategoryDetails());
+		news.setTitle(news.getTitle());
+		news.setNewsDetails(newsInput.getNewsDetails());
+		news.setUser(user);
+		return null;
+	}
+
+	@Override
+	public String deleteNews(String id) {
+		// TODO Auto-generated method stub
+		Optional<News> optional = newsRepository.findById(id);
+		if (optional.isPresent()) {
+			newsRepository.delete(optional.get());
+		}
+		return null;
+	}
+
+	@Override
+	public String updateNews(News newsInput, User user) {
+		// TODO Auto-generated method stub
+		Optional<News> optional = newsRepository.findById(newsInput.getIdNews());
+		optional.ifPresent(news ->{
+			news.setNewsDetails(newsInput.getNewsDetails());
+			news.setTitle(newsInput.getTitle());
+			news.setIdUserUpdate(newsInput.getUser().getIdUser());
+			news.setCategoryDetails(newsInput.getCategoryDetails());
+		});
+		newsRepository.save(optional.get());
+		return null;
+	}
+
+
 
 	
 
