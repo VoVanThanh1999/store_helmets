@@ -15,7 +15,7 @@ import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.UserRepository;
 
 @Service
-public class UserServiceImlp implements UserSevice{
+public class UserServiceImpl implements UserSevice{
 	@Autowired
 	UserRepository userRepository;
 	

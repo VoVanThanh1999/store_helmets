@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.dto.UserDto;
 import com.boss.storehelmets.model.CustomUserDetails;
 import com.boss.storehelmets.securityconfig.LoginRequest;
@@ -22,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @Controller
-@RequestMapping(value = "/api/v1/user")
+@RequestMapping(value = "/api/v1/users")
 public class RestApiUserController {
 	@Autowired(required = false)
     AuthenticationManager authenticationManager;;
@@ -62,13 +64,13 @@ public class RestApiUserController {
 			ObjectMapper mapper = new ObjectMapper();
 			UserDto userDto = mapper.readValue(jsonValue, UserDto.class);
 			userSevice.registerAccount(userDto);
-			
+			return AppConstants.SUCCESS_CREATE_USER;
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println(e.getMessage());
-			return null;
+			return AppConstants.ERROR_CREATE_USER;
 		}
-		return null;
+		
 	}
 	
 	private String changeInformationUser(UserDto userDto) {

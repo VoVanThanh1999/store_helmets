@@ -9,7 +9,7 @@ import com.boss.storehelmets.model.CustomUserDetails;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.UserRepository;
 @Service
-public class UserDetailServiceImlp implements UserDetailsService{
+public class UserDetailServiceImpl implements UserDetailsService{
 	@Autowired
 	UserRepository userRepository;
 	

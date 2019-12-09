@@ -8,24 +8,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.UserRepository;
 import com.boss.storehelmets.securityjwt.JwtAuthenticationFilter;
 import com.boss.storehelmets.securityjwt.JwtTokenProvider;
 import com.boss.storehelmets.service.InvoiceService;
-import com.boss.storehelmets.service.UserDetailServiceImlp;
+import com.boss.storehelmets.service.UserDetailServiceImpl;
 import com.boss.storehelmets.service.UserSevice;
 
 @RestController
 @Controller
-@RequestMapping(value = "/api/v1/admin")
+@RequestMapping(value = "/api/v1/admins")
 public class RestApiInvoiceAdminController {
 	@Autowired
 	InvoiceService invoiceService;
 	
 	@Autowired
-	UserDetailServiceImlp userDetailsServiceImlp;
+	UserDetailServiceImpl userDetailsServiceImlp;
 	
 	@Autowired
 	UserSevice userSevice;
@@ -47,12 +49,12 @@ public class RestApiInvoiceAdminController {
 			String userId = tokenProvider.getUserIdFromJWT(jwt);
 			Optional<User> user  = userSevice.findUserById(userId);
 			if (invoiceService.confimInvoice(user.get(), id) != null) {
-				return "duyet thanh cong";
+				return AppConstants.SUCCESS_invoice_approval;
 			}
-			return null;
+			return AppConstants.ERROR_invoice_approval;
 		} catch (Exception e) {
 			// TODO: handle exception
-			return null;
+			return AppConstants.ERROR_invoice_approval;
 		}
 	}
 	

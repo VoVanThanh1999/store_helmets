@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.dto.BasketDto;
 import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Basket;
@@ -23,7 +25,7 @@ import com.boss.storehelmets.repository.InvoiceRepository;
 import com.boss.storehelmets.repository.ProductRepository;
 
 @Service
-public class InvoiceServiceImlp implements InvoiceService{
+public class InvoiceServiceImpl implements InvoiceService{
 	@Autowired
 	ProductRepository productRepository;
 	
@@ -111,7 +113,7 @@ public class InvoiceServiceImlp implements InvoiceService{
 						}
 					}
 				invoiceRepository.save(invoice.get());
-				return "Cap nhap thanh cong";
+				return AppConstants.SUCCESS_UPDATE;
 			}
 		}
 		return null;

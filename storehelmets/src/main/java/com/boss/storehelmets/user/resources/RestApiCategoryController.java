@@ -12,7 +12,7 @@ import com.boss.storehelmets.service.CategoryService;
 
 @Controller
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class RestApiCategoryController {
 	
 	@Autowired

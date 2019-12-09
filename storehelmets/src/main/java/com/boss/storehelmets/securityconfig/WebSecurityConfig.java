@@ -11,13 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.boss.storehelmets.securityjwt.JwtAuthenticationFilter;
-import com.boss.storehelmets.service.UserDetailServiceImlp;
+import com.boss.storehelmets.service.UserDetailServiceImpl;
 
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
-	UserDetailServiceImlp userDetailService;
+	UserDetailServiceImpl userDetailService;
 	
 	@Bean
 	protected BCryptPasswordEncoder passwordEncoder() {
@@ -40,39 +40,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
 	    http.authorizeRequests().antMatchers("/api/v1/user/login",
+	    		"/api/v1/users/resources/image/{fileName:.+}",
 	    		"/api/v1/admin/login",
 	    		"logout",
-	    		"/api/v1/user/categorys",
-	    		"/api/v1/user/categorys/{id}",
-	    		"/api/v1/user/products",
-	    		"/api/v1/user/products/{id}",
-	    		"/api/v1/user/products/{id}",
-	    		"/api/v1/user/products/newlyadded",
-	    		"/api/v1/user/products/popular",
-	    		"/api/v1/user/products/amountdesc",
-	    		"/api/v1/user/products/amountasc",
-	    		"/api/v1/user/products/categorydetails/{id}",
-	    		"/api/v1/user/products/basket",
-	    		"/api/v1/user/news",
-	    		"/api/v1/user/news/{id}",
-	    		"/api/v1/user/news/newspost",
-	    		"/api/v1/user/baskets",
-	    		"/api/v1/user/baskets/{id}",
-	    		"/api/v1/user/baskets/total",
-	    		"/api/v1/user/baskets/invoice"
+	    		"/api/v1/users/categorys",
+	    		"/api/v1/users/categorys/{id}",
+	    		"/api/v1/users/products",
+	    		"/api/v1/users/products/{id}",
+	    		"/api/v1/users/products/{id}",
+	    		"/api/v1/users/products/newlyadded",
+	    		"/api/v1/users/products/popular",
+	    		"/api/v1/users/products/amountdesc",
+	    		"/api/v1/users/products/amountasc",
+	    		"/api/v1/users/products/categorydetails/{id}",
+	    		"/api/v1/users/products/basket",
+	    		"/api/v1/users/news",
+	    		"/api/v1/users/news/{id}",
+	    		"/api/v1/users/news/newspost",
+	    		"/api/v1/users/baskets",
+	    		"/api/v1/users/baskets/{id}",
+	    		"/api/v1/users/baskets/total",
+	    		"/api/v1/users/baskets/invoice"
 	    		).permitAll();
 	    
 	    http.authorizeRequests().antMatchers(
-	    		"/api/v1/user/invoice"
+	    		"/api/v1/users/invoice"
 	    	).access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
 	    http.authorizeRequests()
 	    .antMatchers(
-	    		"/api/v1/admin/products/{id}",
-	    		"/api/v1/admin/products",
-	    		"/api/v1/admin/categorys",
-	    		"/api/v1/admin/categorys/{id}",
-	    		"/api/v1/admin/categorys/details",
-	    		"/api/v1/admin/categorys/details/{id}"
+	    		"/api/v1/admins/products/{id}",
+	    		"/api/v1/admins/products",
+	    		"/api/v1/admins/categorys",
+	    		"/api/v1/admins/categorys/{id}",
+	    		"/api/v1/admins/categorys/details",
+	    		"/api/v1/admins/categorys/details/{id}"
 	    		).access("hasRole('ROLE_ADMIN')")
 	    .anyRequest().authenticated();
 	    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

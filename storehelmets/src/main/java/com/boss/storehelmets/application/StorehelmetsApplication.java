@@ -14,12 +14,16 @@ import com.boss.storehelmets.service.InvoiceService;
 @SpringBootApplication
 @EntityScan("com.boss.storehelmets.model")
 @ComponentScan(basePackages = {"com.boss.storehelmets.dto",
-						"com.boss.storehelmets.securityconfig",
-					"com.boss.storehelmets.securityjwt",
-				  "com.boss.storehelmets.repository",
-				"com.boss.storehelmets.user.resources",
-			  "com.boss.storehelmets.admin.resources",
-			"com.boss.storehelmets.service"})
+					"com.boss.storehelmets.securityconfig",
+					 "com.boss.storehelmets.securityjwt",
+				   "com.boss.storehelmets.repository",
+				 "com.boss.storehelmets.user.resources",
+			   "com.boss.storehelmets.admin.resources",
+			  "com.boss.storehelmets.app.utils",
+			"com.boss.storehelmets.app.utils",
+			"com.boss.storehelmets.springmvc.config",
+		 "com.boss.storehelmets.service",
+		"com.boss.storehelmets.exception"})
 @EnableJpaRepositories(basePackages = {"com.boss.storehelmets.repository"})
 @ComponentScan("com.boss.storehelmets.admin.resources")
 public class StorehelmetsApplication implements CommandLineRunner{

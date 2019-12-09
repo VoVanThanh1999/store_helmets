@@ -18,5 +18,5 @@ public interface ProductService {
 	public List<Product> getByOrderByAmountDesc();
 	public String deleteProduct(String id);
 	public	String updateProduct(Product productInput, User user);
-	public String addProduct(Product product, User user);
+	public	String addProduct(Product product);
 }

@@ -14,7 +14,7 @@ import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Product;
 
 @Service
-public class BasketDtoServiceImlp implements BasketDtoService{
+public class BasketDtoServiceImpl implements BasketDtoService{
 	static List<BasketDto> basketDtos = new ArrayList<BasketDto>();
 	
 	@Autowired

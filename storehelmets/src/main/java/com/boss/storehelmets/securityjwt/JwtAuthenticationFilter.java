@@ -14,13 +14,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.boss.storehelmets.service.UserDetailServiceImlp;
+import com.boss.storehelmets.service.UserDetailServiceImpl;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	@Autowired
 	private JwtTokenProvider tokenProvider;
 	@Autowired
-	private UserDetailServiceImlp userDetailsServiceImlp;
+	private UserDetailServiceImpl userDetailsServiceImlp;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

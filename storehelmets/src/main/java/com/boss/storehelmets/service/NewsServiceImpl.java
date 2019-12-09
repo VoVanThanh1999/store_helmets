@@ -8,7 +8,7 @@ import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.NewsRepository;
 
 @Service
-public class NewsServiceImlp implements NewsService{
+public class NewsServiceImpl implements NewsService{
 	@Autowired
 	NewsRepository newsRepository;
 	

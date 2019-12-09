@@ -1,12 +1,18 @@
 package com.boss.storehelmets.user.resources;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -16,25 +22,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.model.Product;
+import com.boss.storehelmets.model.ProductImage;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.UserRepository;
 import com.boss.storehelmets.securityjwt.JwtAuthenticationFilter;
 import com.boss.storehelmets.securityjwt.JwtTokenProvider;
 import com.boss.storehelmets.service.CategoryService;
+import com.boss.storehelmets.service.FileStorageService;
 import com.boss.storehelmets.service.ProductService;
-import com.boss.storehelmets.service.UserDetailServiceImlp;
+import com.boss.storehelmets.service.UserDetailServiceImpl;
 import com.boss.storehelmets.service.UserSevice;
 
 @Controller
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class RestApiProductController {
 	@Autowired
 	private ProductService productService;
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private FileStorageService fileStorageService; 
 	
 	
 	@RequestMapping(value = "/products",method = RequestMethod.GET)
@@ -53,7 +66,9 @@ public class RestApiProductController {
 	private Optional<Product> loadProductById(@PathVariable("id") String id,Model model ){
 		try {
 			Optional<Product> product = productService.getById(id);
-			model.addAttribute("product", product);
+			Set<ProductImage> images = product.get().getProductsDetails().getProductImages();
+			System.out.println(images);
+			model.addAttribute("images", product);
 			return product;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -115,7 +130,25 @@ public class RestApiProductController {
 			return null;
 		}
 	}
+
+	@RequestMapping(value = "/resources/image/{fileName:.+}", method = RequestMethod.GET)
+	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+		Resource resource = fileStorageService.loadFileAsResource(fileName);
+		String contentType = null;
+		try {
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		if (contentType == null) {
+			contentType = AppConstants.DEFAULT_CONTENT_TYPE;
+		}
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION,
+						String.format(AppConstants.FILE_DOWNLOAD_HTTP_HEADER, resource.getFilename()))
+				.body(resource);
+	}
 	
-	
+
 
 }

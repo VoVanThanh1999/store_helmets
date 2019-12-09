@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.dto.BasketDto;
 import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Product;
@@ -18,7 +19,7 @@ import com.boss.storehelmets.service.BasketDtoService;
 
 @Controller
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class RestApiBasketController {
 	
 	@Autowired
@@ -35,14 +36,12 @@ public class RestApiBasketController {
 		
 			basketDtoService.addProductToBasket(basketDto, httpServletRequest);
 		
-			return "them thanh cong";
+			return AppConstants.SUCCESS_BASKET;
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
-			return "them that bai";
+			return AppConstants.ERROR_UPDATE;
 		}
-	
-
 		
 	}
 	@RequestMapping(value = "/baskets",method = RequestMethod.GET)
@@ -63,10 +62,10 @@ public class RestApiBasketController {
 	private String delelteBasketProduct(HttpServletRequest httpServletRequest,@PathVariable("id") String id) {
 		try {
 			basketDtoService.deleteProductInBasket(id, httpServletRequest);
-			return "xoa thanh cong";
+			return AppConstants.SUCCESS_DELETE;
 		} catch (Exception e) {
 			// TODO: handle exception
-			return null;
+			return AppConstants.ERROR_DELETE;
 		}
 	}
 	
@@ -74,10 +73,10 @@ public class RestApiBasketController {
 	private String updateBasketProduct(HttpServletRequest httpServletRequest, @RequestBody BasketDto basketDto) {
 		try {
 			basketDtoService.updateProductInBasket(basketDto, httpServletRequest);
-			return "update thanh cong";
+			return  AppConstants.SUCCESS_UPDATE;
 		} catch (Exception e) {
 			// TODO: handle exception
-			return null;
+			return AppConstants.ERROR_UPDATE;
 		}
 	}
 	

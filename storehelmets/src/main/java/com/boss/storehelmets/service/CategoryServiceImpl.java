@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.model.Category;
 import com.boss.storehelmets.model.CategoryDetails;
 import com.boss.storehelmets.model.Product;
@@ -14,7 +16,7 @@ import com.boss.storehelmets.repository.CategoryDetailsRepository;
 import com.boss.storehelmets.repository.CategoryRepository;
 import com.boss.storehelmets.repository.ProductRepository;
 @Service
-public class CategoryServiceImlp implements CategoryService{
+public class CategoryServiceImpl implements CategoryService{
 	@Autowired
 	CategoryRepository categoryRepository;
 	
@@ -93,7 +95,7 @@ public class CategoryServiceImlp implements CategoryService{
 			category.setDetailsCategories(categoryInput.getDetailsCategories());
 			category.setUser(user);
 			categoryRepository.save(category);
-			return "them thanh cong";
+			return AppConstants.SUCCESS_CREATE;
 		}
 		return null;
 	}
@@ -106,7 +108,7 @@ public class CategoryServiceImlp implements CategoryService{
 			if (getCategoryById(id) != null) {
 				Optional<Category> category = getCategoryById(id);
 				categoryRepository.delete(category.get());
-				return "xoa thanh cong";
+				return AppConstants.SUCCESS_DELETE;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -127,11 +129,14 @@ public class CategoryServiceImlp implements CategoryService{
 				e.setUser(user);
 			});
 			categoryRepository.save(category.get());
+			return AppConstants.SUCCESS_UPDATE;
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println(e.getMessage());
+			return null;
 		}
-		return null;
+		
 	}
 	
 	@Transactional
@@ -143,11 +148,13 @@ public class CategoryServiceImlp implements CategoryService{
 				e.setNameDetailsCategory(categoryDetails.getNameDetailsCategory());
 			});
 			categoryDetailsRepository.save(optional.get());
+			return AppConstants.SUCCESS_UPDATE;
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println(e.getMessage());
+			return null;
 		}
-		return null;
+	
 	}
 	
 	@Transactional
@@ -160,9 +167,11 @@ public class CategoryServiceImlp implements CategoryService{
 			if (optionalCategory.isPresent()) {
 				categoryDetails.setCategory(optionalCategory.get());
 				categoryDetailsRepository.save(categoryDetails);
+				return AppConstants.SUCCESS_UPDATE;
 			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
+			return null;
 		}
 		return null;
 	}
@@ -174,6 +183,7 @@ public class CategoryServiceImlp implements CategoryService{
 			Optional<CategoryDetails> categoryDetails = categoryDetailsRepository.findById(id);
 			if (categoryDetails!= null) {
 				categoryDetailsRepository.deleteById(id);
+				return AppConstants.SUCCESS_DELETE;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

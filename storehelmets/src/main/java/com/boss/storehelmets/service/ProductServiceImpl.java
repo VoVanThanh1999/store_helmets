@@ -7,12 +7,14 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.ProductRepository;
 
 @Service
-public class ProductServiceImlp implements ProductService{
+public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductRepository productRepository;
 	
@@ -128,7 +130,7 @@ public class ProductServiceImlp implements ProductService{
 				productRepository.save(product);
 			
 			}
-			return "update thanh cong";	
+			return AppConstants.SUCCESS_UPDATE;	
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println(e.getMessage());
@@ -139,20 +141,12 @@ public class ProductServiceImlp implements ProductService{
 	
 	@Transactional
 	@Override
-	public String addProduct(Product productInput, User user) {
+	public String addProduct(Product product) {
 		// TODO Auto-generated method stub
 		try {
-			if (productInput != null && user!= null) {
-				Product product = new Product();
-				Date date1 = new Date();
-				java.sql.Date date = new java.sql.Date(date1.getYear(), date1.getMonth(), date1.getDate());
-				product.setNameProduct(productInput.getNameProduct());
-				product.setDateCreate(date);
-				product.setProductsDetails(productInput.getProductsDetails());
-				product.setCategoryDetails(productInput.getCategoryDetails());
-				product.setUserCreat(user);
+			if (product != null) {
 				productRepository.save(product);
-				return "them thanh cong";
+				return AppConstants.SUCCESS_CREATE;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

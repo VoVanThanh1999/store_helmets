@@ -12,7 +12,7 @@ import com.boss.storehelmets.service.NewsService;
 
 @Controller
 @RestController
-@RequestMapping(value = "/api/v1/user")
+@RequestMapping(value = "/api/v1/users")
 public class RestApiNewsController {
 	
 	@Autowired
