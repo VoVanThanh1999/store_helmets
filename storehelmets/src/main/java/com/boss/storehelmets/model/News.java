@@ -40,7 +40,7 @@ public class News {
 	@JoinColumn(name="id_news_details")
 	private NewsDetails newsDetails;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToOne()
 	@JoinColumn(name="id_user")
 	private User user;
 

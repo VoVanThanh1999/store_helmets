@@ -15,9 +15,10 @@ public interface NewsService {
 	
 	public List<News> getNewsPost();
 	
-	public String addNews(News news,User user);
 	
 	public String deleteNews(String id);
 	
-	public String updateNews(News news,User user);
+	public String updateNews(News news);
+
+	public	String addNews(News newsInput);
 }

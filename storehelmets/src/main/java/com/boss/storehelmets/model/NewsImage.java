@@ -16,6 +16,8 @@ public class NewsImage {
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	@Column(name="id_image")
 	public String idImage;
+	
+	@Column(name="image")
 	public String image;
 	/**
 	 * @return the idImage

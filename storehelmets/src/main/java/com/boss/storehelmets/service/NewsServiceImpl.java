@@ -42,13 +42,12 @@ public class NewsServiceImpl implements NewsService{
 	}
 
 	@Override
-	public String addNews(News newsInput, User user) {
+	public String addNews(News newsInput) {
 		// TODO Auto-generated method stub
-		News news = new News();
-		news.setCategoryDetails(newsInput.getCategoryDetails());
-		news.setTitle(news.getTitle());
-		news.setNewsDetails(newsInput.getNewsDetails());
-		news.setUser(user);
+		if (newsInput != null) {
+			newsRepository.save(newsInput);
+		}
+	
 		return null;
 	}
 
@@ -63,15 +62,9 @@ public class NewsServiceImpl implements NewsService{
 	}
 
 	@Override
-	public String updateNews(News newsInput, User user) {
+	public String updateNews(News newsInput) {
 		// TODO Auto-generated method stub
 		Optional<News> optional = newsRepository.findById(newsInput.getIdNews());
-		optional.ifPresent(news ->{
-			news.setNewsDetails(newsInput.getNewsDetails());
-			news.setTitle(newsInput.getTitle());
-			news.setIdUserUpdate(newsInput.getUser().getIdUser());
-			news.setCategoryDetails(newsInput.getCategoryDetails());
-		});
 		newsRepository.save(optional.get());
 		return null;
 	}

@@ -27,7 +27,7 @@ public class FileStorageServiceImpl implements FileStorageService{
 
 	@Autowired
 	public FileStorageServiceImpl(FileStorageProperties fileStorageProperties) {
-		this.fileStorageLocation = Paths.get("file").toAbsolutePath().normalize();
+		this.fileStorageLocation = Paths.get("image").toAbsolutePath().normalize();
 
 		try {
 			Files.createDirectories(this.fileStorageLocation);
