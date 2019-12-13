@@ -27,12 +27,7 @@ import com.boss.storehelmets.service.InvoiceService;
 @EnableJpaRepositories(basePackages = {"com.boss.storehelmets.repository"})
 @ComponentScan("com.boss.storehelmets.admin.resources")
 public class StorehelmetsApplication implements CommandLineRunner{
-	@Autowired
-	UserRepository userRepository;
-	
-	@Autowired
-	PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	InvoiceService invoiceService;
 	

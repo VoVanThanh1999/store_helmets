@@ -1,6 +1,8 @@
 package com.boss.storehelmets.admin.resources;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.dto.MockMultipartFile;
+import com.boss.storehelmets.model.ImageOfAdvertisment;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.ProductImage;
 import com.boss.storehelmets.model.ProductsDetails;
@@ -29,6 +32,7 @@ import com.boss.storehelmets.repository.UserRepository;
 import com.boss.storehelmets.securityjwt.JwtAuthenticationFilter;
 import com.boss.storehelmets.securityjwt.JwtTokenProvider;
 import com.boss.storehelmets.service.FileStorageService;
+import com.boss.storehelmets.service.ImageOfAdverstismentService;
 import com.boss.storehelmets.service.ProductService;
 import com.boss.storehelmets.service.UserDetailServiceImpl;
 import com.boss.storehelmets.service.UserSevice;
@@ -58,6 +62,9 @@ public class RestApiProductAdminController {
 	
 	@Autowired
 	FileStorageService fileStorageService;
+	
+	@Autowired
+	ImageOfAdverstismentService imageOfAdverstismentService; 
 	
 	
 	
@@ -139,6 +146,34 @@ public class RestApiProductAdminController {
 			return AppConstants.ERROR_UPDATE;
 		}
 	
+	}
+	
+	@RequestMapping(value = "/advertisments",method = RequestMethod.POST)
+	public String createAdvertisment(@RequestBody ImageOfAdvertisment advertismentInput,HttpServletRequest request) throws IOException {
+		try {
+			String jwt = authenticationFilter.getJwtFromRequest(request);
+			String userId = tokenProvider.getUserIdFromJWT(jwt);
+			Optional<User> user  = userSevice.findUserById(userId);
+			
+			ImageOfAdvertisment advertisment = new ImageOfAdvertisment();
+			File file = new File(AppConstants.TEMP_DIR+advertismentInput.getImage());
+			FileInputStream input = new FileInputStream(file);
+			MultipartFile multipartFile = new MockMultipartFile("file",file.getName(),
+											"text/plain", IOUtils.toByteArray(input));
+			String fileName = fileStorageService.storeFile(multipartFile);
+			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(AppConstants.DOWNLOAD_PATH+AppConstants.RESOURCES_IMAGE+"/")
+					.path(fileName).toUriString();	
+			advertisment.setImage(fileDownloadUri);
+			advertisment.setUser(user.get());
+			imageOfAdverstismentService.addImageAdverstiment(advertisment, user.get());
+			return AppConstants.SUCCESS_CREATE;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			
+		}
+		return AppConstants.ERROR_CREATE;
+		
 	}
 	
 

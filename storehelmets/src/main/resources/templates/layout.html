@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+	<meta charset="utf-8">
+	<link   rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link   rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+	<link th:href="@{/static/css/style.css}" href="/static/css/style.css" rel="stylesheet" type="text/css" />
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<title>Nón bảo hiểm và phụ kiện</title>
+	<style type="text/css">
+		.header	{
+		}
+		.header	.menu-top{
+			height:35px;
+			color: white;
+			background:#1f1f1f;
+		}
+		.header	.item {
+			font-size: 13px;
+		}
+		.header	.item i {
+			font-size: 16px;
+			color: white;'
+		}
+		.header	.menu-bottom img{
+			width: 170px;
+		}
+		.header	.menu-bottom li{
+			width: 125px;
+			font-size: 15px;
+			font-weight: 600;
+		}
+		.header	.menu-bottom .basket{
+			border-radius: 50%;
+			width : 32px;
+			height : 32px;
+			background: orange;
+		}
+		.carousel-item img{
+			z-index: 0;
+			height: 650px;
+		}
+		.section-content{
+			position: relative;
+			z-index:1;
+		}
+		.section-content .page-service .container{
+			margin: auto;
+			text-align: center;
+		}
+		.section-content .page-service .container .item{
+			position: absolute;
+			top:-30px;
+			padding-top: 30px;
+			border-radius: 5%;
+			  box-shadow: 3px 3px 2px 2px grey;
+			background: #f0f0f0;
+			transition: 0.3s;
+		}
+		
+		.section-content .page-service .container .item:hover{
+			margin-top: -15px;
+			 box-shadow: 7px 7px 5px 5px grey;
+			 
+		}
+		
+		.section-content .page-service .container .icon{
+			margin:auto;
+			width: 45px;
+			height: 45px;
+			border-radius: 50% ;
+			border: 1px solid orange;	
+		}
+		.section-content .page-service .container .icon:hover{
+			background: orange;
+		}
+		.section-content .page-service .container .icon i{
+			padding-top: 12px;
+			font-size: 20px;
+		}
+		.section-content .page-service .container .icon  h5{
+			padding-top: 15px;
+		}
+	</style>
+</head>
+<body>
+	<div th:fragment="header" class="header  fixed-top">
+		<div class="menu-top ">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2">
+						<div class="item mt-1 ">
+							<i class="fas fa-envelope-square float-left mt-1"></i>
+							<p class="ml-4">mrt.boss@yahoo.com</p>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="item mt-1">
+							<i class="fas fa-phone float-left "></i>
+							<p class="ml-4">01283418124</p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="item mt-1">
+							<p class="ml-4">Đăng nhập</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="menu-bottom bg-white">
+			<div class="container ">
+				<nav class="navbar navbar-expand-md navbar-light">
+				  <a class="navbar-brand" href="#"><img alt="#" src="http://mauweb.monamedia.net/nonson/wp-content/uploads/2019/05/logo-nonson-1.png"> </a>
+				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				    <span class="navbar-toggler-icon"></span>
+				  </button>
+				  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+				    <ul class="navbar-nav mr-auto" id="category">
+				      <li class="nav-item active">
+				        <a class="nav-link text-warning" href="#">Trang chủ <span class="sr-only">(current)</span></a>
+				      </li>
+				    </ul>
+				  </div>
+				  <div class="search">
+					<a href="#"><i class="fas fa-search float-left text-secondary"></i></a>
+				 </div>
+				 <div class="basket ml-4">
+				 	<a href="#"><i class="fas fa-shopping-cart ml-1 mt-2 text-white"></i></a>
+				 </div>
+				</nav>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="footer">
+	
+	</div>
+<script type="text/javascript"th:fragment="js_layout">
+	$( document ).ready(function() {
+		loadCategory();
+		function loadCategory(){
+			 $.ajax({
+			      url:"/api/v1/users/categorys",
+			      contentType: "application/json",
+			      dataType: 'json',
+			      success: function(result){
+			    	 for(var i = 0; i<result.length; i++){
+			    		 $("#category").append(`
+			    			<li class="nav-item">
+							    <a class="nav-link" href="#">`+result[i].nameCategory+`</a>
+							 </li>	 
+			     		`);	 
+			    	 }
+
+			      }
+			 });
+		}
+			
+	});
+</script>
+
+</body>
+</html>

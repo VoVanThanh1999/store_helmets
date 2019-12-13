@@ -62,12 +62,6 @@ public class CategoryDetails {
 		this.nameDetailsCategory = nameDetailsCategory;
 	}
 
-	/**
-	 * @return the category
-	 */
-	public Category getCategory() {
-		return category;
-	}
 
 	/**
 	 * @param category the category to set

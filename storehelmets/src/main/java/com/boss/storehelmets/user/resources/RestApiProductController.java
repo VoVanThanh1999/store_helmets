@@ -1,40 +1,30 @@
 package com.boss.storehelmets.user.resources;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.servlet.ModelAndView;
 import com.boss.storehelmets.app.utils.AppConstants;
+import com.boss.storehelmets.model.ImageOfAdvertisment;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.ProductImage;
-import com.boss.storehelmets.model.User;
-import com.boss.storehelmets.repository.UserRepository;
-import com.boss.storehelmets.securityjwt.JwtAuthenticationFilter;
-import com.boss.storehelmets.securityjwt.JwtTokenProvider;
 import com.boss.storehelmets.service.CategoryService;
 import com.boss.storehelmets.service.FileStorageService;
+import com.boss.storehelmets.service.ImageOfAdverstismentService;
 import com.boss.storehelmets.service.ProductService;
-import com.boss.storehelmets.service.UserDetailServiceImpl;
-import com.boss.storehelmets.service.UserSevice;
 
 @Controller
 @RestController
@@ -49,13 +39,17 @@ public class RestApiProductController {
 	@Autowired
 	private FileStorageService fileStorageService; 
 	
+	@Autowired
+	private ImageOfAdverstismentService imageOfAdverstismentService;
 	
 	@RequestMapping(value = "/products",method = RequestMethod.GET)
-	private List<Product>   loadAllProduct(Model model) {
+	private ModelAndView loadAllProduct() {
 		try {
 			List<Product> products = productService.getAll();
-			model.addAttribute("products", products);
-			return products;
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("product");
+			modelAndView.addObject("products", products);
+			return modelAndView;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return null;
@@ -149,6 +143,17 @@ public class RestApiProductController {
 				.body(resource);
 	}
 	
+	@RequestMapping(value = "/advertisments",method = RequestMethod.GET)
+	public List<ImageOfAdvertisment> loadAllAdvertisment(){
+		try {
+			List<ImageOfAdvertisment> advertisments = imageOfAdverstismentService.getAll();
+			return advertisments;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
 
 
 }

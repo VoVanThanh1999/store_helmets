@@ -27,7 +27,7 @@ public class Category {
 	@Column(name="name_category")
 	private String nameCategory;
 		
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name = "id_user")
 	private User user;
 	

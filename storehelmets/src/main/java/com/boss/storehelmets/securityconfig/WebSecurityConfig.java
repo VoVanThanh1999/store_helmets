@@ -39,10 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
-	    http.authorizeRequests().antMatchers("/api/v1/user/login",
+	    http.authorizeRequests().antMatchers("/api/v1/users/login",
+	    		"/api/v1/users/advertisments",
 	    		"/api/v1/users/resources/image/{fileName:.+}",
 	    		"/api/v1/admin/login",
 	    		"logout",
+	    		"/favicon.ico",
+	    		"/static/css/style.css",
 	    		"/api/v1/users/categorys",
 	    		"/api/v1/users/categorys/{id}",
 	    		"/api/v1/users/products",
@@ -68,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    	).access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
 	    http.authorizeRequests()
 	    .antMatchers(
+	    		"/api/v1/admins/advertisments",
 	    		"/api/v1/admins/news",
 	    		"/api/v1/admins/news/{id}",
 	    		"/api/v1/admins/products/{id}",
