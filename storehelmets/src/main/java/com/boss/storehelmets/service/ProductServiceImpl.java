@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import com.boss.storehelmets.app.utils.AppConstants;
@@ -64,6 +66,7 @@ public class ProductServiceImpl implements ProductService{
 //	get sản phẩm được nhiều người mua nhất
 	@Transactional
 	@Override
+	@Cacheable(value = "products")
 	public List<Product> getProductByPopular() {
 		// TODO Auto-generated method stub
 		try {
@@ -77,6 +80,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 	@Transactional
 	@Override
+	@Cacheable(value = "products")
 	public List<Product> getByOrderByAmountAsc() {
 		// TODO Auto-generated method stub
 		try {
@@ -90,6 +94,7 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Transactional
 	@Override
+	@Cacheable(value = "products")
 	public List<Product> getByOrderByAmountDesc() {
 		// TODO Auto-generated method stub
 		try {
@@ -124,7 +129,6 @@ public class ProductServiceImpl implements ProductService{
 			Product product = getById(productInput.getIdProduct()).get();
 			if (product!= null) {
 				product.setNameProduct(productInput.getNameProduct());
-				product.setCategoryDetails(productInput.getCategoryDetails());
 				product.setProductsDetails(productInput.getProductsDetails());
 				product.setIdUserUpdate(user.getIdUser());
 				productRepository.save(product);

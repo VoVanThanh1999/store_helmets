@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.boss.storehelmets.app.utils.AppConstants;
@@ -35,9 +36,10 @@ public class CategoryServiceImpl implements CategoryService{
 		}
 		return null;
 	}
-	
+
 	@Transactional
 	@Override
+	@Cacheable(value = "category")
 	public List<Category> getAllCategory() {
 		// TODO Auto-generated method stub
 		List<Category> categories = categoryRepository.findAll()
@@ -49,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService{
 //	get chi tiết danh mục bằng id
 	@Transactional
 	@Override
+	@Cacheable(value = "category")
 	public CategoryDetails getCategoryDetailsById(String id) {
 		// TODO Auto-generated method stub
 		List<Category> categories = categoryRepository.findAll();	
@@ -71,6 +74,7 @@ public class CategoryServiceImpl implements CategoryService{
 //	get sản phẩm bằng id chi tiết danh mục có danh mục sản phẩm
 	@Transactional
 	@Override
+	@Cacheable(value = "product")
 	public List<Product> getProductsByCategoryDetails(String id) {
 		// TODO Auto-generated method stub
 		try {
@@ -191,6 +195,27 @@ public class CategoryServiceImpl implements CategoryService{
 			return null;
 		}
 		return null;
+	}
+	
+	@Cacheable(value = "categorydetails")
+	@Override
+	public List<CategoryDetails> getCategoryDetailsByIdCategory(String id) {
+		// TODO Auto-generated method stub
+		List<CategoryDetails> categoryDetails = categoryDetailsRepository.findCategoryDetailsByCategoryId(id);
+		
+		if (categoryDetails!= null) {
+			return categoryDetails;
+		}
+		return null;
+	}
+
+	@Override
+	@Cacheable(value = "products")
+	public Set<Product> getProductByIdCategoryDetails(String id) {
+		// TODO Auto-generated method stub
+		Optional<CategoryDetails> categoryDetails = categoryDetailsRepository.findById(id);
+		Set<Product> products = categoryDetails.get().getProducts();
+		return products;
 	}
 
 }

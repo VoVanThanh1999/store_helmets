@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
 	    http.authorizeRequests().antMatchers("/api/v1/users/login",
+	    		"/",
 	    		"/api/v1/users/advertisments",
 	    		"/api/v1/users/resources/image/{fileName:.+}",
 	    		"/api/v1/admin/login",
@@ -48,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    		"/static/css/style.css",
 	    		"/api/v1/users/categorys",
 	    		"/api/v1/users/categorys/{id}",
+	    		"/api/v1/users/categorys/details/{id}",
 	    		"/api/v1/users/products",
 	    		"/api/v1/users/products/{id}",
 	    		"/api/v1/users/products/{id}",

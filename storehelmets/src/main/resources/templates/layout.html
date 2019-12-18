@@ -9,6 +9,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="static/jquery/slider-js.js"></script> -->
 	<title>Nón bảo hiểm và phụ kiện</title>
 	<style type="text/css">
 		.header	{
@@ -83,6 +84,112 @@
 		}
 		.section-content .page-service .container .icon  h5{
 			padding-top: 15px;
+		}
+		.section-content .image  {
+			display: hidden;
+		}
+		.section-content .image img{
+			border-radius: 3%;
+			width:100%;
+			height: 100%;
+			transition: transform .2s;
+	
+		}
+		.section-content .image:hover img{
+			/* transform: scale(1.2); */
+		}
+		.page-bestproduct{
+			padding-top: 40px;
+		}
+		.slide-holder{
+			margin:0 auto;
+			padding-top: 50px;
+
+		}
+		.slide-container { /*slide-container là khối bao mà slide-stage có thể "trượt" bên trong */
+			height:300px;
+			width: 100%;
+			overflow: hidden;
+			position:relative;
+		}
+		.slide-stage{
+			position: absolute;
+		}
+		.slide-image { /*Độ rộng của .slide-image có thể được thay đổi theo nhu cầu, ảnh hưởng đến độ rộng chung của slideshow*/
+			float:left;
+			width:221px;
+			text-align: center;
+	
+		}
+		.slide-image .img{
+			width:80%;
+		}
+		
+		.slide-image img{
+			width:100%;
+			margin:0 auto;
+		}
+		.slide-pager{
+			position:relative;
+		}
+		.slide-control-prev {
+			position: absolute;
+			text-align: center;
+			width: 25px;
+			height: 60px;
+			background: orange;
+			line-height: 60px;
+			color: #fff;
+			cursor: pointer;
+			top: 35px;
+			left: -30px;
+		}
+		.slide-control-next{
+			position: absolute;
+			text-align: center;
+			width: 25px;
+			height: 60px;
+			background: orange;
+			line-height: 60px;
+			color: #fff;
+			cursor: pointer;
+			right: -30px;
+			top: 35px;
+		}
+		.page-advertisement{
+			padding-top: 50px;
+			background: orange;
+			padding-bottom:50px;
+		}
+		.page-advertisement  img{
+			width: 80px;
+		    height: 80px;
+		    border-radius: 50%;
+		}
+		.page-productbycategory{
+			padding-top: 70px;
+		}
+		.page-productbycategory .productByCaterogy {
+			float: left;
+		}	
+		.page-productbycategory .productByCaterogy .image{
+			float:left;
+			width: 28%;
+		}
+		.page-productbycategory .productByCaterogy .content{
+			float:left;
+			padding-left:10px;
+			width: 50%;
+				font-weight:600;
+		}
+		.page-productbycategory .productByCaterogy .content p{
+			font-weight:600;
+		}
+		.page-productbycategory .h4{
+			text-transform: uppercase;
+			font-weight:600;
+			letter-spacing: 0.5px;
+		
 		}
 	</style>
 </head>
@@ -160,7 +267,7 @@
 			      }
 			 });
 		}
-			
+		
 	});
 </script>
 

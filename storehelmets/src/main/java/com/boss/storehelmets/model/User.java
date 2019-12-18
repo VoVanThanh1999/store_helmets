@@ -27,12 +27,10 @@ public class User {
 	private String idUser;
 	
 	@Column(name="email")
-	@NotBlank
 	@Email
 	private String email;
 	
 	@Column(name="pass_word")
-	@NotBlank
 	private String password;
 	
 	@Column(name="full_name")

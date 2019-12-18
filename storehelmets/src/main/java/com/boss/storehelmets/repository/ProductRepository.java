@@ -21,4 +21,6 @@ public interface ProductRepository extends JpaRepository<Product, String>{
 //	get sản phẩm theo giá giảm dần
 	@Query("Select u from Product  u order by u.productsDetails.amount desc")
 	List<Product> findByOrderByAmountDest();
+	
+
 }

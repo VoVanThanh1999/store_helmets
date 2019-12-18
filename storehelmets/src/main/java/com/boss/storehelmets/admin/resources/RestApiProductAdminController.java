@@ -95,7 +95,6 @@ public class RestApiProductAdminController {
 				}
 				productsDetails.setProductImages(productImages);
 				product.setProductsDetails(productInput.getProductsDetails());
-				product.setCategoryDetails(productInput.getCategoryDetails());
 				product.setDateCreate(date);
 				product.setUserCreat(user.get());
 				productService.addProduct(product);

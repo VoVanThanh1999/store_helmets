@@ -42,6 +42,15 @@ public class RestApiCategoryController {
 		}
 	}
 	
-	
+	@RequestMapping(value = "/categorys/details/{id}",method = RequestMethod.GET)
+	private List<CategoryDetails> getCategoryDetails(@PathVariable("id")String id){
+		try {
+			List<CategoryDetails> categoryDetails = categoryService.getCategoryDetailsByIdCategory(id);
+			return categoryDetails;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
 
 }

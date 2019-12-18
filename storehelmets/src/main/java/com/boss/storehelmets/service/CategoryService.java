@@ -2,6 +2,7 @@ package com.boss.storehelmets.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.boss.storehelmets.model.Category;
 import com.boss.storehelmets.model.CategoryDetails;
@@ -28,4 +29,8 @@ public interface CategoryService {
 	String deleteCategoryDetails(String id);
 
 	String addCategoryDetails(CategoryDetails categoryDetailsInput);
+	
+	List<CategoryDetails> getCategoryDetailsByIdCategory(String id);
+	
+	Set<Product> getProductByIdCategoryDetails(String id);
 }

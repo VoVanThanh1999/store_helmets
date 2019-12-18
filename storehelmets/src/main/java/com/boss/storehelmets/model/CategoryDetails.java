@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -31,7 +32,7 @@ public class CategoryDetails {
 	@JoinColumn(name = "id_category")
 	private Category category;
 	
-	@ManyToMany(mappedBy = "categoryDetails")
+	@ManyToMany(mappedBy = "categoryDetails",fetch = FetchType.EAGER)
 	Set<Product> products;
 
 	/**
@@ -69,6 +70,22 @@ public class CategoryDetails {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+	/**
+	 * @return the products
+	 */
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	/**
+	 * @param products the products to set
+	 */
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
+	
+	
 	
 	
 

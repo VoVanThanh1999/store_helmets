@@ -42,14 +42,13 @@ public class RestApiProductController {
 	@Autowired
 	private ImageOfAdverstismentService imageOfAdverstismentService;
 	
+	
 	@RequestMapping(value = "/products",method = RequestMethod.GET)
-	private ModelAndView loadAllProduct() {
+	private List<Product> loadAllProduct() {
 		try {
 			List<Product> products = productService.getAll();
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("product");
-			modelAndView.addObject("products", products);
-			return modelAndView;
+
+			return products;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return null;
@@ -71,12 +70,13 @@ public class RestApiProductController {
 	}
 	
 	@RequestMapping(value = "/products/categorydetails/{id}",method = RequestMethod.GET)
-	private List<Product> loadProductsByCategoryDetailsId(@PathVariable("id")String id){
+	private Set<Product> loadProductsByCategoryDetailsId(@PathVariable("id")String id){
 		try {
-			List<Product> products = categoryService.getProductsByCategoryDetails(id);
+			Set<Product> products = categoryService.getProductByIdCategoryDetails(id);
 			return products;
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e.getMessage());
 			return null;
 		}
 	}
