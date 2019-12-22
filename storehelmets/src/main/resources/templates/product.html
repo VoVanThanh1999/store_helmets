@@ -144,6 +144,69 @@
 		</div>
 	
 	</div>
+	<div class="page-news">
+		<div class="container text-center">
+			<h4 class="text-white">TIN TỨC</h4>
+			<div class="row pt-3" id="loadNewsIndex">
+				
+			</div>
+		</div>
+	</div>
+	<div class="page-onors">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2">
+					<div class="item">
+						<img src="http://mauweb.monamedia.net/nonson/wp-content/uploads/2019/05/logo-01-2.png">
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="item">
+						<img src="http://mauweb.monamedia.net/nonson/wp-content/uploads/2019/05/logo-03-2.png">
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="item">
+						<img src="http://mauweb.monamedia.net/nonson/wp-content/uploads/2019/05/logo-02-2.png">
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="item">
+						<img src="http://mauweb.monamedia.net/nonson/wp-content/uploads/2019/05/logo-04-2.png">
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="item">
+						<img src="http://mauweb.monamedia.net/nonson/wp-content/uploads/2019/05/logo-05-2.png">
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="item">
+						<img src="http://mauweb.monamedia.net/nonson/wp-content/uploads/2019/05/logo-03-2.png">
+					</div>
+				</div>
+			 </div>
+		</div>
+	</div>
+	<div class="page-connect bg-warning">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<input type="email" placeholder="Email" class="col-md-8 form-control float-left" style="border-radius: 0;"> 
+					<button class="btn bg-dark text-white" style="border-radius: 0;">Đăng ký</button>
+				</div>
+				<div class="col-md-6">
+					<div class="item float-right">
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	
+	<div th:replace="layout :: footer">	</div>
+	<div th:replace="layout :: footer-bottom">	</div>
 </body>
 <script type="text/javascript" th:replace="layout :: js_layout"></script>
 <script type="text/javascript">
@@ -185,10 +248,10 @@ $( document ).ready(function() {
 		    		 $(".slide-stage").append(`
 		    		    <div class="slide-image ">
 			    		    <div class="img">
-			    		       <img class="img-fluid ml-4" src="`+result[i].productsDetails.productImages[0].imageName+`"/>
+			    		      	<a href="/chi-tiet-san-pham?id=`+result[i].idProduct+`"><img class="img-fluid ml-4" src="`+result[i].productsDetails.productImages[0].imageName+`"/></a>
 			    		    </div>
 			    		    <h5 class="text-secondary pt-2">`+result[i].nameProduct+`</h5>
-			    		    <h6 class="text-warning pt-2">`+formatNumber(result[j].productsDetails.amount,'-',',')+` đ</h6>
+			    		    <h6 class="text-warning pt-2">`+formatNumber(result[i].productsDetails.amount,'-',',')+` đ</h6>
 			    		 </div>	
 		     		`);	  
 		    	 }
@@ -254,23 +317,38 @@ function loadProductByCategory(){
 			});
 	      }
 	 });
+	  
+	  loadNews();
+	  function loadNews(){
+		  $.ajax({
+ 			  url: "/api/v1/users/news",
+ 			  contentType: "application/json",
+ 			  methodType:"GET",
+ 			  dataType: 'json',
+ 			  success: function(result){	
+				for(i=0;i<3;i++){
+					$("#loadNewsIndex").append(`
+						<div class="col-md-4">
+							<div class="item text-white">
+								<a href="#"><img src=`+result[i].newsDetails.images[0].image+` class="img-fluid "></a>
+								<h6 class="float-left pt-2">`+result[i].title+`</h6>
+								<p class="float-left text-secondary" style="clear: left; font-size:14px">`+result[i].newsDetails.dateCreated+`</p>
+								<p class="float-left text-white" style="clear: left; font-size:15px">`+result[i].newsDetails.content+`</p>
+							</div>
+						</div>
+						
+					`);
+				}
+ 			    	 
+ 			  }
+ 		}); 
+	  }
 }
-
 
 
 </script>
  <script type="text/javascript">
- function formatNumber(nStr, decSeperate, groupSeperate) {
-     nStr += '';
-     x = nStr.split(decSeperate);
-     x1 = x[0];
-     x2 = x.length > 1 ? '.' + x[1] : '';
-     var rgx = /(\d+)(\d{3})/;
-     while (rgx.test(x1)) {
-         x1 = x1.replace(rgx, '$1' + groupSeperate + '$2');
-     }
-     return x1 + x2;
- }
+ 
  $(function(){
 	
 	

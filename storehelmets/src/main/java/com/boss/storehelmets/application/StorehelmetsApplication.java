@@ -1,6 +1,4 @@
 package com.boss.storehelmets.application;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,9 +9,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.boss.storehelmets.model.Roles;
-import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.UserRepository;
 import com.boss.storehelmets.service.InvoiceService;
 

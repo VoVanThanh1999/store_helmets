@@ -139,6 +139,20 @@ public class Product {
 		this.productsDetails = productsDetails;
 	}
 
+	/**
+	 * @return the categoryDetails
+	 */
+	public Set<CategoryDetails> getCategoryDetails() {
+		return categoryDetails;
+	}
+
+	/**
+	 * @param categoryDetails the categoryDetails to set
+	 */
+	public void setCategoryDetails(Set<CategoryDetails> categoryDetails) {
+		this.categoryDetails = categoryDetails;
+	}
+
 	
 	
 	

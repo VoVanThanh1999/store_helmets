@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -30,7 +31,7 @@ public class News {
 	@Column(name="id_user_update")
 	private String idUserUpdate;
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "news_category_details",joinColumns = @JoinColumn(name="id_news"),
 		inverseJoinColumns = @JoinColumn(name="id_details_category")
 	)

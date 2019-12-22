@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="category_details")
 public class CategoryDetails {
@@ -31,6 +33,9 @@ public class CategoryDetails {
 	@OneToOne()
 	@JoinColumn(name = "id_category")
 	private Category category;
+
+	@ManyToMany(mappedBy = "categoryDetails",fetch = FetchType.EAGER)
+	private Set<News> news;
 	
 	@ManyToMany(mappedBy = "categoryDetails",fetch = FetchType.EAGER)
 	Set<Product> products;
@@ -74,6 +79,8 @@ public class CategoryDetails {
 	/**
 	 * @return the products
 	 */
+
+	@JsonIgnore 
 	public Set<Product> getProducts() {
 		return products;
 	}
@@ -83,6 +90,30 @@ public class CategoryDetails {
 	 */
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+
+	/**
+	 * @return the category
+	 */
+
+	@JsonIgnore 
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * @return the news
+	 */
+	@JsonIgnore 
+	public Set<News> getNews() {
+		return news;
+	}
+
+	/**
+	 * @param news the news to set
+	 */
+	public void setNews(Set<News> news) {
+		this.news = news;
 	}
 	
 	

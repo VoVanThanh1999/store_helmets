@@ -22,6 +22,7 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Transactional
 	@Override
+	@Cacheable(value = "products")
 	public List<Product> getAll() {
 		// TODO Auto-generated method stub
 		try {
@@ -36,6 +37,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 	@Transactional
 	@Override
+	@Cacheable(value = "products")
 	public Optional<Product> getById(String id) {
 		// TODO Auto-generated method stub
 		Optional<Product> optionalProduct=productRepository.findById(id);

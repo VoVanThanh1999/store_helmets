@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head">
+</head>
+<body>
+	<div th:replace="layout :: header">
+	</div> 
+	
+	<div class="page-product-details">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="product">
+					
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="details">
+						
+						<ul style="margin-left: -54px;">
+							<li class="btn"><a href="/" class="text-secondary">Trang chủ</a></li>
+			        	    <th:block th:each="category : ${product.categoryDetails}">
+					         	<li style="margin-left: -15px;" class="btn"><a href="/" class="text-secondary" th:utext="${category.nameDetailsCategory}">Trang chủ</a></li>
+					        </th:block>  
+					    </ul>
+						<div class="infor-product">
+							<p class="h2" th:text="${product.nameProduct}" style="margin-top: -15px"></p>
+							<div class="infor pt-5">
+								<p class="h5 text-warning" id="amount" th:text="${product.productsDetails.amount}"></p>
+								<p class="pt-3"  th:text="${product.productsDetails.structure}"></p>
+								<p class="float-left">- Trọng lượng: </p><p  th:text="${product.productsDetails.weight}"></p>
+							 	<ul style="margin-left: -40px;">
+										- Size:
+									<th:block th:each="size : ${product.productsDetails.productSizes}">
+								   	   <li class="btn" th:utext="${size.sizeName}" style="margin-left: -10px;"></li>
+								    </th:block>  
+								</ul>	 
+							</div>
+							<div class="phuongThucThanhToan">
+								<div row>
+									<div class="col-md-8">
+										<p class="h6" style="margin-left: -10px;">Cổng thanh toán hiện đại</p>
+										<div class="row pt-1">
+											<div class="col-md-4">
+												<img alt="" src="https://canhme.com/wp-content/uploads/2016/01/Paypal.png" class="img-fluid ">
+											</div>
+											<div class="col-md-4">
+												<img alt="" src="https://webtindung.com/wp-content/uploads/2016/04/the-mastercard-la-gi-33-4005.png" class="img-fluid ">
+											</div>
+											<div class="col-md-4">
+												<img alt="" src="http://ibetvn.net/uploads/tin%20ca%20cuoc/skrill-la-gi.png" class="img-fluid ">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<button class="btn btn-danger mt-5 col-md-4">THÊM VÀO GIỎ HÀNG</button>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+<script type="text/javascript" th:replace="layout :: js_layout"></script>	
+<script type="text/javascript">
+$( document ).ready(function() {
+	changeAmount();
+    function changeAmount(){
+    	var amountData = $('#amount').html();
+    	var amount =formatNumber(amountData,'-',',');
+    	$('#amount').html(amount+" đ");
+    }
+});
+
+</script>
+</body>
+</html>

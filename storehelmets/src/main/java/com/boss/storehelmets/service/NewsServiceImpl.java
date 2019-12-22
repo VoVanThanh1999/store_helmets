@@ -2,6 +2,7 @@ package com.boss.storehelmets.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.boss.storehelmets.model.News;
 import com.boss.storehelmets.model.User;
@@ -13,6 +14,7 @@ public class NewsServiceImpl implements NewsService{
 	NewsRepository newsRepository;
 	
 	
+	@Cacheable(value = "news")
 	@Override
 	public List<News> getNewsAll() {
 		// TODO Auto-generated method stub

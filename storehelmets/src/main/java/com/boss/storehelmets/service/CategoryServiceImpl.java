@@ -164,19 +164,19 @@ public class CategoryServiceImpl implements CategoryService{
 	@Transactional
 	@Override
 	public String addCategoryDetails( CategoryDetails categoryDetailsInput) {
-//		try {
-//			CategoryDetails categoryDetails = new CategoryDetails();
-//			categoryDetails.setNameDetailsCategory(categoryDetailsInput.getNameDetailsCategory());
-//			Optional<Category> optionalCategory = getCategoryById(categoryDetailsInput.getCategory().getIdCategory());
-//			if (optionalCategory.isPresent()) {
-//				categoryDetails.setCategory(optionalCategory.get());
-//				categoryDetailsRepository.save(categoryDetails);
-//				return AppConstants.SUCCESS_UPDATE;
-//			}
-//		} catch (Exception e) {
-//			System.err.println(e.getMessage());
-//			return null;
-//		}
+		try {
+			CategoryDetails categoryDetails = new CategoryDetails();
+			categoryDetails.setNameDetailsCategory(categoryDetailsInput.getNameDetailsCategory());
+			Optional<Category> optionalCategory = getCategoryById(categoryDetailsInput.getCategory().getIdCategory());
+			if (optionalCategory.isPresent()) {
+				categoryDetails.setCategory(optionalCategory.get());
+				categoryDetailsRepository.save(categoryDetails);
+				return AppConstants.SUCCESS_UPDATE;
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return null;
+		}
 		return null;
 	}
 	

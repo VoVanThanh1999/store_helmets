@@ -13,6 +13,7 @@
 	<title>Nón bảo hiểm và phụ kiện</title>
 	<style type="text/css">
 		.header	{
+		
 		}
 		.header	.menu-top{
 			height:35px;
@@ -168,6 +169,7 @@
 		}
 		.page-productbycategory{
 			padding-top: 70px;
+			padding-bottom: 60px;
 		}
 		.page-productbycategory .productByCaterogy {
 			float: left;
@@ -189,7 +191,64 @@
 			text-transform: uppercase;
 			font-weight:600;
 			letter-spacing: 0.5px;
-		
+		}
+		.page-news{
+			padding-top: 20px;
+			background:url("https://c.wallhere.com/photos/82/24/texture_bricks-360143.jpg!d");
+			background-position: center;
+			height: auto;
+			padding-bottom: 30px;
+		}
+		.page-news .item{
+			height: 260px;
+		}
+		.page-news .item img{
+			width: 100%;
+			height: 100%;
+		}
+		.page-news .item h5{
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    line-height: 25px;
+		    -webkit-line-clamp: 3;
+		    height: 75px;
+		    display: -webkit-box;
+		    -webkit-box-orient: vertical;
+		}
+		.page-onors{
+		   padding-top: 30px;
+		   padding-bottom: 30px;
+		}
+		.page-connect{
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+		.footer{
+			padding-top: 40px;
+			padding-bottom: 20px;
+			
+		}
+		.footer ul li{
+		   list-style-type: none;
+		   font-size: 14px;	 
+		   font-weight: 500;
+		}
+		.footer-bottom {
+			padding-top:20px;
+			padding-bottom:5px;
+			background: black;
+			color: white;
+		}
+		.page-detail-product{
+			float: left;
+			background: blue;
+			height: 200px;
+		}
+		.page-product-details{
+			padding-top: 180px;
+		}
+		.page-product-details  img{
+			width: 290px;
 		}
 	</style>
 </head>
@@ -244,10 +303,43 @@
 		</div>
 	</div>
 	
-	<div class="footer">
-	
+	<div th:fragment="footer" class="footer">
+		<div class="container">
+			<div class="col-md-4">
+				<ul class="list-group">
+					<li><h5>Liên hệ</h5></li>
+					<li><div class="mr-3 float-left"><i class="fas fa-map-marker-alt"> </i></div><p class="text-dark">60 Lê Thị Hồng Gấm phường Hòa Cường Nam quận Hải Châu<p></li>
+					<li><div class="mr-3 float-left"><i class="fas fa-phone"></i> </div><p class="text-dark">0128 341 8124<p></li>
+					<li><div class="mr-3 float-left"><i class="fas fa-envelope-open-text"></i> </div><p class="text-dark">mrt.boss@yahoo.com<p></li>
+					<li><div class="mr-3 float-left"><i class="fab fa-paypal"></i> </div><p class="text-dark">mrt.boss@yahoo.com<p></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="footer-bottom" class="footer-bottom ">
+		<div class="container">
+			<p class="text-center text-secondary"><i class="fas fa-wine-bottle"></i> Bản quyền thuột thành đẹp trai</p>
+		</div>
 	</div>
 <script type="text/javascript"th:fragment="js_layout">
+	/* $(function(){
+	   $(window).scroll(function(){
+		  $(".menu-bottom").css("box-shadow","1px 2px 0.5px 0.4px grey");
+		  var height = $(window).height();
+		  console.log(height);
+	   });
+	}); */
+	function formatNumber(nStr, decSeperate, groupSeperate) {
+	     nStr += '';
+	     x = nStr.split(decSeperate);
+	     x1 = x[0];
+	     x2 = x.length > 1 ? '.' + x[1] : '';
+	     var rgx = /(\d+)(\d{3})/;
+	     while (rgx.test(x1)) {
+	         x1 = x1.replace(rgx, '$1' + groupSeperate + '$2');
+	     }
+	     return x1 + x2;
+	 }
 	$( document ).ready(function() {
 		loadCategory();
 		function loadCategory(){
