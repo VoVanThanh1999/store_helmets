@@ -61,6 +61,10 @@ public class ProductsDetails {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_products_details")
 	private Set<ProductSize> productSizes;
+	
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JoinColumn(name="id_products_details")
+	private Set<IntroduceProduct> introduceProducts;
 
 	/**
 	 * @return the idProductsDetails
@@ -230,6 +234,20 @@ public class ProductsDetails {
 	public void setProductSizes(Set<ProductSize> productSizes) {
 		this.productSizes = productSizes;
 	}
-	
 
+	/**
+	 * @return the introduceProducts
+	 */
+	public Set<IntroduceProduct> getIntroduceProducts() {
+		return introduceProducts;
+	}
+
+	/**
+	 * @param introduceProducts the introduceProducts to set
+	 */
+	public void setIntroduceProducts(Set<IntroduceProduct> introduceProducts) {
+		this.introduceProducts = introduceProducts;
+	}
+	
+	
 }

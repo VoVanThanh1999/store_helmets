@@ -20,7 +20,7 @@ public class ViewUserController {
 	@RequestMapping(value = "/")
 	public ModelAndView defaultView() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("product");
+		modelAndView.setViewName("home-page");
 		return modelAndView;
 	}
 	

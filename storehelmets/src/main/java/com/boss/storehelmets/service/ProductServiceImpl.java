@@ -1,15 +1,14 @@
 package com.boss.storehelmets.service;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
-
 import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.User;
@@ -20,9 +19,8 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductRepository productRepository;
 	
-	@Transactional
 	@Override
-	@Cacheable(value = "products")
+	@Cacheable(value  = "products")
 	public List<Product> getAll() {
 		// TODO Auto-generated method stub
 		try {
@@ -35,9 +33,8 @@ public class ProductServiceImpl implements ProductService{
 			return null;
 		}
 	}
-	@Transactional
+	@Cacheable(value  = "products")
 	@Override
-	@Cacheable(value = "products")
 	public Optional<Product> getById(String id) {
 		// TODO Auto-generated method stub
 		Optional<Product> optionalProduct=productRepository.findById(id);
@@ -48,7 +45,6 @@ public class ProductServiceImpl implements ProductService{
 		
 	}
 //	get sản phẩm mới thêm vào
-	@Transactional
 	@Override
 	public List<Product> getProductNewlyAdd() {
 		// TODO Auto-generated method stub
@@ -66,9 +62,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 //	get sản phẩm được nhiều người mua nhất
-	@Transactional
 	@Override
-	@Cacheable(value = "products")
+	@Cacheable(value  = "products")
 	public List<Product> getProductByPopular() {
 		// TODO Auto-generated method stub
 		try {
@@ -80,9 +75,8 @@ public class ProductServiceImpl implements ProductService{
 		}
 		
 	}
-	@Transactional
 	@Override
-	@Cacheable(value = "products")
+	@Cacheable(value  = "products")
 	public List<Product> getByOrderByAmountAsc() {
 		// TODO Auto-generated method stub
 		try {
@@ -94,9 +88,8 @@ public class ProductServiceImpl implements ProductService{
 		}
 	}
 	
-	@Transactional
 	@Override
-	@Cacheable(value = "products")
+	@Cacheable(value  = "products")
 	public List<Product> getByOrderByAmountDesc() {
 		// TODO Auto-generated method stub
 		try {
@@ -108,6 +101,8 @@ public class ProductServiceImpl implements ProductService{
 		}
 	}
 	
+	@CacheEvict(value = "products",allEntries = true)
+	@CachePut
 	@Transactional
 	@Override
 	public String deleteProduct(String id) {
@@ -123,6 +118,9 @@ public class ProductServiceImpl implements ProductService{
 		return null;
 	}
 	
+
+	@CachePut
+	@CacheEvict(value = "products",allEntries = true)
 	@Transactional
 	@Override
 	public String updateProduct(Product productInput,User user) {
@@ -145,6 +143,8 @@ public class ProductServiceImpl implements ProductService{
 
 	}
 	
+	@CachePut
+	@CacheEvict(value = "products",allEntries = true)
 	@Transactional
 	@Override
 	public String addProduct(Product product) {

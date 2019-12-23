@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.boss.storehelmets.dto.UserDto;
@@ -63,7 +64,8 @@ public class UserServiceImpl implements UserSevice{
 		}
 		return null;
 	}
-
+	
+	@Cacheable("user")
 	@Override
 	public Optional<User> findUserById(String id) {
 		// TODO Auto-generated method stub
