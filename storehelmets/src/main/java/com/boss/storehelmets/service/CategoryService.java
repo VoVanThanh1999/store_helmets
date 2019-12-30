@@ -33,4 +33,6 @@ public interface CategoryService {
 	List<CategoryDetails> getCategoryDetailsByIdCategory(String id);
 	
 	Set<Product> getProductByIdCategoryDetails(String id);
+	
+	Set<CategoryDetails> getCategoryDetailsByProductId(String id);
 }

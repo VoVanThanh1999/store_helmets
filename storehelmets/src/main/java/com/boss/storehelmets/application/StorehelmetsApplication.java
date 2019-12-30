@@ -55,9 +55,7 @@ public class StorehelmetsApplication implements CommandLineRunner{
 //		roles.add(role);
 //		user.setRoles(roles);
 //		userRepository.save(user);
-	
-		
-		invoiceService.deleteInvoice();
+		invoiceService.deleteInvoice();																											
 
 	}
 

@@ -188,7 +188,7 @@
 			 </div>
 		</div>
 	</div>
-	<div class="page-connect bg-warning">
+	<div th:fragment="page-connect" class="page-connect bg-warning">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6">
@@ -281,12 +281,9 @@ function loadProductByCategory(){
 						    `		
 						  );
 					 }
-					 
 					 for(i=0;i<4;i++){
 						 loadProductByCategoryDetails(i);	 
 					 }
-					 
-					
 					 function loadProductByCategoryDetails(i){
 				 		var idCategoryDetails = $("#idCategory"+i).attr('data-idCategory');
 				 		   $.ajax({
@@ -299,7 +296,7 @@ function loadProductByCategory(){
 									 $('#productCategory'+i).append(`
 										 <div class="productByCaterogy mt-4">
 									 		<div class="image">
-									 			<img class="img-fluid" src=`+result[j].productsDetails.productImages[1].imageName+`>
+									 			<a href="/chi-tiet-san-pham?id=`+result[j].idProduct+`"><img class="img-fluid" src=`+result[j].productsDetails.productImages[1].imageName+`></a>
 									 		</div>
 									 		<div class="content">
 									 			<p class="h6">`+result[j].nameProduct+`</p>

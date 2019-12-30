@@ -218,4 +218,13 @@ public class CategoryServiceImpl implements CategoryService{
 		return products;
 	}
 
+	@Override
+	@Cacheable(value = "category")
+	public Set<CategoryDetails> getCategoryDetailsByProductId(String id) {
+		// TODO Auto-generated method stub
+		Optional<Product> product = productRepository.findById(id);
+		Set<CategoryDetails> categoryDetails = product.get().getCategoryDetails();
+		return categoryDetails;
+	}
+
 }

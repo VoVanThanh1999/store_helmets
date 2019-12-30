@@ -13,6 +13,7 @@
 	<title>Nón bảo hiểm và phụ kiện</title>
 	<style type="text/css">
 		.header	{
+			
 		
 		}
 		.header	.menu-top{
@@ -41,6 +42,16 @@
 			height : 32px;
 			background: orange;
 		}
+		.header .loadProduct{
+			position:absolute;
+			left:79%;
+			margin-top:10px;
+			width: 200px;
+			background: white;
+			box-shadow: 1px 1px 6px 5px  #232323;
+			display: none;
+			height: 200px;
+		}
 		.carousel-item img{
 			z-index: 0;
 			height: 650px;
@@ -65,8 +76,7 @@
 		
 		.section-content .page-service .container .item:hover{
 			margin-top: -15px;
-			 box-shadow: 3px 3px 2px 2px grey;
-			 
+			 box-shadow: 3px 3px 2px 2px grey; 
 		}
 		
 		.section-content .page-service .container .icon{
@@ -251,16 +261,28 @@
 			width: 290px;
 		}
 		.page-description-product{
-			padding-top: 200px;
+			padding-top: 150px;
 		}
 		.page-description-product	.characteristics .h6{
 			text-transform: uppercase;
 		}
-			.page-description-product	.characteristics li{
+		.page-description-product	.characteristics li{
 				font-size: 15px;
 				font-weight: 500;
 				padding-top: 10px;
-			}
+		}
+		.page-product-similar{
+			padding-top: 70px;
+			padding-bottom: 70px;
+		}
+		.page-product-similar .item{
+			margin-top: 20px;
+		}
+		.page-product-similar .item img{
+			height: 200px;
+			margin-left: 30px;
+		}
+	
 	</style>
 </head>
 <body>
@@ -307,6 +329,12 @@
 				 </div>
 				 <div class="basket ml-4">
 				 	<a href="#"><i class="fas fa-shopping-cart ml-1 mt-2 text-white"></i></a>
+				 	<div class="num " style=" z-index: 1;width: 20px;background: red;height: 20px;margin-top: -36px;margin-left: 17px;border-radius: 50%;">
+				 		
+				 	</div>
+				 	<div class="loadProduct">
+				 		
+				 	</div>
 				 </div>
 				</nav>
 				
@@ -340,6 +368,51 @@
 		  console.log(height);
 	   });
 	}); */
+	loadBasket();
+	function loadBasket(){
+
+		  var request = $.ajax({
+ 			  url: "/api/v1/users/baskets",
+ 			  contentType: "application/json",
+ 			  methodType:"GET",
+ 		}); 
+		  request.done(function( value ) {
+			  var number = value.length;
+			  $('.num').html(`<p style="margin-top:1	px" class="text-white ml-2 font-weight-bold">`+number+`</p>`);
+		  });
+		  request.fail(function( jqXHR, textStatus ) {
+			  
+		  });
+	}
+	
+	
+	$(".basket").click(function(){
+		  var request = $.ajax({
+ 			  url: "/api/v1/users/baskets",
+ 			  contentType: "application/json",
+ 			  methodType:"GET",
+ 		}); 
+		  request.done(function( result ) {
+			  $(".loadProduct").css("display","block");	
+			  for(i=0;i<result.length;i++){
+				  $(".loadProduct").append(`
+					  <div class="product">
+				  		  <div class="left">
+							<img class="d-block w-100" src="`+result[i].imageProduct+`" alt="First slide">
+				  		  </div>
+				      </div>	
+				  `);
+			  }
+ 
+		  });
+		  request.fail(function( jqXHR, textStatus ) {
+			  
+		  });
+	
+		
+	});
+	
+	
 	function formatNumber(nStr, decSeperate, groupSeperate) {
 	     nStr += '';
 	     x = nStr.split(decSeperate);

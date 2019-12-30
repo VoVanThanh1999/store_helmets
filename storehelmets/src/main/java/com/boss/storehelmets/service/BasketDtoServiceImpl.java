@@ -34,6 +34,7 @@ public class BasketDtoServiceImpl implements BasketDtoService{
 					basketDto.setIdBasket(basketInput.getIdBasket());
 					basketDto.setNameProduct(basketInput.getNameProduct());
 					basketDto.setPrice(basketInput.getPrice());
+					basketDto.setImageProduct(basketInput.getImageProduct());
 					basketDto.setNumOfCart(+1);
 					float totalMoney = basketDto.getPrice() * basketDto.getNumOfCart();
 					basketDto.setTotalMoney(totalMoney);
@@ -45,6 +46,7 @@ public class BasketDtoServiceImpl implements BasketDtoService{
 						basketDto.setIdBasket(basketInput.getIdBasket());
 						basketDto.setNameProduct(basketInput.getNameProduct());
 						basketDto.setPrice(basketInput.getPrice());
+						basketDto.setImageProduct(basketInput.getImageProduct());
 						basketDto.setNumOfCart(+1);
 						basketDto.setPrice(basketInput.getPrice());
 						float totalMoney = basketDto.getPrice() * basketDto.getNumOfCart();

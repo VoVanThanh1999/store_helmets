@@ -1,6 +1,7 @@
 package com.boss.storehelmets.user.resources;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import com.boss.storehelmets.app.utils.AppConstants;
+import com.boss.storehelmets.model.CategoryDetails;
 import com.boss.storehelmets.model.ImageOfAdvertisment;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.ProductImage;
@@ -70,7 +72,7 @@ public class RestApiProductController {
 	}
 	
 	@RequestMapping(value = "/products/categorydetails/{id}",method = RequestMethod.GET)
-	private Set<Product> loadProductsByCategoryDetailsId(@PathVariable("id")String id){
+	private Set<Product> loadProductsByCategoryDetailId(@PathVariable("id")String id){
 		try {
 			Set<Product> products = categoryService.getProductByIdCategoryDetails(id);
 			return products;
@@ -154,6 +156,32 @@ public class RestApiProductController {
 		}
 		return null;
 	}
-
+	
+	@RequestMapping(value = "/products/generalCategorys/{idProduct}",method = RequestMethod.GET)
+	private Set<Product> loadProductsWithGeneralCategory(@PathVariable("idProduct")String id){
+		try {
+			Set<CategoryDetails> categoryDetails = categoryService.getCategoryDetailsByProductId(id);
+			for (int i = 0; i < 1; i++) {
+				CategoryDetails categoryDetail = categoryDetails.iterator().next();
+				Set<Product> productsByCategory = categoryDetail.getProducts();
+				Set<Product> products = new HashSet<Product>();
+				if (productsByCategory.size() < 4) {
+					return productsByCategory;
+				}
+				else {
+					for (int j = 0; j < 4; j++) {
+						products.add(productsByCategory.iterator().next());
+					}
+					return products;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	
 
 }

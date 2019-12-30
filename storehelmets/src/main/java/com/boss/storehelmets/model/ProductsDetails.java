@@ -54,7 +54,7 @@ public class ProductsDetails {
 	@Column(name="weight")
 	private String weight;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="id_products_details")
 	private Set<ProductImage> productImages;
 	

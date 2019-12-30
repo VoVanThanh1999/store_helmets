@@ -1,5 +1,7 @@
 package com.boss.storehelmets.user.resources;
 import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.dto.BasketDto;
 import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Product;
+import com.boss.storehelmets.model.ProductImage;
+import com.boss.storehelmets.repository.ProductRepository;
 import com.boss.storehelmets.service.BasketDtoService;
 
 
@@ -25,15 +29,21 @@ public class RestApiBasketController {
 	@Autowired
 	BasketDtoService basketDtoService;
 	
+	@Autowired
+	ProductRepository productRepository;
+	
 	@RequestMapping(value = "/baskets",method = RequestMethod.POST)
-	private String addProductToCart(@RequestBody Product product,HttpServletRequest httpServletRequest) {
+	private String addProductToCart(@RequestBody Product productDTO,HttpServletRequest httpServletRequest) {
 		HttpSession httpSession = httpServletRequest.getSession();
 		try {
 			BasketDto basketDto = new BasketDto();
-			basketDto.setIdBasket(product.getIdProduct());
-			basketDto.setNameProduct(product.getNameProduct());
-			basketDto.setPrice(product.getProductsDetails().getAmount());
-		
+			basketDto.setIdBasket(productDTO.getIdProduct());
+			basketDto.setNameProduct(productDTO.getNameProduct());
+			for (int i = 0; i < 1; i++) {
+				ProductImage image = productDTO.getProductsDetails().getProductImages().iterator().next();
+				basketDto.setImageProduct(image.getImageName());
+			}
+			basketDto.setPrice(productDTO.getProductsDetails().getAmount());
 			basketDtoService.addProductToBasket(basketDto, httpServletRequest);
 		
 			return AppConstants.SUCCESS_BASKET;
