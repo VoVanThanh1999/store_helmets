@@ -47,9 +47,11 @@
 			position:absolute;
 			left:79%;
 			margin-top:10px;
+			width: 200px;
+			background: white;
+			box-shadow: 1px 1px 6px 5px  #232323;
 			display: none;
 			height: 200px;
-			top: 53px;
 		}
 		.carousel-item img{
 			z-index: 0;
@@ -281,32 +283,6 @@
 			height: 200px;
 			margin-left: 30px;
 		}
-		.box{
-		background: #ffa500;
-	}
-	.img img{
-		width: 100px;	
-		height: 100%;
-	}
-	._h6{
-	float: right;
-    margin-right: 53px;
-    margin-top: 2px;
-    font-size: 12pt;
-    color: red;
-    font-weight: 500;
-	}
-	.box-1{
-		width: 100px;
-	
-	}
-	.box-1>img{
-		width: 80%;
-		height: 80%;
-	}
-	.box-1>button{
-		width: 100%;
-	}
 	
 	</style>
 </head>
@@ -358,9 +334,6 @@
 				 		
 				 	</div>
 				 	<div class="loadProduct">
-				 		
-				 	</div>
-				 	<div class="loadProduct1">
 				 		
 				 	</div>
 				 </div>
@@ -425,28 +398,14 @@
 			  for(i=0;i<result.length;i++){
 				  $(".loadProduct").append(`
 					  <div class="product">
-						  <div class="box" style="float: left;padding: 20px;">
-							<div class="BOX" style="float: left;">
-							<div class="box-1" style="float: left;">
-								<img src="`+result[i].imageProduct+`" style = "width: 79px;">
-							</div>
-							<div class="box-1" style="width: 250px;">
-								<strong>`+result[i].nameProduct+`</strong><br>
-								<i>`+result[i].numOfCart+` x</i> <h6 class="_h6">`+result[i].price+`</h6>							</div>
-							</div> <hr style ="margin-top: 6rem !important;margin-bottom: -2rem !important;"">
-							
-				       </div>
-				       
-				  
+				  		  <div class="left">
+							<img class="d-block w-100" src="`+result[i].imageProduct+`" alt="First slide">
+				  		  </div>
+				      </div>	
 				  `);
-				  
-				  
-				  
 			  }
-			  
  
 		  });
-		  
 		  request.fail(function( jqXHR, textStatus ) {
 			  
 		  });
