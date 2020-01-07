@@ -53,7 +53,7 @@ public class User {
 			inverseJoinColumns = @JoinColumn(name="id_role")
 	)
 	Set<Roles> roles;
-
+	
 	public String getIdUser() {
 		return idUser;
 	}
@@ -61,7 +61,6 @@ public class User {
 		this.idUser = idUser;
 	}
 
-	
 	public String getEmail() {
 		return email;
 	}

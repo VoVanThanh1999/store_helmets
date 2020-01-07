@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    http.authorizeRequests().antMatchers("/api/v1/users/login",
 	    		"/",
 	    		"/chi-tiet-san-pham",
+	    		"/chi-tiet-gio-hang",
 	    		"/api/v1/users/advertisments",
 	    		"/api/v1/users/resources/image/{fileName:.+}",
 	    		"/api/v1/admin/login",

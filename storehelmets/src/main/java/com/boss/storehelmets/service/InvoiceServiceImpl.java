@@ -15,12 +15,14 @@ import com.boss.storehelmets.dto.BasketDto;
 import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Basket;
 import com.boss.storehelmets.model.BastketTotal;
+import com.boss.storehelmets.model.HistoryStoreEvent;
 import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.ProductsDetails;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.BasketRepository;
 import com.boss.storehelmets.repository.BasketTotalRepository;
+import com.boss.storehelmets.repository.HistoryStoreEventRepository;
 import com.boss.storehelmets.repository.InvoiceRepository;
 import com.boss.storehelmets.repository.ProductRepository;
 
@@ -43,7 +45,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	@Autowired
 	ProductService productService;
-
+	
+	@Autowired
+	HistoryStoreEventRepository historyStoreEventRepository;
 	
 	@Transactional
 	@Override
@@ -112,6 +116,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 							productRepository.save(product.get());
 						}
 					}
+			
+				
 				invoiceRepository.save(invoice.get());
 				return AppConstants.SUCCESS_UPDATE;
 			}

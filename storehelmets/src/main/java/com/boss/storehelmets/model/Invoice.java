@@ -44,6 +44,9 @@ public class Invoice {
 	
 	@Column(name="status")
 	private boolean status;
+
+	@Column(name="status_transport")
+	private	boolean statusTransport;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="id_basket_total")

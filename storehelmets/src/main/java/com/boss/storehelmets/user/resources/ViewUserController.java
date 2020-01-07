@@ -46,4 +46,16 @@ public class ViewUserController {
 			return null;
 		}
 	}
+	
+	@RequestMapping(value="/chi-tiet-gio-hang")
+	public ModelAndView thongTinGioHang() {
+		try {
+			ModelAndView andView = new ModelAndView("chitietgiohang");
+			return andView;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
 }

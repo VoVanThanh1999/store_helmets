@@ -22,7 +22,7 @@ public class BastketTotal {
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	@Column(name="id_basket_total")
-	private String id;
+	private String id; 
 	
 	@Column(name="total_money_basket")
 	private float totalMoneyBasket;
