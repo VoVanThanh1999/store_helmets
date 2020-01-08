@@ -424,7 +424,7 @@
 			  $(".loadProduct").css("display","block");	
 			  for(i=0;i<result.length;i++){
 				  $(".loadProduct").append(`
-					  <div class="product">
+					  <div class="product btn">
 						  <div class="box" style="float: left;padding: 20px;">
 							<div class="BOX" style="float: left;">
 							<div class="box-1" style="float: left;">
@@ -432,7 +432,7 @@
 							</div>
 							<div class="box-1" style="width: 250px;">
 								<strong>`+result[i].nameProduct+`</strong><br>
-								<i>`+result[i].numOfCart+` x</i> <h6 class="_h6">`+result[i].price+`</h6>							</div>
+								<i>`+result[i].numOfCart+` x</i> <h6 class="_h6">`+formatNumber(result[i].totalMoney,'-',',')+`đ</h6>							</div>
 							</div> <hr style ="margin-top: 6rem !important;margin-bottom: -2rem !important;"">
 							
 				       </div>
