@@ -1,7 +1,10 @@
 package com.boss.storehelmets.service;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +13,21 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.boss.storehelmets.app.utils.AppConstants;
+import com.boss.storehelmets.model.HistoryImportProduct;
+import com.boss.storehelmets.model.HistoryStoreEvent;
 import com.boss.storehelmets.model.Product;
+import com.boss.storehelmets.model.SalesHistory;
 import com.boss.storehelmets.model.User;
+import com.boss.storehelmets.repository.HistoryStoreEventRepository;
 import com.boss.storehelmets.repository.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	HistoryStoreEventRepository  historyStoreEventRepository;
 	
 	@Override
 	@Cacheable(value  = "products")
@@ -132,7 +142,6 @@ public class ProductServiceImpl implements ProductService{
 				product.setProductsDetails(productInput.getProductsDetails());
 				product.setIdUserUpdate(user.getIdUser());
 				productRepository.save(product);
-			
 			}
 			return AppConstants.SUCCESS_UPDATE;	
 		} catch (Exception e) {
@@ -147,10 +156,38 @@ public class ProductServiceImpl implements ProductService{
 	@CacheEvict(value = "products",allEntries = true)
 	@Transactional
 	@Override
-	public String addProduct(Product product) {
+	public String addProduct(Product product,User user) {
 		// TODO Auto-generated method stub
 		try {
 			if (product != null) {
+				java.util.Date dateData = new java.util.Date();
+				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
+			
+				if (historyStoreEventRepository.findByDate(date) == null) {
+					HistoryStoreEvent historyStoreEvent = new HistoryStoreEvent();
+					Set<HistoryImportProduct> productImportHistories = new HashSet<>();
+					Set<SalesHistory> salesHistories = new HashSet<>();
+					historyStoreEvent.setSalesHistory(salesHistories);
+					HistoryImportProduct historyImportProduct = new HistoryImportProduct();
+					historyImportProduct.setProducts(product);
+					historyImportProduct.setUser(user);
+					productImportHistories.add(historyImportProduct);
+					historyStoreEvent.setProductImportHistories(productImportHistories);
+					int priceProduct = product.getProductsDetails().getAmount();
+					historyStoreEvent.setTotalMoneySold(priceProduct);
+					historyStoreEventRepository.save(historyStoreEvent);
+				}else {
+					HistoryStoreEvent event = historyStoreEventRepository.findByDate(date);
+					Set<HistoryImportProduct> importProducts = event.getProductImportHistories();
+					HistoryImportProduct historyImportProduct = new HistoryImportProduct();
+					historyImportProduct.setProducts(product);
+					historyImportProduct.setUser(user);
+					importProducts.add(historyImportProduct);
+					event.setProductImportHistories(importProducts);
+					float priceProduct = (float) (event.getTotalMoneySold() + product.getProductsDetails().getAmount());
+					event.setTotalMoneySold(priceProduct);
+					historyStoreEventRepository.save(event);
+				}
 				productRepository.save(product);
 				return AppConstants.SUCCESS_CREATE;
 			}

@@ -12,4 +12,5 @@ public interface HistoryStoreEventService {
 	
 	public List<HistoryStoreEvent> findByDateHistory(Date date);
 	
+	public HistoryStoreEvent checkHistoryInDay();
 }

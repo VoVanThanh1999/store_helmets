@@ -30,10 +30,10 @@ public class HistoryStoreEvent {
 	private int totalMoneyForDay;
 	
 	@Column(name="total_money_sold")
-	private int totalMoneySold;
+	private double totalMoneySold;
 	
 	@Column(name="total_deductible_amount")
-	private int totalDeductibleAmount;
+	private double totalDeductibleAmount;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="id_history_event")
@@ -82,23 +82,25 @@ public class HistoryStoreEvent {
 
 	public void setProductImportHistories(Set<HistoryImportProduct> productImportHistories) {
 		this.productImportHistories = productImportHistories;
-	}
+	}	
 
-	public int getTotalMoneySold() {
+	public double getTotalMoneySold() {
 		return totalMoneySold;
 	}
 
-	public void setTotalMoneySold(int totalMoneySold) {
+	public void setTotalMoneySold(double totalMoneySold) {
 		this.totalMoneySold = totalMoneySold;
 	}
 
-	public int getTotalDeductibleAmount() {
+	public double getTotalDeductibleAmount() {
 		return totalDeductibleAmount;
 	}
 
-	public void setTotalDeductibleAmount(int totalDeductibleAmount) {
+	public void setTotalDeductibleAmount(double totalDeductibleAmount) {
 		this.totalDeductibleAmount = totalDeductibleAmount;
 	}
+
+	
 
 	
 	

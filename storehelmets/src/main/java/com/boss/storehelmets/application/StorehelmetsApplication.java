@@ -51,7 +51,7 @@ public class StorehelmetsApplication implements CommandLineRunner{
 //		user.setPassword(passwordEncoder.encode("123456"));
 //		Set<Roles> roles = new HashSet<Roles>();
 //		Roles role = new Roles();
-//		role.setRoleName("ROLE_ADMIN");
+//		role.setRoleName("ROLE_ADMIN"); 
 //		roles.add(role);
 //		user.setRoles(roles);
 //		userRepository.save(user);

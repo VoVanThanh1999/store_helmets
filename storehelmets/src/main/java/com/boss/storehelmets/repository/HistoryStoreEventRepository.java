@@ -10,5 +10,5 @@ import com.boss.storehelmets.model.HistoryStoreEvent;
 
 @Repository
 public interface HistoryStoreEventRepository extends JpaRepository<HistoryStoreEvent, String>{
-	List<HistoryStoreEvent> findByDate(Date date);
+	HistoryStoreEvent findByDate(Date date);
 }

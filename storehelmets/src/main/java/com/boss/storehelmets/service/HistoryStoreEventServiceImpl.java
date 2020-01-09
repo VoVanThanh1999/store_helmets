@@ -25,4 +25,13 @@ public class HistoryStoreEventServiceImpl implements HistoryStoreEventService{
 		return null;
 	}
 
+	@Override
+	public HistoryStoreEvent checkHistoryInDay() {
+		// TODO Auto-generated method stub
+		java.util.Date dateData = new java.util.Date();
+		Date date1 = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());		
+		HistoryStoreEvent historyStoreEven =	historyStoreEventRepository.findByDate(date1);
+		return historyStoreEven;
+	}
+
 }
