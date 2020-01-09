@@ -53,6 +53,7 @@ public class StorehelmetsApplication implements CommandLineRunner{
 //		Roles role = new Roles();
 //		role.setRoleName("ROLE_ADMIN"); 
 //		roles.add(role);
+		
 //		user.setRoles(roles);
 //		userRepository.save(user);
 		invoiceService.deleteInvoice();																											
