@@ -1,5 +1,6 @@
 package com.boss.storehelmets.model;
 import java.sql.Date;
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,16 +43,7 @@ public class Invoice {
 	private String email;
 	
 	@Column(name="status")
-	private boolean statusConfim;
-
-	@Column(name="status_transport")
-	private	boolean statusTransport;
-	
-	@Column(name="status_success")
-	private boolean statusSuccess;
-	
-	@Column(name="total_money_invoice")
-	private int totalMoneyInvoice;
+	private boolean status;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="id_basket_total")
@@ -60,114 +52,148 @@ public class Invoice {
 	@OneToOne
 	@JoinColumn(name="id_user")
 	User userConfirm;
-
+	
+	
+	/**
+	 * @return the idInvoice
+	 */
 	public String getIdInvoice() {
 		return idInvoice;
 	}
 
+	/**
+	 * @param idInvoice the idInvoice to set
+	 */
 	public void setIdInvoice(String idInvoice) {
 		this.idInvoice = idInvoice;
 	}
 
+	/**
+	 * @return the nameCustomer
+	 */
 	public String getNameCustomer() {
 		return nameCustomer;
 	}
 
+	/**
+	 * @param nameCustomer the nameCustomer to set
+	 */
 	public void setNameCustomer(String nameCustomer) {
 		this.nameCustomer = nameCustomer;
 	}
 
+	/**
+	 * @return the address1
+	 */
 	public String getAddress1() {
 		return address1;
 	}
 
+	/**
+	 * @param address1 the address1 to set
+	 */
 	public void setAddress1(String address1) {
 		this.address1 = address1;
 	}
 
+	/**
+	 * @return the address2
+	 */
 	public String getAddress2() {
 		return address2;
 	}
 
+	/**
+	 * @param address2 the address2 to set
+	 */
 	public void setAddress2(String address2) {
 		this.address2 = address2;
 	}
 
+	/**
+	 * @return the tel
+	 */
 	public int getTel() {
 		return tel;
 	}
 
+	/**
+	 * @param tel the tel to set
+	 */
 	public void setTel(int tel) {
 		this.tel = tel;
 	}
 
+	/**
+	 * @return the dateCreat
+	 */
 	public Date getDateCreat() {
 		return dateCreat;
 	}
 
+	/**
+	 * @param dateCreat the dateCreat to set
+	 */
 	public void setDateCreat(Date dateCreat) {
 		this.dateCreat = dateCreat;
 	}
 
+	/**
+	 * @return the email
+	 */
 	public String getEmail() {
 		return email;
 	}
 
+	/**
+	 * @param email the email to set
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public boolean isStatusConfim() {
-		return statusConfim;
+	/**
+	 * @return the status
+	 */
+	public boolean isStatus() {
+		return status;
 	}
 
-	public void setStatusConfim(boolean statusConfim) {
-		this.statusConfim = statusConfim;
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
-	public boolean isStatusTransport() {
-		return statusTransport;
-	}
-
-	public void setStatusTransport(boolean statusTransport) {
-		this.statusTransport = statusTransport;
-	}
-
-	public boolean isStatusSuccess() {
-		return statusSuccess;
-	}
-
-	public void setStatusSuccess(boolean statusSuccess) {
-		this.statusSuccess = statusSuccess;
-	}
-
+	/**
+	 * @return the bastketTotal
+	 */
 	public BastketTotal getBastketTotal() {
 		return bastketTotal;
 	}
 
+	/**
+	 * @param bastketTotal the bastketTotal to set
+	 */
 	public void setBastketTotal(BastketTotal bastketTotal) {
 		this.bastketTotal = bastketTotal;
 	}
 
+	/**
+	 * @return the userConfirm
+	 */
 	public User getUserConfirm() {
 		return userConfirm;
 	}
 
+	/**
+	 * @param userConfirm the userConfirm to set
+	 */
 	public void setUserConfirm(User userConfirm) {
 		this.userConfirm = userConfirm;
 	}
 
-	public int getTotalMoneyInvoice() {
-		return totalMoneyInvoice;
-	}
-
-	public void setTotalMoneyInvoice(int totalMoneyInvoice) {
-		this.totalMoneyInvoice = totalMoneyInvoice;
-	}
-	
-	
-	
-	
 	
 
 	
