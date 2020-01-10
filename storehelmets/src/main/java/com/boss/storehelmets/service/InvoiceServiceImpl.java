@@ -47,7 +47,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	@Transactional
 	@Override
-	public void inserNewInvoice(HttpServletRequest request, User user) {
+	public String inserNewInvoice(HttpServletRequest request, User user) {
 		// TODO Auto-generated method stub
 		try {
 			HttpSession session = request.getSession();
@@ -64,6 +64,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				invoice.setStatus(false);
 				invoice.setDateCreat(date);
 				invoice.setTel(user.getTel());
+				invoice.setUserCreate(user);
 				BastketTotal bastketTotal = new BastketTotal();
 				Set<Basket> batkets = new HashSet<Basket>();
 				for (BasketDto basketDto : basketDtoSession) {
@@ -82,13 +83,15 @@ public class InvoiceServiceImpl implements InvoiceService{
 				bastketTotal.setBaskets(batkets);
 				invoice.setBastketTotal(bastketTotal);
 				invoiceRepository.save(invoice);
+				return AppConstants.ADD_INVOICE_SUCCESS;
 			}
 		
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
-			return ;
+			return null;
 		}
+		return AppConstants.ADD_INVOICE_ERROR;
 	}
 	
 	@Transactional
@@ -129,7 +132,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
-	public void deleteInvoice() {
+	public String deleteInvoice() {
 		// TODO Auto-generated method stub
 		List<Invoice> invoices = invoiceRepository.findAll();
 		java.util.Date dateData = new java.util.Date();
@@ -139,8 +142,17 @@ public class InvoiceServiceImpl implements InvoiceService{
 			int mounth = dateData.getMonth() - invoice.getDateCreat().getMonth();
 			if (year>1 || mounth >2) {
 				invoiceRepository.delete(invoice);
+				return "xoa thanh cong";
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public List<Invoice> getInvoicesByUserId(User user) {
+		// TODO Auto-generated method stub
+		List<Invoice> invoice = invoiceRepository.findInvoiceByUserIdCreate(user.getIdUser());
+		return invoice;
 	}
 	
 	

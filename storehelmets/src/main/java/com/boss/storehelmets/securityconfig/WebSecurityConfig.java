@@ -67,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    		"/api/v1/users/baskets",
 	    		"/api/v1/users/baskets/{id}",
 	    		"/api/v1/users/baskets/total",
+	    		"/api/v1/users/invoice",
 	    		"/api/v1/users/baskets/invoice"
 	    		).permitAll();
 	    
