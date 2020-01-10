@@ -1,0 +1,452 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+	<meta charset="utf-8">
+	<link   rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link   rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+	<link th:href="@{/static/css/style.css}" href="/static/css/style.css" rel="stylesheet" type="text/css" />
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="static/jquery/slider-js.js"></script> -->
+	<title>Nón bảo hiểm và phụ kiện</title>
+	<style type="text/css">
+		/* test git */
+		.header	{
+			
+		
+		}
+		.header	.menu-top{
+			height:35px;
+			color: white;
+			background:#1f1f1f;
+		}
+		.header	.item {
+			font-size: 13px;
+		}
+		.header	.item i {
+			font-size: 16px;
+			color: white;'
+		}
+		.header	.menu-bottom img{
+			width: 170px;
+		}
+		.header	.menu-bottom li{
+			width: 125px;
+			font-size: 15px;
+			font-weight: 600;
+		}
+		.header	.menu-bottom .basket{
+			border-radius: 50%;
+			width : 32px;
+			height : 32px;
+			background: orange;
+		}
+		.header .loadProduct{
+			position:absolute;
+			left:79%;
+			margin-top:10px;
+			width: 200px;
+			background: white;
+			box-shadow: 1px 1px 6px 5px  #232323;
+			display: none;
+			height: 200px;
+		}
+		.carousel-item img{
+			z-index: 0;
+			height: 650px;
+		}
+		.section-content{
+			position: relative;
+			z-index:1;
+		}
+		.section-content .page-service .container{
+			margin: auto;
+			text-align: center;
+		}
+		.section-content .page-service .container .item{
+			position: absolute;
+			top:-30px;
+			padding-top: 30px;
+			border-radius: 5%;
+			  box-shadow: 3px 3px 2px 2px grey;
+			background: #f0f0f0;
+			transition: 0.3s;
+		}
+		
+		.section-content .page-service .container .item:hover{
+			margin-top: -15px;
+			 box-shadow: 3px 3px 2px 2px grey; 
+		}
+		
+		.section-content .page-service .container .icon{
+			margin:auto;
+			width: 45px;
+			height: 45px;
+			border-radius: 50% ;
+			border: 1px solid orange;	
+		}
+		.section-content .page-service .container .icon:hover{
+			background: orange;
+		}
+		.section-content .page-service .container .icon i{
+			padding-top: 12px;
+			font-size: 20px;
+		}
+		.section-content .page-service .container .icon  h5{
+			padding-top: 15px;
+		}
+		.section-content .image  {
+			display: hidden;
+		}
+		.section-content .image img{
+			border-radius: 3%;
+			width:100%;
+			height: 100%;
+			transition: transform .2s;
+	
+		}
+		.section-content .image:hover img{
+			/* transform: scale(1.2); */
+		}
+		.page-bestproduct{
+			padding-top: 40px;
+		}
+		.slide-holder{
+			margin:0 auto;
+			padding-top: 50px;
+
+		}
+		.slide-container { /*slide-container là khối bao mà slide-stage có thể "trượt" bên trong */
+			height:300px;
+			width: 100%;
+			overflow: hidden;
+			position:relative;
+		}
+		.slide-stage{
+			position: absolute;
+		}
+		.slide-image { /*Độ rộng của .slide-image có thể được thay đổi theo nhu cầu, ảnh hưởng đến độ rộng chung của slideshow*/
+			float:left;
+			width:221px;
+			text-align: center;
+	
+		}
+		.slide-image .img{
+			width:80%;
+		}
+		
+		.slide-image img{
+			width:100%;
+			margin:0 auto;
+		}
+		.slide-pager{
+			position:relative;
+		}
+		.slide-control-prev {
+			position: absolute;
+			text-align: center;
+			width: 25px;
+			height: 60px;
+			background: orange;
+			line-height: 60px;
+			color: #fff;
+			cursor: pointer;
+			top: 35px;
+			left: -30px;
+		}
+		.slide-control-next{
+			position: absolute;
+			text-align: center;
+			width: 25px;
+			height: 60px;
+			background: orange;
+			line-height: 60px;
+			color: #fff;
+			cursor: pointer;
+			right: -30px;
+			top: 35px;
+		}
+		.page-advertisement{
+			padding-top: 50px;
+			background: orange;
+			padding-bottom:50px;
+		}
+		.page-advertisement  img{
+			width: 80px;
+		    height: 80px;
+		    border-radius: 50%;
+		}
+		.page-productbycategory{
+			padding-top: 70px;
+			padding-bottom: 60px;
+		}
+		.page-productbycategory .productByCaterogy {
+			float: left;
+		}	
+		.page-productbycategory .productByCaterogy .image{
+			float:left;
+			width: 28%;
+		}
+		.page-productbycategory .productByCaterogy .content{
+			float:left;
+			padding-left:10px;
+			width: 50%;
+				font-weight:600;
+		}
+		.page-productbycategory .productByCaterogy .content p{
+			font-weight:600;
+		}
+		.page-productbycategory .h4{
+			text-transform: uppercase;
+			font-weight:600;
+			letter-spacing: 0.5px;
+		}
+		.page-news{
+			padding-top: 20px;
+			background:url("https://c.wallhere.com/photos/82/24/texture_bricks-360143.jpg!d");
+			background-position: center;
+			height: auto;
+			padding-bottom: 30px;
+		}
+		.page-news .item{
+			height: 260px;
+		}
+		.page-news .item img{
+			width: 100%;
+			height: 100%;
+		}
+		.page-news .item h5{
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    line-height: 25px;
+		    -webkit-line-clamp: 3;
+		    height: 75px;
+		    display: -webkit-box;
+		    -webkit-box-orient: vertical;
+		}
+		.page-onors{
+		   padding-top: 30px;
+		   padding-bottom: 30px;
+		}
+		.page-connect{
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+		.footer{
+			padding-top: 40px;
+			padding-bottom: 20px;
+			
+		}
+		.footer ul li{
+		   list-style-type: none;
+		   font-size: 14px;	 
+		   font-weight: 500;
+		}
+		.footer-bottom {
+			padding-top:20px;
+			padding-bottom:5px;
+			background: black;
+			color: white;
+		}
+		.page-detail-product{
+			float: left;
+			background: blue;
+			height: 200px;
+		}
+		.page-product-details{
+			padding-top: 180px;
+		}
+		.page-product-details  img{
+			width: 290px;
+		}
+		.page-description-product{
+			padding-top: 150px;
+		}
+		.page-description-product	.characteristics .h6{
+			text-transform: uppercase;
+		}
+		.page-description-product	.characteristics li{
+				font-size: 15px;
+				font-weight: 500;
+				padding-top: 10px;
+		}
+		.page-product-similar{
+			padding-top: 70px;
+			padding-bottom: 70px;
+		}
+		.page-product-similar .item{
+			margin-top: 20px;
+		}
+		.page-product-similar .item img{
+			height: 200px;
+			margin-left: 30px;
+		}
+	
+	</style>
+</head>
+<body>
+	<div th:fragment="header" class="header  fixed-top">
+		<div class="menu-top ">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2">
+						<div class="item mt-1 ">
+							<i class="fas fa-envelope-square float-left mt-1"></i>
+							<p class="ml-4">mrt.boss@yahoo.com</p>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="item mt-1">
+							<i class="fas fa-phone float-left "></i>
+							<p class="ml-4">01283418124</p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="item mt-1">
+							<p class="ml-4">Đăng nhập</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="menu-bottom bg-white">
+			<div class="container ">
+				<nav class="navbar navbar-expand-md navbar-light">
+				  <a class="navbar-brand" href="#"><img alt="#" src="http://mauweb.monamedia.net/nonson/wp-content/uploads/2019/05/logo-nonson-1.png"> </a>
+				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				    <span class="navbar-toggler-icon"></span>
+				  </button>
+				  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+				    <ul class="navbar-nav mr-auto" id="category">
+				      <li class="nav-item active">
+				        <a class="nav-link text-warning" href="#">Trang chủ <span class="sr-only">(current)</span></a>
+				      </li>
+				    </ul>
+				  </div>
+				  <div class="search">
+					<a href="#"><i class="fas fa-search float-left text-secondary"></i></a>
+				 </div>
+				 <div class="basket ml-4">
+				 	<a href="#"><i class="fas fa-shopping-cart ml-1 mt-2 text-white"></i></a>
+				 	<div class="num " style=" z-index: 1;width: 20px;background: red;height: 20px;margin-top: -36px;margin-left: 17px;border-radius: 50%;">
+				 		
+				 	</div>
+				 	<div class="loadProduct">
+				 		
+				 	</div>
+				 </div>
+				</nav>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div th:fragment="footer" class="footer">
+		<div class="container">
+			<div class="col-md-4">
+				<ul class="list-group">
+					<li><h5>Liên hệ</h5></li>
+					<li><div class="mr-3 float-left"><i class="fas fa-map-marker-alt"> </i></div><p class="text-dark">60 Lê Thị Hồng Gấm phường Hòa Cường Nam quận Hải Châu<p></li>
+					<li><div class="mr-3 float-left"><i class="fas fa-phone"></i> </div><p class="text-dark">0128 341 8124<p></li>
+					<li><div class="mr-3 float-left"><i class="fas fa-envelope-open-text"></i> </div><p class="text-dark">mrt.boss@yahoo.com<p></li>
+					<li><div class="mr-3 float-left"><i class="fab fa-paypal"></i> </div><p class="text-dark">mrt.boss@yahoo.com<p></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="footer-bottom" class="footer-bottom ">
+		<div class="container">
+			<p class="text-center text-secondary"><i class="fas fa-wine-bottle"></i> Bản quyền thuột thành đẹp trai</p>
+		</div>
+	</div>
+<script type="text/javascript"th:fragment="js_layout">
+	/* $(function(){
+	   $(window).scroll(function(){
+		  $(".menu-bottom").css("box-shadow","1px 2px 0.5px 0.4px grey");
+		  var height = $(window).height();
+		  console.log(height);
+	   });
+	}); */
+	loadBasket();
+	function loadBasket(){
+
+		  var request = $.ajax({
+ 			  url: "/api/v1/users/baskets",
+ 			  contentType: "application/json",
+ 			  methodType:"GET",
+ 		}); 
+		  request.done(function( value ) {
+			  var number = value.length;
+			  $('.num').html(`<p style="margin-top:1	px" class="text-white ml-2 font-weight-bold">`+number+`</p>`);
+		  });
+		  request.fail(function( jqXHR, textStatus ) {
+			  
+		  });
+	}
+	
+	
+	$(".basket").click(function(){
+		  var request = $.ajax({
+ 			  url: "/api/v1/users/baskets",
+ 			  contentType: "application/json",
+ 			  methodType:"GET",
+ 		}); 
+		  request.done(function( result ) {
+			  $(".loadProduct").css("display","block");	
+			  for(i=0;i<result.length;i++){
+				  $(".loadProduct").append(`
+					  <div class="product">
+				  		  <div class="left">
+							<img class="d-block w-100" src="`+result[i].imageProduct+`" alt="First slide">
+				  		  </div>
+				      </div>	
+				  `);
+			  }
+ 
+		  });
+		  request.fail(function( jqXHR, textStatus ) {
+			  
+		  });
+	
+		
+	});
+	
+	
+	function formatNumber(nStr, decSeperate, groupSeperate) {
+	     nStr += '';
+	     x = nStr.split(decSeperate);
+	     x1 = x[0];
+	     x2 = x.length > 1 ? '.' + x[1] : '';
+	     var rgx = /(\d+)(\d{3})/;
+	     while (rgx.test(x1)) {
+	         x1 = x1.replace(rgx, '$1' + groupSeperate + '$2');
+	     }
+	     return x1 + x2;
+	 }
+	$( document ).ready(function() {
+		loadCategory();
+		function loadCategory(){
+			 $.ajax({
+			      url:"/api/v1/users/categorys",
+			      contentType: "application/json",
+			      dataType: 'json',
+			      success: function(result){
+			    	 for(var i = 0; i<result.length; i++){
+			    		 $("#category").append(`
+			    			<li class="nav-item">
+							    <a class="nav-link" href="#">`+result[i].nameCategory+`</a>
+							 </li>	 
+			     		`);	 
+			    	 }
+
+			      }
+			 });
+		}
+		
+	});
+</script>
+
+</body>
+</html>

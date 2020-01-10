@@ -97,7 +97,7 @@ public class RestApiProductAdminController {
 				product.setProductsDetails(productInput.getProductsDetails());
 				product.setDateCreate(date);
 				product.setUserCreat(user.get());
-				productService.addProduct(product);
+				productService.addProduct(product,user.get());
 			}
 			return AppConstants.SUCCESS_CREATE;
 		} catch (Exception e) {

@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -15,12 +18,14 @@ import com.boss.storehelmets.dto.BasketDto;
 import com.boss.storehelmets.dto.BastketDtoTotal;
 import com.boss.storehelmets.model.Basket;
 import com.boss.storehelmets.model.BastketTotal;
+import com.boss.storehelmets.model.HistoryStoreEvent;
 import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.ProductsDetails;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.BasketRepository;
 import com.boss.storehelmets.repository.BasketTotalRepository;
+import com.boss.storehelmets.repository.HistoryStoreEventRepository;
 import com.boss.storehelmets.repository.InvoiceRepository;
 import com.boss.storehelmets.repository.ProductRepository;
 
@@ -43,7 +48,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	@Autowired
 	ProductService productService;
-
+	
+	@Autowired
+	HistoryStoreEventRepository historyStoreEventRepository;
 	
 	@Transactional
 	@Override
@@ -61,7 +68,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				invoice.setEmail(user.getEmail());
 				invoice.setAddress1(user.getAddress1());
 				invoice.setAddress2(user.getAddress2());
-				invoice.setStatus(false);
+				invoice.setStatusConfim(false);
 				invoice.setDateCreat(date);
 				invoice.setTel(user.getTel());
 				invoice.setUserCreate(user);
@@ -100,28 +107,27 @@ public class InvoiceServiceImpl implements InvoiceService{
 		// TODO Auto-generated method stub
 		Optional<Invoice> invoice = invoiceRepository.findById(id);
 		if (invoice.isPresent()) {
-		   if  (!invoice.get().isStatus()) {
-					invoice.get().setStatus(true);
+		   if  (!invoice.get().isStatusConfim()) {
+					invoice.get().setStatusConfim(true);
 					invoice.get().setUserConfirm(user);
-					Set<Basket> bastketTotals = invoice.get().getBastketTotal().getBaskets();
-					for (Basket basket : bastketTotals) {
-						Optional<Product> product = productService.getById(basket.getIdProduct());
-						ProductsDetails productsDetails = product.get().getProductsDetails();			
-						int quantitySold = productsDetails.getQuantitySold() + basket.getNumOfCart();
-						productsDetails.setQuantitySold(quantitySold);
-						productsDetails.setQuantityExists(productsDetails.getNumberEntered() - productsDetails.getQuantitySold());
-						product.get().setProductsDetails(productsDetails);
-						if (productsDetails.getQuantityExists() > 1) {
-							productRepository.save(product.get());
-						}
-					}
+							
 				invoiceRepository.save(invoice.get());
 				return AppConstants.SUCCESS_UPDATE;
 			}
 		}
 		return null;
 	}
-
+	
+	public List<Invoice> getInvoiceHaveStatusConfimIsTrue(){
+		List<Invoice> invoices = invoiceRepository.findInvoiceGetStatusConfimIsTrue();
+		if (invoices != null) {
+			return invoices.stream()
+					.filter(invoice -> invoice.isStatusSuccess() == false && invoice.isStatusTransport() == true)
+					.collect(Collectors.toList());
+		}
+		return null;
+	}
+	
 	@Override
 	public List<Invoice> getAllInvoice() {
 		// TODO Auto-generated method stub
@@ -134,6 +140,12 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Override
 	public String deleteInvoice() {
 		// TODO Auto-generated method stub
+		
+	}
+
+/*	@Override
+	public void deleteInvoice() {
+		// TODO Auto-generated method stub
 		List<Invoice> invoices = invoiceRepository.findAll();
 		java.util.Date dateData = new java.util.Date();
 		Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
@@ -145,6 +157,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				return "xoa thanh cong";
 			}
 		}
+<<<<<<< HEAD
 		return null;
 	}
 
@@ -154,6 +167,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 		List<Invoice> invoice = invoiceRepository.findInvoiceByUserIdCreate(user.getIdUser());
 		return invoice;
 	}
+=======
+	}*/
+>>>>>>> 69f4ebac9dd39095ac195171f7566c3acda2acec
 	
 	
 	

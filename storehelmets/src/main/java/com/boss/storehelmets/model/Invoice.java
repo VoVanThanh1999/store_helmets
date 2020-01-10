@@ -49,12 +49,9 @@ public class Invoice {
 	@JoinColumn(name="id_basket_total")
 	BastketTotal bastketTotal;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToOne
 	@JoinColumn(name="id_user")
 	User userConfirm;
-	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	User userCreate;
 	
 	
 	/**
@@ -197,20 +194,6 @@ public class Invoice {
 		this.userConfirm = userConfirm;
 	}
 
-	/**
-	 * @return the userCreate
-	 */
-	public User getUserCreate() {
-		return userCreate;
-	}
-
-	/**
-	 * @param userCreate the userCreate to set
-	 */
-	public void setUserCreate(User userCreate) {
-		this.userCreate = userCreate;
-	}
-	
 	
 
 	

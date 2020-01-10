@@ -39,6 +39,11 @@ public class AppConstants {
 	public static final String JPEG_FILE_FORMAT = ".jpeg";
 	public static final String JPG_FILE_FORMAT = ".jpg";
 	public static final String RESOURCES_IMAGE= "/resources/image";
+<<<<<<< HEAD
 	public static final String ADD_INVOICE_SUCCESS ="Thêm đơn hàng thành công";
 	public static final String ADD_INVOICE_ERROR ="Thêm giỏ hàng thất bại";
+=======
+	public static final String SUCESS_CONFIM_INVOICE = "Giao hành thành công";
+	public static final String ERROR_CONFIM_INVOICE = "Giao hành thất bại";
+>>>>>>> 69f4ebac9dd39095ac195171f7566c3acda2acec
 }
