@@ -59,8 +59,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 		try {
 			HttpSession session = request.getSession();
 			BastketDtoTotal bastketDtoTotal = basketDtoService.getTotalBasketDto(request);
-			List<BasketDto> basketDtoSession = (List<BasketDto>) session.getAttribute("basketDtoSession");
-			if (basketDtoSession != null ) {
+			List<BasketDto> basketDtos = (List<BasketDto>) session.getAttribute("basketDtoSession");
+			if (basketDtos != null ) {
 				Invoice invoice = new Invoice();
 				java.util.Date dateData = new java.util.Date();
 				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
@@ -73,7 +73,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				invoice.setTel(user.getTel());
 				BastketTotal bastketTotal = new BastketTotal();
 				Set<Basket> batkets = new HashSet<Basket>();
-				for (BasketDto basketDto : basketDtoSession) {
+				for (BasketDto basketDto : basketDtos) {
 					Basket basket = new Basket();
 					basket.setPrice(basketDto.getPrice());
 					basket.setIdProduct(basketDto.getIdBasket());
@@ -90,6 +90,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				invoice.setBastketTotal(bastketTotal);
 				invoiceRepository.save(invoice);
 			}
+			
 		
 		} catch (Exception e) {
 			// TODO: handle exception
