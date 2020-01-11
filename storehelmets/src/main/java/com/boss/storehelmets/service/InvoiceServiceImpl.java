@@ -86,6 +86,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 					basketRepository.save(basket);
 					batkets.add(basket);
 				}
+				
 				bastketTotal.setTotalMoneyBasket(bastketDtoTotal.getTotalMoneyBasket());
 				bastketTotal.setBaskets(batkets);
 				invoice.setBastketTotal(bastketTotal);
@@ -111,7 +112,18 @@ public class InvoiceServiceImpl implements InvoiceService{
 		   if  (!invoice.get().isStatusConfim()) {
 					invoice.get().setStatusConfim(true);
 					invoice.get().setUserConfirm(user);
-							
+					Set<Basket> bastketTotals = invoice.get().getBastketTotal().getBaskets();
+					for (Basket basket : bastketTotals) {
+						Optional<Product> product = productService.getById(basket.getIdProduct());
+						ProductsDetails productsDetails = product.get().getProductsDetails();			
+						int quantitySold = productsDetails.getQuantitySold() + basket.getNumOfCart();
+						productsDetails.setQuantitySold(quantitySold);
+						productsDetails.setQuantityExists(productsDetails.getNumberEntered() - productsDetails.getQuantitySold());
+						product.get().setProductsDetails(productsDetails);
+						if (productsDetails.getQuantityExists() > 1) {
+							productRepository.save(product.get());
+						}
+					}			
 				invoiceRepository.save(invoice.get());
 				return AppConstants.SUCCESS_UPDATE;
 			}
@@ -141,7 +153,15 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Override
 	public String deleteInvoice() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Invoice> getInvoicesByUserId(User user) {
+		// TODO Auto-generated method stub
+		List<Invoice> invoices = invoiceRepository.findInvoiceByUserIdCreate(user.getIdUser());
 		
+		return invoices;
 	}
 
 /*	@Override
@@ -170,7 +190,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 =======
 	}*/
->>>>>>> 69f4ebac9dd39095ac195171f7566c3acda2acec
+
 	
 	
 	

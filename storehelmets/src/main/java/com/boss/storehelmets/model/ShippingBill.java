@@ -35,8 +35,16 @@ public class ShippingBill {
 	@Column(name="date")
 	private Date date;
 	
+	@Column(name="statusShippingbill")
+	private boolean statusShippingbill;
+	
+	private Date ngayHoanThanh;
+	
 	@OneToOne
-	private User user;
+	private User adminCreate;
+	
+	@OneToOne
+	private User shipper;
 	
 	@ManyToMany
 	private List<Invoice> invoices;
@@ -80,15 +88,7 @@ public class ShippingBill {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
+	
 	public List<Invoice> getInvoices() {
 		return invoices;
 	}
@@ -96,6 +96,42 @@ public class ShippingBill {
 	public void setInvoices(List<Invoice> invoices) {
 		this.invoices = invoices;
 	}
+
+	public User getAdminCreate() {
+		return adminCreate;
+	}
+
+	public void setAdminCreate(User adminCreate) {
+		this.adminCreate = adminCreate;
+	}
+
+	public User getShipper() {
+		return shipper;
+	}
+
+	public void setShipper(User shipper) {
+		this.shipper = shipper;
+	}
+
+	public boolean isStatusShippingbill() {
+		return statusShippingbill;
+	}
+
+	public void setStatusShippingbill(boolean statusShippingbill) {
+		this.statusShippingbill = statusShippingbill;
+	}
+
+	public Date getNgayHoanThanh() {
+		return ngayHoanThanh;
+	}
+
+	public void setNgayHoanThanh(Date ngayHoanThanh) {
+		this.ngayHoanThanh = ngayHoanThanh;
+	}
+	
+	
+	
+	
 
 	
 	

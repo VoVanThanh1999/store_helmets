@@ -18,12 +18,18 @@ public class HistoryImportProduct {
 	@Column(name="id_history_import_product")
 	private String idHistoryImportProduct;
 	
+	@Column(name = "describe")
+	private String describe;
+	
+	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private Product products;
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private User user;
-
+	
+	
+	
 	public String getIdHistoryImportProduct() {
 		return idHistoryImportProduct;
 	}
@@ -47,6 +53,15 @@ public class HistoryImportProduct {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
+	
 	
 	
 	

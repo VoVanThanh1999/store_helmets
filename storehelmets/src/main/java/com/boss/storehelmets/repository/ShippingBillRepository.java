@@ -9,8 +9,8 @@ import com.boss.storehelmets.model.ShippingBill;
 @Repository
 public interface ShippingBillRepository extends JpaRepository<ShippingBill, String>{
 	@Query(
-		value= "Select * FROM ShippingBill u Where u.user.idUser = :idUser ",
+		value= "Select * FROM ShippingBill u Where u.shipper.idUser = :idUser ",
 		nativeQuery = true
 			)
-	List<ShippingBill>  findShippingBillsByIdUser(@Param("idUser") String idUser);
+	List<ShippingBill>  findShippingBillsByShipper(@Param("idUser") String idUser);
 }

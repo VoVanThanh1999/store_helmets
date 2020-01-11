@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head">
+</head>
+<body>
+	<div th:replace="layout :: header">
+	</div> 
+	<div class="container">
+		<div id="loadBasketDetails">
+		
+		</div>
+	</div>
+	
+<script type="text/javascript" th:replace="layout :: js_layout"></script>	
+</body>
+<script type="text/javascript">
+loadChiTietSanPham();
+	function loadChiTietSanPham(){
+		var request = $.ajax({
+			  url: "/api/v1/users/baskets",
+			  contentType: "application/json",
+			  methodType:"GET",
+		}); 
+		  request.done(function( result ) {
+			 if(result != null){
+				alert('null');
+			 }else{
+				 alert(result);
+			 }
+
+		  });
+		  request.fail(function( jqXHR, textStatus ) {
+			  
+		  });
+	}
+</script>
+</html>

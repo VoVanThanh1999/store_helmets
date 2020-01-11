@@ -56,23 +56,34 @@ public class ShippingBillServiceImpl implements ShippingBillService{
 	HistoryStoreEventRepository historyStoreEventRepository;
 	
 	@Override
-	public void addNewsShippingBill(User user, List<Invoice> invoicesDto) {
+	public String addNewsShippingBill(User adminCreate,User shipper, List<Invoice> invoicesDto) {
 		// TODO Auto-generated method stub
 //		check hoa don da thoa dieu kien chua
-		List<Invoice> invoices = new ArrayList<>();
-		invoices.addAll(invoicesDto.stream()
-					.filter(invoice -> invoice.isStatusConfim()==true && invoice.isStatusSuccess() == false && invoice.isStatusTransport() == false)
-					.collect(Collectors.toList()));
-		ShippingBill shippingBill = new ShippingBill();
-		shippingBill.setInvoices(invoices);
-		float totalMoneyBill = 0;
-		for (Invoice invoice : invoices) {
-			invoice.setStatusTransport(true);
-			totalMoneyBill += invoice.getBastketTotal().getTotalMoneyBasket();
+		try {
+			if (invoicesDto != null) {
+				List<Invoice> invoices = new ArrayList<>();
+				invoices.addAll(invoicesDto.stream()
+							.filter(invoice -> invoice.isStatusConfim()==true && invoice.isStatusSuccess() == false && invoice.isStatusTransport() == false)
+							.collect(Collectors.toList()));
+				ShippingBill shippingBill = new ShippingBill();
+				shippingBill.setInvoices(invoices);
+				float totalMoneyBill = 0;
+				for (Invoice invoice : invoices) {
+					invoice.setStatusTransport(true);
+					totalMoneyBill += invoice.getBastketTotal().getTotalMoneyBasket();
+				}
+				shippingBill.setTotalMoneyInvoice(totalMoneyBill);
+				shippingBill.setAdminCreate(adminCreate);
+				shippingBill.setShipper(shipper);
+				shippingBillRepository.save(shippingBill);
+				return AppConstants.SUCCESS_ADD_SHIPPINGBILL;
+			}
+	
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
 		}
-		shippingBill.setTotalMoneyInvoice(totalMoneyBill);
-		shippingBill.setUser(user);
-		shippingBillRepository.save(shippingBill);
+		return null;
 	}
 
 	@Override
@@ -87,24 +98,14 @@ public class ShippingBillServiceImpl implements ShippingBillService{
 	@Override
 	public String confimInvoiceByShipper(User user, Invoice invoiceDto) {
 		// TODO Auto-generated method stub
-		List<ShippingBill> shippingBills = shippingBillRepository.findShippingBillsByIdUser(user.getIdUser());
+		List<ShippingBill> shippingBills = shippingBillRepository.findShippingBillsByShipper(user.getIdUser());
 		for (ShippingBill shippingBill : shippingBills) {
 			for (Invoice invoice : shippingBill.getInvoices()) {
-				if (invoice.getIdInvoice().equalsIgnoreCase(invoiceDto.getIdInvoice())) {
+				if (invoice.getIdInvoice().equalsIgnoreCase(invoiceDto.getIdInvoice()) 
+						&& shippingBill.getShipper().getIdUser().equalsIgnoreCase(user.getIdUser())) {
+					
 					if (invoice.isStatusConfim() == true && invoice.isStatusTransport() == true) {
-						invoice.setStatusSuccess(true);
-						Set<Basket> bastketTotals = invoice.getBastketTotal().getBaskets();
-						for (Basket basket : bastketTotals) {
-							Optional<Product> product = productService.getById(basket.getIdProduct());
-							ProductsDetails productsDetails = product.get().getProductsDetails();			
-							int quantitySold = productsDetails.getQuantitySold() + basket.getNumOfCart();
-							productsDetails.setQuantitySold(quantitySold);
-							productsDetails.setQuantityExists(productsDetails.getNumberEntered() - productsDetails.getQuantitySold());
-							product.get().setProductsDetails(productsDetails);
-							if (productsDetails.getQuantityExists() > 1) {
-								productRepository.save(product.get());
-							}
-						}	
+						invoice.setStatusSuccess(true);	
 						HistoryStoreEvent historyStoreEventByCheck = historyStoreEventService.checkHistoryInDay();
 						if (historyStoreEventByCheck == null) {
 							HistoryStoreEvent historyStoreEvent = new HistoryStoreEvent();
@@ -122,7 +123,7 @@ public class ShippingBillServiceImpl implements ShippingBillService{
 							HistoryImportProduct historyImportProduct = new HistoryImportProduct();
 							historyImportProducts.add(historyImportProduct);
 							historyStoreEvent.setProductImportHistories(historyImportProducts);
-							historyStoreEvent.setTotalDeductibleAmount(invoice.getTotalMoneyInvoice());
+							historyStoreEvent.setTotalDeductibleAmount(invoice.getBastketTotal().getTotalMoneyBasket());
 							historyStoreEventRepository.save(historyStoreEvent);
 						}else {
 							Set<SalesHistory> histories = historyStoreEventByCheck.getSalesHistory();
@@ -131,7 +132,7 @@ public class ShippingBillServiceImpl implements ShippingBillService{
 							salesHistory.setUser(user);
 							histories.add(salesHistory);
 							historyStoreEventByCheck.setSalesHistory(histories);
-							double totalMoney = historyStoreEventByCheck.getTotalDeductibleAmount() + invoice.getTotalMoneyInvoice();
+							double totalMoney = historyStoreEventByCheck.getTotalDeductibleAmount() + invoice.getBastketTotal().getTotalMoneyBasket();
 							historyStoreEventByCheck.setTotalDeductibleAmount(totalMoney);
 							historyStoreEventRepository.save(historyStoreEventByCheck);
 						}
@@ -146,9 +147,47 @@ public class ShippingBillServiceImpl implements ShippingBillService{
 	@Override
 	public List<ShippingBill> getShippingBillHaveUserId(User user) {
 		// TODO Auto-generated method stub
-		List<ShippingBill> shippingBills = shippingBillRepository.findShippingBillsByIdUser(user.getIdUser());
+		List<ShippingBill> shippingBills = shippingBillRepository.findShippingBillsByShipper(user.getIdUser());
 		
 		return shippingBills;
+	}
+
+	@Override
+	public List<Invoice> getInvoiceHaveInShippingBill(User shippier, ShippingBill shippingBillDto) {
+		// TODO Auto-generated method stub
+		List<ShippingBill> shippingBills = getShippingBillHaveUserId(shippier);
+		for (ShippingBill shippingBill : shippingBills) {
+			if (shippingBill.getIdShippingBill().equalsIgnoreCase(shippingBillDto.getIdShippingBill())) {
+				return shippingBill.getInvoices();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String confimShippingBill(ShippingBill shippingBill, User shippier) {
+		// TODO Auto-generated method stub
+		int temp = 0;
+		if (shippingBill.getShipper().getIdUser().equalsIgnoreCase(shippier.getIdUser())) {
+			for (Invoice invoice : shippingBill.getInvoices()) {
+				if (invoice.isStatusConfim() == false || invoice.isStatusSuccess() == false 
+						|| invoice.isStatusTransport() == false) {
+					temp++;
+				}
+			}
+		}
+		if (temp == 0) {
+			shippingBill.setStatusShippingbill(true);
+			shippingBillRepository.save(shippingBill);
+			return AppConstants.SUCESS_CONFIM_SHIPPINGBIL;
+		}
+		return AppConstants.EROR_CONFIM_SHIPPINGBIL;
+	}
+
+	@Override
+	public String cancelInvoice(ShippingBill shippingBill, User shippier) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

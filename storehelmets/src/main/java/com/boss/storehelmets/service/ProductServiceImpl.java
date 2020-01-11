@@ -149,7 +149,6 @@ public class ProductServiceImpl implements ProductService{
 			System.err.println(e.getMessage());
 			return null;
 		}
-
 	}
 	
 	@CachePut
@@ -171,6 +170,7 @@ public class ProductServiceImpl implements ProductService{
 					HistoryImportProduct historyImportProduct = new HistoryImportProduct();
 					historyImportProduct.setProducts(product);
 					historyImportProduct.setUser(user);
+					historyImportProduct.setDescribe(AppConstants.HISTORY_IMPORT_PRODUCT);
 					productImportHistories.add(historyImportProduct);
 					historyStoreEvent.setProductImportHistories(productImportHistories);
 					int priceProduct = product.getProductsDetails().getAmount();
@@ -181,6 +181,7 @@ public class ProductServiceImpl implements ProductService{
 					Set<HistoryImportProduct> importProducts = event.getProductImportHistories();
 					HistoryImportProduct historyImportProduct = new HistoryImportProduct();
 					historyImportProduct.setProducts(product);
+					historyImportProduct.setDescribe(AppConstants.HISTORY_IMPORT_PRODUCT);
 					historyImportProduct.setUser(user);
 					importProducts.add(historyImportProduct);
 					event.setProductImportHistories(importProducts);

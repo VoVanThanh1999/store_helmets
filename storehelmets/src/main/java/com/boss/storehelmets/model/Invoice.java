@@ -1,6 +1,5 @@
 package com.boss.storehelmets.model;
 import java.sql.Date;
-import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,8 +41,17 @@ public class Invoice {
 	@Email
 	private String email;
 	
-	@Column(name="status")
-	private boolean status;
+	@Column(name="statusConfim")
+	private boolean	statusConfim;
+	
+	@Column(name="statusSuccess")
+	private boolean	statusSuccess;
+	
+	@Column(name="statusTransport")
+	private boolean	statusTransport;
+	
+	@Column(name="statusCancel")
+	private boolean statusCancel;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="id_basket_total")
@@ -53,6 +61,8 @@ public class Invoice {
 	@JoinColumn(name="id_user")
 	User userConfirm;
 	
+	@OneToOne
+	User userCreate;
 	
 	/**
 	 * @return the idInvoice
@@ -152,19 +162,7 @@ public class Invoice {
 		this.email = email;
 	}
 
-	/**
-	 * @return the status
-	 */
-	public boolean isStatus() {
-		return status;
-	}
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
 
 	/**
 	 * @return the bastketTotal
@@ -194,6 +192,47 @@ public class Invoice {
 		this.userConfirm = userConfirm;
 	}
 
+	public boolean isStatusConfim() {
+		return statusConfim;
+	}
+
+	public void setStatusConfim(boolean statusConfim) {
+		this.statusConfim = statusConfim;
+	}
+
+	public boolean isStatusSuccess() {
+		return statusSuccess;
+	}
+
+	public void setStatusSuccess(boolean statusSuccess) {
+		this.statusSuccess = statusSuccess;
+	}
+
+	public boolean isStatusTransport() {
+		return statusTransport;
+	}
+
+	public void setStatusTransport(boolean statusTransport) {
+		this.statusTransport = statusTransport;
+	}
+
+	public User getUserCreate() {
+		return userCreate;
+	}
+
+	public void setUserCreate(User userCreate) {
+		this.userCreate = userCreate;
+	}
+
+	public boolean isStatusCancel() {
+		return statusCancel;
+	}
+
+	public void setStatusCancel(boolean statusCancel) {
+		this.statusCancel = statusCancel;
+	}
+	
+	
 	
 
 	
