@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head">
+</head>
+<body>
+	<div th:replace="layout :: header">
+	</div>
+	<div class="invoice">
+		<div class="container" style="padding-top:180px;padding-bottom:70px;">
+			<div class="row">
+				<div class="col-md-6">
+					<p class="btn">Bạn đã có tài khoản? Ấn vào đây để đăng nhập</p>
+					<p class="btn " style="margin-top:-22px">Bạn đã có mã ưa đãi? Ấn vào đây để nhập mã</p>
+					<hr/>
+					<p class="h5">Thông tin thanh toán</p>
+					<label for="nameCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Họ và tên *</label>
+					<input class="form-control" id="nameCustomer"/>
+					<br/>
+					<label for="countryCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Quốc gia *</label>
+					<select class="form-control" id="countryCustomer">
+				      <option>Việt Nam</option>
+				    </select>
+				    <br/>
+				    <label for="cityCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Tỉnh / Thành phố *</label>
+					<select class="form-control" id="cityCustomer">
+					  <option>Ninh Thuận</option>
+					   <option>Quảng Nam</option>
+				      <option>Đà Nẵng</option>
+				      <option>Sài Gòn</option>
+				    </select>
+				    <br/>
+				    <label for="addressCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Địa chỉ  *</label>
+					<input class="form-control" id="addressCustomer"/>
+					<br/>
+					<label for="phoneCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Số điện thoại  *</label>
+					<input class="form-control" id="phoneCustomer" type="number"/>
+					<br/>
+					<label for="emailCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Email  *</label>
+					<input class="form-control" id="emailCustomer" type="email"/>
+					<br/>
+					<label for="ghiChu" class="text-black" style=" font-size: 14px; font-weight: 600;">Ghi chú đơn hàng (tùy chọn) *</label>
+					<textarea class="form-control" rows="4" cols=""></textarea>
+				</div>
+				<div class="col-md-6">
+				<div class="donHang" style="/* padding-top: 100px; */padding-bottom: 62px;border-radius: 1px solid black;border: 3px solid red;margin-top: 100px;">
+						<table class="table">
+						  <thead>
+						    <tr>
+						      <th>Sản phẩm</th>
+						      <th>Tổng</th>
+						    </tr>
+						  </thead>
+						  <tbody  th:each="basket : ${basketDtos}">
+						  	<tr>
+						      <td th:utext="${basket.nameProduct}"></td>
+						      <td class="productPrice"   th:utext="${basket.price}"></td>
+						    </tr>	
+						  </tbody>
+						  <tfoot>
+						  	 <tr>
+						      <td ><h6>Tổng phụ</h6></td>
+						      <td class="tongPhu h6 text-warning" th:utext="${basketDtoTotal.totalMoneyBasket}"></td>
+						    </tr>
+						    <tr>
+						      <td class="h6">Giao hàng</td>
+						      <td class="text-warning">Giao hàng miễn phí</td>
+						    </tr>
+						    <tr>
+						      <td class="h5">Tổng tiền</td>
+						      <td class="tongTien h5 text-danger" th:utext="${basketDtoTotal.totalMoneyBasket}"></td>
+						    </tr>
+						    
+						  </tfoot>
+						</table>
+						 <div class="form-group">
+						    <label for="exampleFormControlSelect1" class="ml-3">Phương thức thanh toán</label>
+						    <select class="form-control col-md-11 ml-3" id="exampleFormControlSelect1">
+						      <option>Giao hàng tận nơi</option>
+						    </select>
+						  </div>
+						  <br/>
+						  <button class="btn btn-danger ml-3 col-md-4">Đặt hàng</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="home-page :: page-connect">	</div>
+	<div th:replace="layout :: footer">	</div>
+	<div th:replace="layout :: footer-bottom">	</div>
+</body>
+<script type="text/javascript" th:replace="layout :: js_layout"></script>
+<script type="text/javascript">
+changeMoneyProduct();
+	function changeMoneyProduct(){
+		
+		var tongPhu =$(".tongPhu").html();
+		var tongTien =$(".tongTien").html();
+		$('.tongPhu').html(formatNumber(tongPhu,'-',',')+` đ`);
+		$('.tongTien').html(formatNumber(tongTien,'-',',')+` đ`);
+	}
+	
+
+</script>
+</html>

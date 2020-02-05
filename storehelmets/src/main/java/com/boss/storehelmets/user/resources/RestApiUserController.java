@@ -4,6 +4,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +39,7 @@ public class RestApiUserController {
 	private UserSevice userSevice;
 	
 	@PostMapping("/login")
-	private LoginResponse authenticateUser( @RequestBody LoginRequest loginRequest) {
+	private LoginResponse authenticateUser( @RequestBody LoginRequest loginRequest,HttpServletResponse httpServletResponse) {
 	     try {
 	    	   // Xác thực từ username và password.
 		        Authentication authentication = authenticationManager.authenticate(
@@ -49,7 +52,7 @@ public class RestApiUserController {
 		        // Set thông tin authentication vào Security Context
 		        SecurityContextHolder.getContext().setAuthentication(authentication);
 		        // Trả về jwt cho người dùng.
-		        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+		        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal(),httpServletResponse);
 		        return new LoginResponse(jwt);
 		} catch (Exception e) {
 			// TODO: handle exception

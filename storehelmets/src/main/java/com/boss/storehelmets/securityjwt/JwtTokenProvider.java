@@ -1,7 +1,12 @@
 package com.boss.storehelmets.securityjwt;
 
 import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Component;
+
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.model.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -19,16 +24,18 @@ public class JwtTokenProvider {
     private final long JWT_EXPIRATION = 604800000L;
 
     // Tạo ra jwt từ thông tin user
-    public String generateToken(CustomUserDetails userDetails) {
+    public String generateToken(CustomUserDetails userDetails, HttpServletResponse response) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
-        // Tạo chuỗi json web token từ id của user.
-        return Jwts.builder()
-                   .setSubject(String.valueOf(userDetails.getUser().getIdUser()))
-                   .setIssuedAt(now)
-                   .setExpiration(expiryDate)
-                   .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-                   .compact();
+        String jwt = Jwts.builder()
+                .setSubject(String.valueOf(userDetails.getUser().getIdUser()))
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .compact();
+        response.addHeader(AppConstants.HEADER_STRING,"Beaber"+" "+jwt);
+        System.err.println(jwt);
+        return jwt;
     }
 
     // Lấy thông tin user từ jwt

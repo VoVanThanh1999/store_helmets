@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.service.UserDetailServiceImpl;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
@@ -29,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 		try {
 			// lấy jwt từ request
 			String jwt = getJwtFromRequest(request);
+			
 			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 				String userId = tokenProvider.getUserIdFromJWT(jwt);
 				UserDetails userDetails  = userDetailsServiceImlp.loadUserById(userId);
@@ -48,8 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	}
 	
 	public String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        // Kiểm tra xem header Authorization có chứa thông tin jwt không
+        String bearerToken = request.getHeader(AppConstants.HEADER_STRING);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }

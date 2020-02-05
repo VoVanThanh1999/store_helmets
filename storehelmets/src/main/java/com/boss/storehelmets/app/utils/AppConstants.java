@@ -48,6 +48,6 @@ public class AppConstants {
 	public static final String SUCESS_CONFIM_SHIPPINGBIL = "Xác nhận Giao bill thành công";
 	public static final String EROR_CONFIM_SHIPPINGBIL ="Xác nhận Giao bill thất bại";
 	public static final String HISTORY_IMPORT_PRODUCT = "Thêm sản phẩm vào kho";
-	
+	public static final String HEADER_STRING = "Authorization";
 	
 }

@@ -7,6 +7,7 @@ import com.boss.storehelmets.model.User;
 
 @Service
 public interface ShippingBillService {
+	
 	public String addNewsShippingBill(User adminCreate,User shipper, List<Invoice> invoicesDto);
 	
 	public ShippingBill checkShippingBill(User user,ShippingBill shippingBill);
@@ -19,5 +20,5 @@ public interface ShippingBillService {
 
 	public String confimShippingBill(ShippingBill shippingBill,User shippier);
 	
-	public String cancelInvoice(ShippingBill shippingBill,User shippier);
+	public String cancelInvoice(ShippingBill shippingBill,User shippier,String idInvoice);
 }

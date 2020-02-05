@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head">
+</head>
+<body>
+	<div th:replace="layout :: header">
+	</div> 
+	<div class="login-user" style="margin-top: 170px; margin-bottom: 120px">
+		<div class="container">
+			<h4>Đăng nhập </h4>
+			<br/>
+			<form action="#" class="form-group">
+				<label for="userName" class="h6">Tên tài khoản hoặc địa chỉ email *</label>
+					<input type="email" class="form-control col-md-12" id="userName" />
+				<br/>
+				<label for="passWord" class="h6">Mật khẩu *</label>
+					<input type="password" class="form-control col-md-12" id="passWord" />
+				<br/>
+			</form>
+			<button class="btn btn-warning col-md-2 text-white" onclick="login()">Đăng nhập</button>
+		</div>
+	</div>
+	<div th:replace="home-page :: page-connect">	</div>
+	<div th:replace="layout :: footer">	</div>
+	<div th:replace="layout :: footer-bottom">	</div>
+	<script type="text/javascript" th:replace="layout :: js_layout"></script>
+</body>
+<script type="text/javascript">
+	function login(){
+		var userName = $('#userName').val();
+		var passWord = $('#passWord').val();
+		 var request =   $.ajax({
+			  url: "/api/v1/users/login",
+			  contentType: "application/json",
+			  methodType:"POST",
+			  method:"POST",
+			  data:JSON.stringify({email:userName,password:passWord}),
+		});
+		request.done(function( msg ) {
+			if(msg.length < 0){
+				console.log(msg);
+				alert('đăng nhập that bai');
+			}else{
+				console.log(msg);
+			}
+			console.log(msg);
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			  alert( "Request failed: " + textStatus );
+		});
+	}
+</script>
+</html>

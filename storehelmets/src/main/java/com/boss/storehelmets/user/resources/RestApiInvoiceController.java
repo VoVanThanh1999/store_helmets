@@ -69,6 +69,7 @@ public class RestApiInvoiceController {
 	private List<Invoice> flowInvoiceByUserCreate(HttpServletRequest request){
 		try {
 			String jwt = authenticationFilter.getJwtFromRequest(request);
+			
 			String userId = tokenProvider.getUserIdFromJWT(jwt);
 			Optional<User> user  = userSevice.findUserById(userId);
 			if(user != null) {

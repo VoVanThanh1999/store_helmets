@@ -18,7 +18,7 @@ public class HistoryImportProduct {
 	@Column(name="id_history_import_product")
 	private String idHistoryImportProduct;
 	
-	@Column(name = "describe")
+	@Column(name = "describes")
 	private String describe;
 	
 	

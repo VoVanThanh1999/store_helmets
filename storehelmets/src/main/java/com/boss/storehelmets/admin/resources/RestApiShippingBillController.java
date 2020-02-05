@@ -44,7 +44,7 @@ public class RestApiShippingBillController {
 	
 	@Autowired
 	JwtAuthenticationFilter authenticationFilter;
-	
+	/*
 	@RequestMapping(value = "/shippings",method = RequestMethod.POST)
 	public String addNewsShippingBill(@RequestBody User shipper,List<Invoice> invoicesDto,HttpServletRequest request) {
 		try {
@@ -80,7 +80,7 @@ public class RestApiShippingBillController {
 			return null;
 		}
 		return null;
-	}
+	}*/
 
 	
 }
