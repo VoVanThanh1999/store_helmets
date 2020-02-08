@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    		"logout",
 	    		"/favicon.ico",
 	    		"/static/css/style.css",
+	    		"/api/v1/users/username",
 	    		"/api/v1/users/categorys",
 	    		"/api/v1/users/categorys/{id}",
 	    		"/api/v1/users/categorys/details/{id}",
@@ -70,15 +71,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    		"/api/v1/users/baskets",
 	    		"/api/v1/users/baskets/{id}",
 	    		"/api/v1/users/baskets/total",
-	    		"/api/v1/users/invoice",
-	    		"/api/v1/users/baskets/invoice"
+	    		"/api/v1/users/auth/me"
+	    		
 	    		).permitAll();
 	    
 	    http.authorizeRequests().antMatchers(
-	    		"/api/v1/users/invoice"
+	    		"/api/v1/users/invoice",
+	    		"/api/v1/users/baskets/invoice/{iduser}",
+	    		"/api/v1/users/baskets/invoice"
 	    	).access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
 	    http.authorizeRequests()
 	    .antMatchers(
+	    		"/admins/index",
 	    		"/api/v1/admins/advertisments",
 	    		"/api/v1/admins/news",
 	    		"/api/v1/admins/news/{id}",

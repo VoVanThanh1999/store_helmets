@@ -26,10 +26,14 @@
 	<script type="text/javascript" th:replace="layout :: js_layout"></script>
 </body>
 <script type="text/javascript">
+	function changeUsername(){
+		
+	}
+
 	function login(){
 		var userName = $('#userName').val();
-		var passWord = $('#passWord').val();
-		 var request =   $.ajax({
+		var passWord = $('#passWord').val();		
+		var request =   $.ajax({
 			  url: "/api/v1/users/login",
 			  contentType: "application/json",
 			  methodType:"POST",
@@ -37,17 +41,17 @@
 			  data:JSON.stringify({email:userName,password:passWord}),
 		});
 		request.done(function( msg ) {
-			if(msg.length < 0){
-				console.log(msg);
-				alert('đăng nhập that bai');
+			if(msg.length < 1 || msg == null){
+				alert('Tên đăng nhập và mật khẩu không chính xác');
 			}else{
-				console.log(msg);
+				window.location.href = "/";
 			}
-			console.log(msg);
+			
 		});
 		request.fail(function( jqXHR, textStatus ) {
 			  alert( "Request failed: " + textStatus );
 		});
 	}
+	
 </script>
 </html>

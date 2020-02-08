@@ -33,8 +33,6 @@ public class JwtTokenProvider {
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
-        response.addHeader(AppConstants.HEADER_STRING,"Beaber"+" "+jwt);
-        System.err.println(jwt);
         return jwt;
     }
 

@@ -73,6 +73,12 @@ public class UserServiceImpl implements UserSevice{
 		return user;
 	}
 
+	@Override
+	public Optional<User> findUserByEmail(String email) {
+		// TODO Auto-generated method stub
+		return userRepository.findByEmail(email);
+	}
+
 
 
 }

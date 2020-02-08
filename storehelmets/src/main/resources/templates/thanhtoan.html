@@ -23,10 +23,10 @@
 				    <br/>
 				    <label for="cityCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Tỉnh / Thành phố *</label>
 					<select class="form-control" id="cityCustomer">
-					  <option>Ninh Thuận</option>
-					   <option>Quảng Nam</option>
-				      <option>Đà Nẵng</option>
-				      <option>Sài Gòn</option>
+					   <option value ="NinhThuan">Ninh Thuận</option>
+					   <option value ="QuangNam">Quảng Nam</option>
+				       <option value ="DaNang">Đà Nẵng</option>
+				       <option value="SaiGon">Sài Gòn</option>
 				    </select>
 				    <br/>
 				    <label for="addressCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Địa chỉ  *</label>
@@ -38,16 +38,18 @@
 					<label for="emailCustomer" class="text-black" style=" font-size: 14px; font-weight: 600;">Email  *</label>
 					<input class="form-control" id="emailCustomer" type="email"/>
 					<br/>
-					<label for="ghiChu" class="text-black" style=" font-size: 14px; font-weight: 600;">Ghi chú đơn hàng (tùy chọn) *</label>
-					<textarea class="form-control" rows="4" cols=""></textarea>
+					<label for="note" class="text-black" style=" font-size: 14px; font-weight: 600;">Ghi chú đơn hàng (tùy chọn) *</label>
+					<textarea class="form-control" rows="4" cols="" id="note"></textarea>
 				</div>
 				<div class="col-md-6">
-				<div class="donHang" style="/* padding-top: 100px; */padding-bottom: 62px;border-radius: 1px solid black;border: 3px solid red;margin-top: 100px;">
+				<div class="donHang" style="padding-left: 33px;padding-right: 33px;padding-top: 33px;padding-bottom: 33px;border-radius: 1px solid black;border: 3px solid red;margin-top: 100px;">
 						<table class="table">
+						 <p class="text-center h4">Tổng đơn hàng</p>
+						 <br/>
 						  <thead>
 						    <tr>
-						      <th>Sản phẩm</th>
-						      <th>Tổng</th>
+						      <th class="h5">Sản phẩm</th>
+						      <th class="h5">Tổng</th>
 						    </tr>
 						  </thead>
 						  <tbody  th:each="basket : ${basketDtos}">
@@ -58,11 +60,11 @@
 						  </tbody>
 						  <tfoot>
 						  	 <tr>
-						      <td ><h6>Tổng phụ</h6></td>
+						      <td ><h6 class="text-secondary">Tổng phụ</h6></td>
 						      <td class="tongPhu h6 text-warning" th:utext="${basketDtoTotal.totalMoneyBasket}"></td>
 						    </tr>
 						    <tr>
-						      <td class="h6">Giao hàng</td>
+						      <td class="h6 text-secondary">Giao hàng</td>
 						      <td class="text-warning">Giao hàng miễn phí</td>
 						    </tr>
 						    <tr>
@@ -73,13 +75,13 @@
 						  </tfoot>
 						</table>
 						 <div class="form-group">
-						    <label for="exampleFormControlSelect1" class="ml-3">Phương thức thanh toán</label>
+						    <label for="exampleFormControlSelect1" class="text-secondary ml-3 h6">Phương thức thanh toán</label>
 						    <select class="form-control col-md-11 ml-3" id="exampleFormControlSelect1">
 						      <option>Giao hàng tận nơi</option>
 						    </select>
 						  </div>
 						  <br/>
-						  <button class="btn btn-danger ml-3 col-md-4">Đặt hàng</button>
+						  <button id="datHang" class="btn btn-danger ml-3 col-md-4">Đặt hàng</button>
 					</div>
 				</div>
 			</div>
@@ -91,15 +93,85 @@
 </body>
 <script type="text/javascript" th:replace="layout :: js_layout"></script>
 <script type="text/javascript">
-changeMoneyProduct();
-	function changeMoneyProduct(){
+		changeMoneyProduct();
+		function changeMoneyProduct(){
+			
+			var tongPhu =$(".tongPhu").html();
+			var tongTien =$(".tongTien").html();
+			$('.tongPhu').html(formatNumber(tongPhu,'-',',')+` đ`);
+			$('.tongTien').html(formatNumber(tongTien,'-',',')+` đ`);
+		}
+		loadInformationUser();
+		function loadInformationUser(){
 		
-		var tongPhu =$(".tongPhu").html();
-		var tongTien =$(".tongTien").html();
-		$('.tongPhu').html(formatNumber(tongPhu,'-',',')+` đ`);
-		$('.tongTien').html(formatNumber(tongTien,'-',',')+` đ`);
-	}
-	
+			$.ajax({
+			      url:"/api/v1/users/auth/me",
+			      contentType: "application/json",
+			      dataType: 'json',
+			      success: function(result){
+			    	 if(result != null){
+			    		 $('#nameCustomer').val(result.fullName);
+			    	 }
+			    	 if(result.address1 != null){
+			    		if(result.address1 == 'NinhThuan'){
+			    			$('#cityCustomer select').val('NinhThuan');
+			    		}
+			    		if(result.address1 == 'QuangNam'){
+			    			$('#cityCustomer select').val('QuangNam');
+			    		}
+			    		if(result.address1 == 'SaiGon'){
+			    			$('#cityCustomer select').val('SaiGon');
+			    		}
+			    		if(result.email =='mrt.boss@yahoo.com'){
+			    			$('#cityCustomer').val('DaNang');
+			    		}
+			    	 }
+			    	 $('#addressCustomer').val(result.address2);
+			    	 $('#phoneCustomer').val(result.tel);
+			    	 $('#emailCustomer').val(result.email);
+			      }
+			 });
+		}
+		$("#datHang").click(function(){
+
+			var request =   $.ajax({
+				  url: "/api/v1/users/authe/me",
+				  contentType: "application/json",
+				  methodType:"GET",
+				  method:"GET"
+			});
+			request.done(function( msg ) {
+				if(msg != null){
+					var nameCustomer = $('#nameCustomer').val();
+					var address1  = $('#cityCustomer').val();
+					var address2 = $('#addressCustomer').val();
+					var tel = $('#phoneCustomer').val();
+					var email = $('#emailCustomer').val();
+					var note  = $('#note').val();
+					var request =   $.ajax({
+						  url: "/api/v1/users/invoices",
+						  contentType: "application/json",
+						  methodType:"POST",
+						  method:"POST",
+						  data:JSON.stringify({nameCustomer:nameCustomer,address1:address1,address2:address2,tel:tel,note:note,email:email}),
+					});
+					request.done(function( msg ) {
+						alert(msg);	
+					});
+					request.fail(function( jqXHR, textStatus ) {
+						  alert( "Request failed: " + textStatus );
+					});	
+				}else{
+					alert('Bạn cần phải đăng nhập');
+				}
+			});
+			request.fail(function( jqXHR, textStatus ) {
+				window.location.href = "/login";
+				alert('Bạn cần phải đăng nhập');
+			});	
+			
+			
+		});
 
 </script>
 </html>

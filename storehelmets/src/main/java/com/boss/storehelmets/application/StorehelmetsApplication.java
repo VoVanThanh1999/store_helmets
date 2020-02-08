@@ -46,7 +46,7 @@ public class StorehelmetsApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-//		User user = new User();
+//		User user = new User(); 
 //		user.setEmail("mrt.boss@yahoo.com");
 //		user.setPassword(passwordEncoder.encode("123456"));
 //		Set<Roles> roles = new HashSet<Roles>();	

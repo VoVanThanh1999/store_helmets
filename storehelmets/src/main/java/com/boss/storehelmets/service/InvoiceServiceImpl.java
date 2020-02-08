@@ -54,7 +54,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	@Transactional
 	@Override
-	public String inserNewInvoice(HttpServletRequest request, User user) {
+	public String inserNewInvoice(HttpServletRequest request, User user,Invoice invoiceDto) {
 		// TODO Auto-generated method stub
 		try {
 			HttpSession session = request.getSession();
@@ -64,13 +64,14 @@ public class InvoiceServiceImpl implements InvoiceService{
 				Invoice invoice = new Invoice();
 				java.util.Date dateData = new java.util.Date();
 				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
-				invoice.setNameCustomer(user.getFullName());
-				invoice.setEmail(user.getEmail());
-				invoice.setAddress1(user.getAddress1());
-				invoice.setAddress2(user.getAddress2());
+				invoice.setNameCustomer(invoiceDto.getNameCustomer());
+				invoice.setEmail(invoiceDto.getEmail());
+				invoice.setAddress1(invoiceDto.getAddress1());
+				invoice.setAddress2(invoiceDto.getAddress2());
 				invoice.setStatusConfim(false);
 				invoice.setDateCreat(date);
-				invoice.setTel(user.getTel());
+				invoice.setTel(invoiceDto.getTel());
+				invoice.setNote(invoiceDto.getNote());
 				invoice.setUserCreate(user);
 				BastketTotal bastketTotal = new BastketTotal();
 				Set<Basket> batkets = new HashSet<Basket>();

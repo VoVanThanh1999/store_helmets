@@ -5,7 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,20 +59,19 @@ public class ViewUserController {
 	}
 	
 	@RequestMapping(value="/login")
-	public ModelAndView loginUser(HttpServletRequest httpServletRequest) {
+	public String loginUser(HttpServletRequest httpServletRequest) {
 		try {
-			
-			System.out.println(httpServletRequest.getHeader("Authorization"));
-			String jwt = authenticationFilter.getJwtFromRequest(httpServletRequest);
-			String userId = tokenProvider.getUserIdFromJWT(jwt);
-			Optional<User> user  = userSevice.findUserById(userId);
-			ModelAndView modelAndView = new ModelAndView("/");
-			return modelAndView;
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String username = auth.getName();
+			Optional<User> optional = userSevice.findUserByEmail(username);
+			if (optional.get()!=null) {
+				return "redirect:/";
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			ModelAndView modelAndView = new ModelAndView("login-user");
-			return modelAndView;
+			System.out.println(e.getMessage());
 		}	
+		return "login-user";
 	}
 	
 	@RequestMapping(value = "/chi-tiet-san-pham")
@@ -102,19 +104,19 @@ public class ViewUserController {
 	}
 	
 	@RequestMapping(value="/thanh-toan")
-	public ModelAndView thanhToan(HttpServletRequest httpServletRequest) {
+	public String thanhToan(HttpServletRequest httpServletRequest,ModelMap modelMap) {
 		try {
-			ModelAndView andView = new ModelAndView("thanhtoan");
 			HttpSession session = httpServletRequest.getSession();
 			List<BasketDto> basketDtoSession = (List<BasketDto>) session.getAttribute("basketDtoSession");
-			andView.addObject("basketDtos", basketDtoSession);
-			andView.addObject("basketDtoTotal", basketDtoService.getTotalBasketDto(httpServletRequest));
-			return andView;
+			if(basketDtoSession != null) {
+				modelMap.addAttribute("basketDtos", basketDtoSession);
+				modelMap.addAttribute("basketDtoTotal",  basketDtoService.getTotalBasketDto(httpServletRequest));
+				return "thanhtoan";
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
-			return null;
-			
 		}
+		return "redirect:/";
 	}
 }

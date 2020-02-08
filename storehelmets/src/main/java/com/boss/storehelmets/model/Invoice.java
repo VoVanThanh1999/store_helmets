@@ -10,7 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Table(name="invoice")
@@ -23,6 +26,7 @@ public class Invoice {
 	private String idInvoice;
 	
 	@Column(name="name_customer")
+	@NotNull
 	private String nameCustomer;
 	
 	@Column(name="address1")
@@ -34,6 +38,9 @@ public class Invoice {
 	@Column(name="tel")
 	private int tel;
 	
+	@Column(name="note")
+	private String note;
+	
 	@Column(name="date_create")
 	private Date dateCreat;
 	
@@ -41,6 +48,14 @@ public class Invoice {
 	@Email
 	private String email;
 	
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 	@Column(name="statusConfim")
 	private boolean	statusConfim;
 	

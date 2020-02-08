@@ -337,7 +337,7 @@
 					</div>
 					<div class="col-md-2">
 						<div class="item mt-1">
-							<p class="ml-4">Đăng nhập</p>
+							<p class="ml-4" id="username">Đăng nhập</p>
 						</div>
 					</div>
 				</div>
@@ -396,7 +396,7 @@
 			<p class="text-center text-secondary"><i class="fas fa-wine-bottle"></i> Bản quyền thuột thành đẹp trai</p>
 		</div>
 	</div>
-<script type="text/javascript"th:fragment="js_layout">
+<script type="text/javascript" th:fragment="js_layout">
 	/* $(function(){
 	   $(window).scroll(function(){
 		  $(".menu-bottom").css("box-shadow","1px 2px 0.5px 0.4px grey");
@@ -404,6 +404,26 @@
 		  console.log(height);
 	   });
 	}); */
+	$('#username').click(function(){
+		window.location="/login";
+	});
+	changeUsername();
+	function changeUsername(){
+		
+		$.ajax({
+			url: "/api/v1/users/username",
+			contentType: "application/json",
+			methodType:"GET",
+			method:"GET",
+		}).done(function( data ) {
+			 if(data != 'anonymousUser'){
+				 $("#username").html(`
+					<p>`+data+`</p>		 
+				 `);
+			 }
+		
+	 	 });
+	};
 	loadBasket();
 	function loadBasket(){
 
@@ -459,6 +479,9 @@
 		}
 		
 	});
+	
+	
+	
 </script>
 
 </body>

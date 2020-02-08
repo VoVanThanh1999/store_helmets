@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Optional;
+
+import javax.jws.soap.SOAPBinding.Use;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.dto.UserDto;
 import com.boss.storehelmets.model.CustomUserDetails;
+import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.securityconfig.LoginRequest;
 import com.boss.storehelmets.securityconfig.LoginResponse;
 import com.boss.storehelmets.securityjwt.JwtTokenProvider;
@@ -75,6 +79,39 @@ public class RestApiUserController {
 		}
 		
 	}
+	
+	@RequestMapping(value="/username",method=RequestMethod.GET)
+	public String getUsernameCustomer() {
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String email = auth.getName();
+			Optional<User> user = userSevice.findUserByEmail(email);
+			if (user!= null) {
+				String username = user.get().getFullName();
+				return username;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+	
+	
+	@RequestMapping(value="/auth/me",method=RequestMethod.GET)
+	public User getUserByAuth() {
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String username = auth.getName();
+			Optional<User> user = userSevice.findUserByEmail(username);
+			System.out.println(user.get().getEmail()	);
+			return user.get();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+	
 	
 	private String changeInformationUser(UserDto userDto) {
 		

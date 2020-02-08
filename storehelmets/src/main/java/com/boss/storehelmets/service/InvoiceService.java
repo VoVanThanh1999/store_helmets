@@ -8,7 +8,7 @@ import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.User;
 
 public interface InvoiceService {
-	public String inserNewInvoice(HttpServletRequest httpServletRequest,User user);
+	public String inserNewInvoice(HttpServletRequest httpServletRequest,User user , Invoice invoice);
 	
 	public String confimInvoice(User user,String id);
 	

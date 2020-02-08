@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+	<link   rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link   rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+	<link th:href="@{/static/css/style.css}" href="/static/css/style.css" rel="stylesheet" type="text/css" />
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="static/jquery/slider-js.js"></script> -->
+	<title>Admin-Storehelmet</title>	
+	<style type="text/css">
+		.header{
+			background: orange;
+			padding-top: 18px;
+			padding-bottom: 18px;
+		}
+		.header .h2{
+			font-weight: bold;
+		}
+		.header .icon{
+			color:white;
+			font-size: 45px;
+			margin-right: 88px;
+    		/* margin-left: 6px; */
+    	
+		}
+		.dropdown-toggle::after { 
+            content: none; 
+        } 
+        .nav-left{
+        	margin-top:100px;
+        	width: 18%;
+        	height:100%;
+        	z-index:1;
+        	background:#ffc547;
+        }
+        .item{
+        	height: 70px;
+        	padding-top: 18px;
+        }
+        .item .h5{
+        	font-weight: 400;
+        }
+	</style>
+</head>
+<body>
+	<div th:fragment="header" class="header  fixed-top">
+		 <div class="row">
+		 	<div class="col-md-6">
+		 		<p class="h2 mt-2 ml-4 text-white">STORE-HELMETS</p>
+		 	</div>
+		 	<div class="col-md-6">
+		 		<div class="float-right icon">
+				 	<div class="dropdown float-left mr-4">
+					   <i style="font-size: 50px;" class="fas fa-envelope  dropdown-toggle"    id="dropdownEmail" data-toggle="dropdown" ></i>
+					  	<div class="dropdown-menu" aria-labelledby="dropdownEmail">
+					    	<i class="fas fa-user dropdown-item"> User-profile </i>
+					    	<i class="fas fa-cog dropdown-item mt-2"> Setting </i>
+					    	<i class="fas fa-sign-out-alt dropdown-item mt-2"> Logout </i>
+					  	</div>
+					</div>
+				 	<div class="dropdown float-left mr-4">
+					   <i style="font-size: 45px;" class="fas fa-table  dropdown-toggle"    id="dropdownTable" data-toggle="dropdown" ></i>
+					  	<div class="dropdown-menu" aria-labelledby="dropdownTable">
+					    	<i class="fas fa-user dropdown-item"> User-profile </i>
+					    	<i class="fas fa-cog dropdown-item mt-2"> Setting </i>
+					    	<i class="fas fa-sign-out-alt dropdown-item mt-2"> Logout </i>
+					  	</div>
+					</div>
+				 	<div class="dropdown float-left mr-4">
+					   <i style="font-size: 50px;" class="fas fa-bell  dropdown-toggle"    id="dropdownNotification" data-toggle="dropdown" ></i>
+					  	<div class="dropdown-menu" aria-labelledby="dropdownNotification">
+					    	<i class="fas fa-user dropdown-item"> User-profile </i>
+					    	<i class="fas fa-cog dropdown-item mt-2"> Setting </i>
+					    	<i class="fas fa-sign-out-alt dropdown-item mt-2"> Logout </i>
+					  	</div>
+					</div>
+				 	<div class="dropdown float-left">
+					   <i class="fas fa-user  dropdown-toggle"    id="dropdownUser" data-toggle="dropdown" ></i>
+					  	<div class="dropdown-menu" aria-labelledby="dropdownUser">
+					    	<i class="fas fa-user dropdown-item"> User-profile </i>
+					    	<i class="fas fa-cog dropdown-item mt-2"> Setting </i>
+					    	<i class="fas fa-sign-out-alt dropdown-item mt-2"> Logout </i>
+					  	</div>
+					</div>
+				 </div>
+		 	</div>
+		 </div>
+	</div>
+	<div th:fragment="nav-left" class="nav-left fixed-top">
+		<div class="profile">
+			<div class="avartar" style="margin-left: 8px; background: white;width: 60px;height: 74px;margin-top: 11px;">
+				<img class="img-fluid" alt="avartar" src="https://cdn3.iconfinder.com/data/icons/shipping-and-delivery-2-1/512/54-512.png">
+			</div>
+			<p class="text-center ml-5 h4  font-weight-bold text-black " style="margin-top: -79px;" id="nameProfile"></p>
+			<p style=" float:left; margin-left: 113px; color: blue;" class="h6">Online</p>
+			<div class="status " style="
+			    width: 20px;
+			    float:left;
+			    height: 20px;
+			    background: #26ff12;
+			    border: 50%;
+			    border-radius: 50%;
+			    margin-left: 14px;
+			"></div>
+		</div>
+		<br/>
+		<br/>
+		<hr/>
+		<div class="container bg-warning item">
+			<div class="row  no-gutters">
+				<div class="col-md-10"><input class="form-control" style="border-radius: 0px" placeholder="Search..."></div>
+				<button class="col-md-2 btn " style="margin-left: -2px; border-radius: 0px"><i class="fas fa-search"></i></button>
+			</div>	
+		</div>
+		<div class="container mt-1 bg-warning item">
+			<p class="h5 text-white " style="font-weight: 300">Dashboard</p>
+		</div>
+		<div class="container mt-1 bg-warning item">
+			<p class="h5 text-white " style="font-weight: 300">Products</p>
+		</div>
+		<div class="container mt-1 bg-warning item">
+			<p class="h5 text-white " style="font-weight: 300">History</p>
+		</div>
+		<div class="container mt-1 bg-warning item">
+			<p class="h5 text-white " style="font-weight: 300">Inoivce</p>
+		</div>
+		<div class="container mt-1 bg-warning item">
+			<p class="h5 text-white " style="font-weight: 300">Shipping-Bill</p>
+		</div>
+		<div class="container mt-1 bg-warning item">
+			<p class="h5 text-white " style="font-weight: 300">Manneger-User</p>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" th:fragment="js_layout_admin">
+$( document ).ready(function() {
+	loadUsername();
+	   function loadUsername(){
+		   $.ajax({
+			   url: "/api/v1/users/username",
+			   method:"GET"
+			 })
+			 .done(function( data ) {
+			   $('#nameProfile').html(data);
+			 });
+	   }
+		
+		
+	});
+</script>
+
+</html>

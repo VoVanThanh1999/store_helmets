@@ -11,4 +11,6 @@ public interface UserSevice {
 	public String registerAccount(UserDto userDto);
 	
 	public Optional<User> findUserById(String id);
+	
+	public Optional<User> findUserByEmail(String email);
 }

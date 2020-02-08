@@ -5,9 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.weaver.IUnwovenClassFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,15 +50,13 @@ public class RestApiInvoiceController {
 	UserSevice userSevice;
 	
 	@RequestMapping(value = "/invoices",method = RequestMethod.POST)
-	private String insertNewInvoice(HttpServletRequest request) {
+	private String insertNewInvoice(HttpServletRequest request,@RequestBody Invoice invoice) {
 		try {
-			String jwt = authenticationFilter.getJwtFromRequest(request);
-			String userId = tokenProvider.getUserIdFromJWT(jwt);
-			UserDetails userDetails  = userDetailsServiceImlp.loadUserById(userId);
-			if (userDetails!= null) {
-				String userName = userDetails.getUsername();
-				Optional<User> optionalUser = userRepository.findByEmail(userDetails.getUsername());
-				invoiceService.inserNewInvoice(request, optionalUser.get());
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (auth.getName()!= null) {
+				Optional<User> optionalUser = userSevice.findUserByEmail(auth.getName());
+				System.out.println(optionalUser.get().getFullName());
+				invoiceService.inserNewInvoice(request, optionalUser.get(),invoice);
 				return AppConstants.SUCCESS_CREATE;
 			}
 			
@@ -65,13 +68,10 @@ public class RestApiInvoiceController {
 		return AppConstants.ERROR_UPDATE;
 	}
 	
-	@RequestMapping(value = "/invoices",method = RequestMethod.GET)
-	private List<Invoice> flowInvoiceByUserCreate(HttpServletRequest request){
+	@RequestMapping(value = "/invoices/{iduser}",method = RequestMethod.GET)
+	private List<Invoice> flowInvoiceByUserCreate(HttpServletRequest request,@PathVariable String iduser){
 		try {
-			String jwt = authenticationFilter.getJwtFromRequest(request);
-			
-			String userId = tokenProvider.getUserIdFromJWT(jwt);
-			Optional<User> user  = userSevice.findUserById(userId);
+			Optional<User> user  = userSevice.findUserById(iduser);
 			if(user != null) {
 				return invoiceService.getInvoicesByUserId(user.get());
 			}
