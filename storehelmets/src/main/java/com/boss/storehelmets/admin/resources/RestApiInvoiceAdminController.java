@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +69,42 @@ public class RestApiInvoiceAdminController {
 			// TODO: handle exception
 			return null;
 		}
+	}
+	
+	@RequestMapping(value ="/invoices/getbykey/{keyvalue}",method=RequestMethod.GET)
+	public Page<Invoice> getInvoiceByPageRequest(@PathVariable("keyvalue") String keyvalue){
+		try {
+			Page<Invoice> page = invoiceService.getInvoiceByPageRequest(keyvalue);
+			return page;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/invoices/gettotalpages",method=RequestMethod.GET)
+	public Integer getTotalPages() {
+		try {
+			return invoiceService.getTotalPages();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/invoices/{id}",method=RequestMethod.GET)
+	public Invoice getInvoiceById(@PathVariable("id") String id) {
+		try {
+			return invoiceService.getInvoiceById(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			System.err.println(e.getLocalizedMessage());
+			System.err.println(e.getCause());
+		}
+		return null;
 	}
 	
 }

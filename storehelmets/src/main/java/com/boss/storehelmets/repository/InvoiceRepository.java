@@ -2,6 +2,7 @@ package com.boss.storehelmets.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,5 +24,11 @@ public interface InvoiceRepository extends JpaRepository<Invoice, String>{
 			value="SELECT * FROM Invoice i Where i.StatusConfim = true",
 			nativeQuery=true)
 	List<Invoice> findInvoiceGetStatusConfimIsTrue();
-
+	
+	@Query(
+		value = "Select count from Invoice"	,nativeQuery = true
+			)
+	public Integer countInvoice();
+	
+	
 }

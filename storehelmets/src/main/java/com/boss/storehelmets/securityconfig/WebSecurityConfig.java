@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    	).access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
 	    http.authorizeRequests()
 	    .antMatchers(
-	    		"/admins/index",
+	    		"/admins/trangchu",
 	    		"/api/v1/admins/advertisments",
 	    		"/api/v1/admins/news",
 	    		"/api/v1/admins/news/{id}",

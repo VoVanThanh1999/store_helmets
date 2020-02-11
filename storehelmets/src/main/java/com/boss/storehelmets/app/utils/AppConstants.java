@@ -49,5 +49,7 @@ public class AppConstants {
 	public static final String EROR_CONFIM_SHIPPINGBIL ="Xác nhận Giao bill thất bại";
 	public static final String HISTORY_IMPORT_PRODUCT = "Thêm sản phẩm vào kho";
 	public static final String HEADER_STRING = "Authorization";
-	
+	public static final String SUCCESS_ADD_INVOICE = "Bạn đã đặt hàng thành công";
+	public static final String ERROR_ADD_INVOICE  = "Bạn đã đặt hàng thất bại";
+			
 }

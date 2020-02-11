@@ -57,15 +57,15 @@ public class RestApiInvoiceController {
 				Optional<User> optionalUser = userSevice.findUserByEmail(auth.getName());
 				System.out.println(optionalUser.get().getFullName());
 				invoiceService.inserNewInvoice(request, optionalUser.get(),invoice);
-				return AppConstants.SUCCESS_CREATE;
+				return AppConstants.SUCCESS_ADD_INVOICE;
 			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println(e.getMessage());
-			return AppConstants.ERROR_UPDATE;
+			return AppConstants.ERROR_ADD_INVOICE;
 		}
-		return AppConstants.ERROR_UPDATE;
+		return AppConstants.ERROR_ADD_INVOICE;
 	}
 	
 	@RequestMapping(value = "/invoices/{iduser}",method = RequestMethod.GET)

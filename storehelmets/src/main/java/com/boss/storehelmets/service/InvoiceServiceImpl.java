@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.boss.storehelmets.app.utils.AppConstants;
@@ -164,6 +167,53 @@ public class InvoiceServiceImpl implements InvoiceService{
 		
 		return invoices;
 	}
+
+	@Override
+	public Long getAmountInvoice() {
+		// TODO Auto-generated method stub
+		return invoiceRepository.count();
+	}
+
+	@Override
+	public Page<Invoice> getInvoiceByPageRequest(String valuekey) {
+		// TODO Auto-generated method stub
+		try {
+			Page<Invoice> page = invoiceRepository.findAll(PageRequest.of(0, 5));
+			switch (valuekey) {
+			case "loadAtStart":
+				return	page;
+			case "previousPageable":
+				Page<Invoice> pagePrevious = invoiceRepository.findAll(page.previousPageable());
+				return pagePrevious;
+			case "nextPageable":
+				Page<Invoice> pageNext = invoiceRepository.findAll(page.nextPageable());
+				return pageNext;
+			default:
+				
+				return null;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	public int getTotalPages() {
+		// TODO Auto-generated method stub
+		Page<Invoice> page = invoiceRepository.findAll(PageRequest.of(0, 5));
+		return page.getTotalPages();
+	}
+
+	@Override
+	public Invoice getInvoiceById(String id) {
+		// TODO Auto-generated method stub
+		Optional<Invoice> invoice = invoiceRepository.findById(id);
+		return invoice.get();
+	}
+
+
 
 /*	@Override
 	public void deleteInvoice() {

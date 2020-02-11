@@ -8,17 +8,19 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admins")
 public class AdminControllerResources {
 	
-	@RequestMapping(value="/login")
-	public String login() {
-		return "login_admin";
-	}
-	
-	@RequestMapping(value="/index")
+	@RequestMapping("/trangchu")
 	public ModelAndView defaultIndex() {
 		ModelAndView modelAndView = new ModelAndView("index_admin");
 		
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="/login")
+	public String login() {
+		return "login_admin";
+	}
+	
+	
 	
 	
 	

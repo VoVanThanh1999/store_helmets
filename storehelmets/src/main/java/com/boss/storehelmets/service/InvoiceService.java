@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+
 import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.User;
 
@@ -17,5 +19,13 @@ public interface InvoiceService {
 	public String deleteInvoice();
 	
 	public  List<Invoice> getInvoicesByUserId(User user);
+	
+	public Long getAmountInvoice();
+	
+	public Page<Invoice> getInvoiceByPageRequest(String valuekey);
+	
+	public int getTotalPages();
+	
+	public Invoice getInvoiceById(String id);
 	
 }
