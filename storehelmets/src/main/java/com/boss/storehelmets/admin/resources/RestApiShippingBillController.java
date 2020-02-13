@@ -1,11 +1,14 @@
 package com.boss.storehelmets.admin.resources;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.management.relation.Role;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,17 +21,17 @@ import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.UserRepository;
 import com.boss.storehelmets.securityjwt.JwtAuthenticationFilter;
 import com.boss.storehelmets.securityjwt.JwtTokenProvider;
+import com.boss.storehelmets.service.InvoiceService;
 import com.boss.storehelmets.service.ShippingBillService;
 import com.boss.storehelmets.service.UserDetailServiceImpl;
 import com.boss.storehelmets.service.UserSevice;
 
 @RestController
-@RequestMapping("api/v1/admins")
+@RequestMapping("/api/v1/admins")
 public class RestApiShippingBillController {
 	
 	@Autowired
 	ShippingBillService shippingBillService;
-
 	
 	@Autowired
 	UserDetailServiceImpl userDetailsServiceImlp;
@@ -43,16 +46,30 @@ public class RestApiShippingBillController {
 	JwtTokenProvider tokenProvider;
 	
 	@Autowired
+	InvoiceService invoiceService;
+	
+	@Autowired
 	JwtAuthenticationFilter authenticationFilter;
-	/*
-	@RequestMapping(value = "/shippings",method = RequestMethod.POST)
-	public String addNewsShippingBill(@RequestBody User shipper,List<Invoice> invoicesDto,HttpServletRequest request) {
+	
+	@RequestMapping(value="/shippings/drivers/shippers")
+	public List<User> getUserHaveRoleIsShipper(){
+		List<User> userDrivers = shippingBillService.getUserHaveRoleIsShippers();
+		return userDrivers;
+	}
+	
+	@RequestMapping(value = "/shippings/{idshiper}/{idadmin}",method = RequestMethod.POST)
+	public String addNewsShippingBill(@RequestBody List<Invoice> invoicesDto, @PathVariable("idshiper") String idshiper, @PathVariable("idadmin") String idadmin) {
 		try {
-			String jwt = authenticationFilter.getJwtFromRequest(request);
-			String userId = tokenProvider.getUserIdFromJWT(jwt);
-			Optional<User> user  = userSevice.findUserById(userId);
-			if (user != null) {
-				if (shippingBillService.addNewsShippingBill(user.get(), shipper, invoicesDto) != null) {
+			System.err.println(invoicesDto.get(0).getIdInvoice());
+			Optional<User> admin  = userSevice.findUserById(idadmin);
+			Optional<User> shiper = userSevice.findUserById(idshiper);
+			if (admin != null && shiper != null && invoicesDto != null) {
+				List<Invoice> invoices = new ArrayList<>();
+				for (Invoice invoiceDto : invoicesDto) {
+					Invoice invoice = invoiceService.getInvoiceById(invoiceDto.getIdInvoice());
+					invoices.add(invoice);
+				}
+				if (shippingBillService.addNewsShippingBill(admin.get(), shiper.get(), invoices) != null) {
 					return AppConstants.SUCCESS_ADD_SHIPPINGBILL;
 				}
 			}
@@ -80,7 +97,7 @@ public class RestApiShippingBillController {
 			return null;
 		}
 		return null;
-	}*/
+	}
 
 	
 }

@@ -44,13 +44,11 @@ public class RestApiInvoiceAdminController {
 	JwtAuthenticationFilter authenticationFilter;
 	
 	
-	@RequestMapping(value = "/invoices/{id}",method = RequestMethod.PUT)
-	public String confrimInvoice(@PathVariable("id") String id,HttpServletRequest request ) {
+	@RequestMapping(value = "/invoices/{iduser}/{idinvoice}",method = RequestMethod.PUT)
+	public String confrimInvoice(@PathVariable("iduser") String iduser,@PathVariable("idinvoice") String idinvoice,HttpServletRequest request ) {
 		try {
-			String jwt = authenticationFilter.getJwtFromRequest(request);
-			String userId = tokenProvider.getUserIdFromJWT(jwt);
-			Optional<User> user  = userSevice.findUserById(userId);
-			if (invoiceService.confimInvoice(user.get(), id) != null) {
+			Optional<User> user = userSevice.findUserById(iduser);
+			if (invoiceService.confimInvoice(user.get(), idinvoice) != null) {
 				return AppConstants.SUCCESS_invoice_approval;
 			}
 			return AppConstants.ERROR_invoice_approval;
@@ -103,6 +101,30 @@ public class RestApiInvoiceAdminController {
 			System.err.println(e.getMessage());
 			System.err.println(e.getLocalizedMessage());
 			System.err.println(e.getCause());
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/invoices/awaitingapproval/totalmoney",method=RequestMethod.GET)
+	public int getTotalMoneyInvouceAwaitingApproval() {
+		try {
+			return invoiceService.getTotalMoneyInvouceAwaitingApproval();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			System.err.println(e.getLocalizedMessage());
+		}
+		return 0;
+	}
+	
+	@RequestMapping(value="/invoices/awaitingapproval/{keyvalue}",method=RequestMethod.GET)
+	public Page<Invoice> getInvoicesByStatusConfimIsTrueAndSuccesIsFalse(@PathVariable("keyvalue") String keyvalue){
+		try {
+			return invoiceService.getInvoicesByStatusConfimIsTrueAndSuccesIsFalse(keyvalue);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			System.err.println(e.getLocalizedMessage());
 		}
 		return null;
 	}

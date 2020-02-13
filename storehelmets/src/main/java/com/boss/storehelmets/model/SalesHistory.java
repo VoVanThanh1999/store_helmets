@@ -31,6 +31,8 @@ public class SalesHistory {
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private User user;
+	
+	
 
 	public String getId() {
 		return id;

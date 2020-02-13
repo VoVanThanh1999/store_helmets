@@ -28,4 +28,7 @@ public interface InvoiceService {
 	
 	public Invoice getInvoiceById(String id);
 	
+	public Page<Invoice> getInvoicesByStatusConfimIsTrueAndSuccesIsFalse(String key);
+	
+	public int getTotalMoneyInvouceAwaitingApproval();
 }

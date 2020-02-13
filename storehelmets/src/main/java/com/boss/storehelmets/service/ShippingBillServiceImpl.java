@@ -2,13 +2,13 @@ package com.boss.storehelmets.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,13 @@ import org.springframework.stereotype.Service;
 import com.boss.storehelmets.app.utils.AppConstants;
 import com.boss.storehelmets.model.Basket;
 import com.boss.storehelmets.model.BastketTotal;
+import com.boss.storehelmets.model.HistoryCreateShippingbill;
 import com.boss.storehelmets.model.HistoryImportProduct;
 import com.boss.storehelmets.model.HistoryStoreEvent;
 import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.ProductsDetails;
+import com.boss.storehelmets.model.Roles;
 import com.boss.storehelmets.model.SalesHistory;
 import com.boss.storehelmets.model.ShippingBill;
 import com.boss.storehelmets.model.User;
@@ -56,7 +58,11 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 
 	@Autowired
 	HistoryStoreEventRepository historyStoreEventRepository;
-
+	
+	@Autowired
+	UserSevice userSevice;
+	
+	@Transactional
 	@Override
 	public String addNewsShippingBill(User adminCreate, User shipper, List<Invoice> invoicesDto) {
 		// TODO Auto-generated method stub
@@ -78,6 +84,34 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 				shippingBill.setTotalMoneyInvoice(totalMoneyBill);
 				shippingBill.setAdminCreate(adminCreate);
 				shippingBill.setShipper(shipper);
+				java.util.Date dateData = new java.util.Date();
+				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());	
+				HistoryStoreEvent historyStoreEvent = historyStoreEventRepository.findByDate(date);
+				if (historyStoreEvent == null) {
+					historyStoreEvent = new HistoryStoreEvent();
+					historyStoreEvent.setDate(date);
+					Set<HistoryCreateShippingbill> createShippingbills = new HashSet<>();
+					HistoryCreateShippingbill historyCreateShippingbill = new HistoryCreateShippingbill();
+					historyCreateShippingbill.setDate(date);
+					historyCreateShippingbill.setAdminCreate(adminCreate);
+					historyCreateShippingbill.setShippingBill(shippingBill);
+					historyCreateShippingbill.setDate(date);
+					historyCreateShippingbill.setUserShipper(shipper);
+					createShippingbills.add(historyCreateShippingbill);
+					historyStoreEvent.setHistoryCreateShippingbills(createShippingbills);
+				}else {
+					Set<HistoryCreateShippingbill> createShippingbills = new HashSet<>();
+					HistoryCreateShippingbill historyCreateShippingbill = new HistoryCreateShippingbill();
+					historyCreateShippingbill.setDate(date);
+					historyCreateShippingbill.setAdminCreate(adminCreate);
+					historyCreateShippingbill.setShippingBill(shippingBill);
+					historyCreateShippingbill.setDate(date);
+					historyCreateShippingbill.setUserShipper(shipper);
+					createShippingbills.add(historyCreateShippingbill);
+					historyStoreEvent.setHistoryCreateShippingbills(createShippingbills);
+				}
+					
+				
 				shippingBillRepository.save(shippingBill);
 				return AppConstants.SUCCESS_ADD_SHIPPINGBILL;
 			}
@@ -205,6 +239,20 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 					}
 
 				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<User> getUserHaveRoleIsShippers() {
+		// TODO Auto-generated method stub 
+		List<User> users = userRepository.findAll();
+		for (User user : users) {
+			for (Roles roles : user.getRoles()) {
+				if(roles.getRoleName().equalsIgnoreCase("ROLE_SHIPPER"));
+				List<User> shipper = Arrays.asList(user);
+				return shipper;
 			}
 		}
 		return null;

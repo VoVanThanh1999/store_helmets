@@ -1,5 +1,7 @@
 package com.boss.storehelmets.service;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.ShippingBill;
@@ -19,6 +21,8 @@ public interface ShippingBillService {
 	public List<Invoice> getInvoiceHaveInShippingBill(User shippier,ShippingBill shippingBill);
 
 	public String confimShippingBill(ShippingBill shippingBill,User shippier);
+	
+	public List<User> getUserHaveRoleIsShippers();
 	
 	public String cancelInvoice(ShippingBill shippingBill,User shippier,String idInvoice);
 }

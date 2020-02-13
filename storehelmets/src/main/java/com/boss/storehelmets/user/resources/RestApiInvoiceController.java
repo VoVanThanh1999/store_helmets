@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.weaver.IUnwovenClassFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,7 +56,6 @@ public class RestApiInvoiceController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (auth.getName()!= null) {
 				Optional<User> optionalUser = userSevice.findUserByEmail(auth.getName());
-				System.out.println(optionalUser.get().getFullName());
 				invoiceService.inserNewInvoice(request, optionalUser.get(),invoice);
 				return AppConstants.SUCCESS_ADD_INVOICE;
 			}
@@ -81,4 +81,6 @@ public class RestApiInvoiceController {
 		}
 		return null;
 	}
+	
+
 }

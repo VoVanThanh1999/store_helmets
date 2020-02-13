@@ -1,3 +1,4 @@
+
 package com.boss.storehelmets.model;
 
 import java.sql.Date;

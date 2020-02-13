@@ -77,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    
 	    http.authorizeRequests().antMatchers(
 	    		"/api/v1/users/invoice",
+	    		"/api/v1/users/{iduser}/{idinvoice}",
 	    		"/api/v1/users/baskets/invoice/{iduser}",
 	    		"/api/v1/users/baskets/invoice"
 	    	).access("hasAnyRole('ROLE_ADMIN','ROLE_USER')");
@@ -85,6 +86,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    		"/admins/trangchu",
 	    		"/api/v1/admins/advertisments",
 	    		"/api/v1/admins/news",
+	    		"/api/v1/admins/shippings/drivers/shippers",
+	    		"/api/v1/admins/invoices/awaitingapproval/totalmoney",
+	    		"/api/v1/admins/invoices/awaitingapproval",
 	    		"/api/v1/admins/news/{id}",
 	    		"/api/v1/admins/products/{id}",
 	    		"/api/v1/admins/products",

@@ -103,7 +103,6 @@ public class RestApiUserController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			String username = auth.getName();
 			Optional<User> user = userSevice.findUserByEmail(username);
-			System.out.println(user.get().getEmail()	);
 			return user.get();
 		} catch (Exception e) {
 			// TODO: handle exception

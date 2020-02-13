@@ -42,7 +42,14 @@ public class HistoryStoreEvent {
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="id_history_event")
 	private Set<HistoryImportProduct> productImportHistories;
-
+	
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@JoinColumn(name="id_history_event")
+	private Set<HistoryComfirmInvoice> historyComfirmInvoices;
+	
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@JoinColumn(name="id_history_event")
+	private Set<HistoryCreateShippingbill> historyCreateShippingbills;
 	
 	public String getIdHistoryEvent() {
 		return idHistoryEvent;
@@ -98,6 +105,22 @@ public class HistoryStoreEvent {
 
 	public void setTotalDeductibleAmount(double totalDeductibleAmount) {
 		this.totalDeductibleAmount = totalDeductibleAmount;
+	}
+
+	public Set<HistoryComfirmInvoice> getHistoryComfirmInvoices() {
+		return historyComfirmInvoices;
+	}
+
+	public void setHistoryComfirmInvoices(Set<HistoryComfirmInvoice> historyComfirmInvoices) {
+		this.historyComfirmInvoices = historyComfirmInvoices;
+	}
+
+	public Set<HistoryCreateShippingbill> getHistoryCreateShippingbills() {
+		return historyCreateShippingbills;
+	}
+
+	public void setHistoryCreateShippingbills(Set<HistoryCreateShippingbill> historyCreateShippingbills) {
+		this.historyCreateShippingbills = historyCreateShippingbills;
 	}
 
 	
