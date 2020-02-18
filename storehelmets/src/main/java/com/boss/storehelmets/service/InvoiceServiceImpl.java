@@ -245,7 +245,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return invoice.get();
 	}
 	
-//	get số hoa don đang cho van chuyen
+
 	@Override
 	public Page<Invoice> getInvoicesByStatusConfimIsTrueAndSuccesIsFalse(String key) {
 		// TODO Auto-generated method stub
@@ -282,7 +282,34 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return tempMoney;
 	}
 
+	@Override
+	public List<Invoice> getInvoiceStatusTransportIsTrue() {
+		// TODO Auto-generated method stub
+		try {
+			List<Invoice> invoices = invoiceRepository.findAll()
+					.stream()
+					.filter(i ->i.isStatusTransport() == true && i.isStatusSuccess() == false)
+					.map(temp->{
+						Invoice invoice = new Invoice();
+						invoice.setIdInvoice(temp.getIdInvoice());
+						invoice.setNameCustomer(temp.getNameCustomer());
+						invoice.setBastketTotal(temp.getBastketTotal());
+						invoice.setDateConfirm(temp.getDateConfirm());
+						invoice.setNhanVienGiaoHang(temp.getNhanVienGiaoHang());
+						invoice.setUserConfirm(temp.getUserConfirm());
+						return invoice;
+					})
+					.collect(Collectors.toList());
+			return invoices;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+	
 
+	
 
 /*	@Override
 	public void deleteInvoice() {

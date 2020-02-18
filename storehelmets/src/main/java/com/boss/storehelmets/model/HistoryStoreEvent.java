@@ -122,7 +122,8 @@ public class HistoryStoreEvent {
 	public void setHistoryCreateShippingbills(Set<HistoryCreateShippingbill> historyCreateShippingbills) {
 		this.historyCreateShippingbills = historyCreateShippingbills;
 	}
-
+	
+	
 	
 
 	

@@ -21,6 +21,7 @@ public class HistoryCreateShippingbill {
 	private User adminCreate;
 	@OneToOne
 	private User userShipper;
+	@Column(name="dateCreate")
 	private Date date;
 	@OneToOne
 	private ShippingBill shippingBill;

@@ -76,16 +76,19 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 						.collect(Collectors.toList()));
 				ShippingBill shippingBill = new ShippingBill();
 				shippingBill.setInvoices(invoices);
+				java.util.Date dateData = new java.util.Date();
+				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
 				float totalMoneyBill = 0;
 				for (Invoice invoice : invoices) {
+					invoice.setNhanVienGiaoHang(shipper);
+					invoice.setDateConfirm(date);
 					invoice.setStatusTransport(true);
 					totalMoneyBill += invoice.getBastketTotal().getTotalMoneyBasket();
 				}
 				shippingBill.setTotalMoneyInvoice(totalMoneyBill);
 				shippingBill.setAdminCreate(adminCreate);
 				shippingBill.setShipper(shipper);
-				java.util.Date dateData = new java.util.Date();
-				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());	
+				invoiceRepository.saveAll(invoices);
 				HistoryStoreEvent historyStoreEvent = historyStoreEventRepository.findByDate(date);
 				if (historyStoreEvent == null) {
 					historyStoreEvent = new HistoryStoreEvent();

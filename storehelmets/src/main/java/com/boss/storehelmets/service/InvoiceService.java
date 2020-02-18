@@ -31,4 +31,7 @@ public interface InvoiceService {
 	public Page<Invoice> getInvoicesByStatusConfimIsTrueAndSuccesIsFalse(String key);
 	
 	public int getTotalMoneyInvouceAwaitingApproval();
+	
+	public List<Invoice> getInvoiceStatusTransportIsTrue();
+	
 }

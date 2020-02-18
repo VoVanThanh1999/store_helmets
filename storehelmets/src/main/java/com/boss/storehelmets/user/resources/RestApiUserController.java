@@ -1,5 +1,6 @@
 package com.boss.storehelmets.user.resources;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -111,9 +112,21 @@ public class RestApiUserController {
 		return null;
 	}
 	
-	
 	private String changeInformationUser(UserDto userDto) {
 		
+		return null;
+	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.GET)
+	public User getUserById(@PathVariable("id") String id){
+		try {
+			Optional<User> user = userSevice.findUserById(id);
+			return user.get();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			System.err.println(e.getCause());
+		}
 		return null;
 	}
 }

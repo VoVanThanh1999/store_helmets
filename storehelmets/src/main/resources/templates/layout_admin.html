@@ -5,6 +5,7 @@
 	<link   rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<link   rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 	<link th:href="@{/static/css/style.css}" href="/static/css/style.css" rel="stylesheet" type="text/css" />
+	<link th:href="@{/static/jquery/shippingbill.js}" href="/static/jquery/shippingbill.js" />
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -51,9 +52,9 @@
         	margin-left: 228px;
 		    background: orange;
 		    color: white;
-		    margin-top: -35px;
+		    margin-top: -65px;
 		    display: none;
-			width: 200px;
+		    width: 300px;
         }
         .home-page{
         	position: relative;
@@ -166,14 +167,21 @@
 				<p>Đã hoàn thành</p>
 				<p id="dangChoDuyet">Đang chờ duyệt</p>
 				<p id="daDuyet">Đã duyệt</p>
-				<p>Đang vận chuyện</p>
+				<p id="dangVanChuyen">Đang vận chuyện</p>
 				<p>Đã hủy</p>
 			</div>
 		</div>
-		
 		<div class="container mt-1 bg-warning item">
-			<p class="h5 text-white " style="font-weight: 300" id="shippingBillId">Manager-Shipping</p>
+			<p class="h5 text-white " style="font-weight: 300" id="shippingBillId">Shipping-bill</p>
 			<div id="dropdownShippingBillId" class="btn dropdownItem" style="background: orange; color:white">
+				<p id="">Hóa đơn đang vận chuyển</p>
+				<p id="">Hóa đơn vận chuyển thành công</p>
+				<p id="">Hóa đơn đã hủy</p>
+			</div>
+		</div>
+		<div class="container mt-1 bg-warning item">
+			<p class="h5 text-white " style="font-weight: 300" id="shippingBillId">Shipper - manager</p>
+			<div id="" class="btn dropdownItem" style="background: orange; color:white">
 				
 				<p>Shipping - Confirm</p>
 				<p>Invoice - Confirm</p>
@@ -212,6 +220,7 @@ $( document ).ready(function() {
 		});
 		$("#shippingBillId").hover(function(){
 			document.getElementById("dropdownShippingBillId").style.display = "block";
+			$("#dropdownShippingBillId").css("weight","400px");
 		});
 		$(".container").hover(function(){
 			document.getElementById("dropdownInoivce").style.display = "none";
@@ -343,6 +352,9 @@ function nextPagesInvoiceConfirm(key){
 	
 }
  function viewDetailCustomer(id){
+	 if(id == null){
+		 return;
+	 }
 	 var request =	 $.ajax({
 			url: "/api/v1/admins/invoices/"+id,
 			method:"GET",
@@ -638,8 +650,103 @@ function nextPagesInvoiceConfirm(key){
 		}
 	}); 
  }
-</script>
-<script type="text/javascript">
+$('#dangVanChuyen').click(function(){
+	$(".home-page").html(`
+			<div class="awaiting-confirmation">
+		<br/>
+			<h4 class="text-center text-white" style="padding-bottom: 40px;">Hóa đơn đang vận chuyển</h4>
+				<div class="row">
+					<div class="col-md-6" style="margin-top: -20px;">
+						
+					</div>
+					<div class="col-md-6">
+						<div class="search float-right col-md-6">
+							<div class="row  no-gutters">
+								<label class="text-white">Tìm kiếm khách hàng</label><br/>
+								<input class="form-control "/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br/>
+				<br/>
+				<table class="table container  table-striped">
+				  <thead>
+				    <tr>
+				      <th scope="col">Họ tên khách hàng</th>
+				      <th scope="col">Thông tin giỏ hàng</th>
+				      <th scope="col">Ngày xác nhận hóa đơn</th>
+				      <th scope="col">Nhân viên giao hàng</th>
+				      <th scope="col">Admin xác nhận</th>
+				    </tr>
+				  </thead>
+				  <tbody id="idTableInvoice">
+			
+				  </tbody>
+				</table>
+				
+			</div>		
+		`);
+	getInvoiceStatusTransportIsTrue();	
+});
+
+ function getInvoiceStatusTransportIsTrue(){
+	 $.ajax({
+			url: "/api/v1/admins/invoices/beingtransported",
+			method:"GET",
+			contentType: "application/json",
+			dataType: 'json',
+		 })
+		 .done(function( data ) {
+			 $("#idTableInvoice").html(``);
+			for(i=0;i<data.length;i++){
+				$("#idTableInvoice").append(
+					`"<tr class="tr`+i+`">
+			 			 <td>`+data[i].nameCustomer+`</td>
+						 <td><button class="btn btn-danger" onclick= viewDetailBasket("`+data[i].idInvoice+`")>Xem chi tiết</button></td>
+						 <td>`+data[i].dateConfirm+`</td>
+						 <td><button class="btn btn-warning"onclick=viewDetailCustomer("`+data[i].idInvoice+`")>Xem chi tiết</button></td>
+						 <td><button class="btn btn-success" onclick=viewDetailAdmin("`+data[i].userConfirm.idUser+`")>Xem chi tiết</button></td>
+					</tr>"`	
+				);
+			}
+		 }); 
+ }
+
+ function viewDetailAdmin(id){
+	 if(id == null){
+		 return;
+	 }
+	 var request =	 $.ajax({
+			url: "/api/v1/users/"+id,
+			method:"GET",
+			contentType: "application/json",
+			dataType: 'json',
+		 });
+		 request.done(function( msg ) {
+			$(".viewDetails").css("display", "block");
+			$(".home-page").css("opacity","0.2");
+			$(".viewDetails").html(`
+				<div>
+					 <div style="font-size: 50px;margin-left: 400px;margin-top: -20px;" class="icon" onclick="remove()"> <i class="fas fa-minus-circle"></i></div>
+					 <label for="nameCustomer" class="">Họ tên khách hàng</label>
+			    	 <input class="form-control col-md-6"  id="nameCustomer" value=`+msg.nameCustomer+`>
+			    	  <label for="countryCustomer" >Tỉnh / Thành phố</label>
+			    	 <input class="form-control col-md-6"  id="countryCustomer" value=`+msg.address1+`>
+			    	  <label for="addressCustomer" >Địa chỉ</label>
+			    	 <input class="form-control col-md-6"  id="addressCustomer" value=`+msg.address2+`>
+			    	 <label for="telCustomer" >Số điện thoại</label>
+			    	 <input class="form-control col-md-6"  id="telCustomer" value=`+msg.tel+`>
+			    	 <label for="emailCustomer" >Email</label>
+			    	 <input class="form-control col-md-6"  id="emailCustomer" value=`+msg.email+`>
+				</div>
+			`);
+			
+		 });
+		 request.fail(function( jqXHR, textStatus ) {
+			 alert( "Request failed: " + textStatus );
+		 });
+}
 
 </script>
 </html>

@@ -129,4 +129,15 @@ public class RestApiInvoiceAdminController {
 		return null;
 	}
 	
+	@RequestMapping(value="/invoices/beingtransported",method=RequestMethod.GET)
+	public List<Invoice> getInvoiceStatusTransportIsTrue(){
+		try {
+			return invoiceService.getInvoiceStatusTransportIsTrue();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+	
 }

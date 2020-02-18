@@ -44,18 +44,13 @@ public class Invoice {
 	@Column(name="date_create")
 	private Date dateCreat;
 	
+	@Column(name="date_confirm")
+	private Date dateConfirm;
+	
 	@Column(name="email")
 	@Email
 	private String email;
 	
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
-
 	@Column(name="statusConfim")
 	private boolean	statusConfim;
 	
@@ -78,6 +73,9 @@ public class Invoice {
 	
 	@OneToOne
 	User userCreate;
+	
+	@OneToOne
+	private User nhanVienGiaoHang;
 	
 	/**
 	 * @return the idInvoice
@@ -247,7 +245,29 @@ public class Invoice {
 		this.statusCancel = statusCancel;
 	}
 	
-	
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public Date getDateConfirm() {
+		return dateConfirm;
+	}
+
+	public void setDateConfirm(Date dateConfirm) {
+		this.dateConfirm = dateConfirm;
+	}
+
+	public User getNhanVienGiaoHang() {
+		return nhanVienGiaoHang;
+	}
+
+	public void setNhanVienGiaoHang(User nhanVienGiaoHang) {
+		this.nhanVienGiaoHang = nhanVienGiaoHang;
+	}
 	
 
 	
