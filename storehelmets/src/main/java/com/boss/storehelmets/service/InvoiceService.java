@@ -34,4 +34,6 @@ public interface InvoiceService {
 	
 	public List<Invoice> getInvoiceStatusTransportIsTrue();
 	
+	public List<Invoice> getInvoiceByIdShippingBill(String idShippingBill);
+	
 }

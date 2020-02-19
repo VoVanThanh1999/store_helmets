@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.boss.storehelmets.app.utils.AppConstants;
@@ -88,6 +90,7 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 				shippingBill.setTotalMoneyInvoice(totalMoneyBill);
 				shippingBill.setAdminCreate(adminCreate);
 				shippingBill.setShipper(shipper);
+				shippingBill.setDate(date);
 				invoiceRepository.saveAll(invoices);
 				HistoryStoreEvent historyStoreEvent = historyStoreEventRepository.findByDate(date);
 				if (historyStoreEvent == null) {
@@ -260,5 +263,32 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 		}
 		return null;
 	}
+
+	@Override
+	public List<ShippingBill> getShipppingBillBeingTransported() {
+		// TODO Auto-generated method stub
+		List<ShippingBill> shippingBills = shippingBillRepository.findAll()
+				.stream().filter(s->s.isStatusShippingbill() == false )
+				.map(temp ->{
+					ShippingBill shippingBill = new ShippingBill();
+					shippingBill.setIdShippingBill(temp.getIdShippingBill());
+					shippingBill.setDate(temp.getDate());
+					shippingBill.setInvoices(temp.getInvoices());
+					shippingBill.setTotalMoneyInvoice(temp.getTotalMoneyInvoice());
+					shippingBill.setShipper(temp.getShipper());
+					shippingBill.setAdminCreate(temp.getAdminCreate());
+					return shippingBill;
+				}).collect(Collectors.toList());
+		return shippingBills;
+	}
+
+	@Override
+	public Page<ShippingBill> getShipppingBillBeingTransportedByPage(PageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
 
 }

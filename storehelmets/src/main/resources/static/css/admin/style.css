@@ -1,0 +1,65 @@
+@charset "ISO-8859-1";
+.header{
+			background: orange;
+			padding-top: 18px;
+			padding-bottom: 18px;
+		}
+		.header .h2{
+			font-weight: bold;
+		}
+		.header .icon{
+			color:white;
+			font-size: 20px;
+			margin-right: 88px;
+    		/* margin-left: 6px; */
+    	
+		}
+		.dropdown-toggle::after { 
+            content: none; 
+        } 
+        .nav-left{
+        	margin-top:90px;
+        	width: 18%;
+        	height:100%;
+        	z-index:1;
+        	background:#ffc547;
+        }
+        .item{
+        	height: 50px;
+        	padding-top: 6px;
+        }
+        .item .h5{
+        	font-weight: 400;
+        }
+        .dropdownItem{
+        	margin-left: 228px;
+		    background: orange;
+		    color: white;
+		    margin-top: -65px;
+		    display: none;
+		    width: 300px;
+        }
+        .home-page{
+        	position: relative;
+        	margin-top:6%;
+        	width: 82.1%;
+        	left:18%;
+        	height:730px;
+        	background: url("https://cdn.pixabay.com/photo/2016/03/10/01/28/orange-1247700_960_720.jpg");
+        }
+        .viewDetails{
+        	display:none;
+        	position:absolute;
+        	left:20%;
+        	top:0%	;
+        	width: 70%;
+        	padding-left:350px;
+        	animation: myAnimation 0.8s forwards;
+        }
+        @keyframes myAnimation{
+        	from{
+        		top: 0%;
+        	}to{
+        		top: 25%;
+        	}
+        }

@@ -98,6 +98,18 @@ public class RestApiShippingBillController {
 		}
 		return null;
 	}
-
+	
+	@RequestMapping(value="shippings/beingtransported",method=RequestMethod.GET)
+	public List<ShippingBill> getShippingBillBeingTransported(){
+		try {
+			return shippingBillService.getShipppingBillBeingTransported();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			System.err.println(e.getLocalizedMessage());
+		}
+		return null;
+	}
+	
 	
 }

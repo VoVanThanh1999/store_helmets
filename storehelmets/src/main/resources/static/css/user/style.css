@@ -1,0 +1,304 @@
+/* test git */
+		.header	{
+			
+		
+		}
+		.header	.menu-top{
+			
+			height:35px;
+			color: white;
+			background:#1f1f1f;
+		}
+		.header	.item {
+			font-size: 13px;
+		}
+		.header	.item i {
+			font-size: 16px;
+			color: white;'
+		}
+		.header	.menu-bottom {
+			background: black;
+			    box-shadow: 0px 0px 5px 5px grey;
+		}
+		.header	.menu-bottom img{
+			width: 170px;
+		}
+		.header	.menu-bottom li{
+			width: 125px;
+			font-size: 15px;
+			font-weight: 600;
+		}
+		.header	.menu-bottom .basket{
+			border-radius: 50%;
+			width : 32px;
+			height : 32px;
+			background: orange;
+		}
+		.header .loadProduct{
+			position:absolute;
+			left:79%;
+			margin-top:10px;
+			display: none;
+			height: 200px;
+			top: 53px;
+		}
+		.carousel-item img{
+			z-index: 0;
+			height: 650px;
+		}
+		.section-content{
+			position: relative;
+			z-index:1;
+		}
+		.section-content .page-service .container{
+			margin: auto;
+			text-align: center;
+		}
+		.section-content .page-service .container .item{
+			position: absolute;
+			top:-30px;
+			padding-top: 30px;
+			border-radius: 5%;
+			  box-shadow: 3px 3px 2px 2px grey;
+			background: #f0f0f0;
+			transition: 0.3s;
+		}
+		
+		.section-content .page-service .container .item:hover{
+			margin-top: -15px;
+			 box-shadow: 3px 3px 2px 2px grey; 
+		}
+		
+		.section-content .page-service .container .icon{
+			margin:auto;
+			width: 45px;
+			height: 45px;
+			border-radius: 50% ;
+			border: 1px solid orange;	
+		}
+		.section-content .page-service .container .icon:hover{
+			background: orange;
+		}
+		.section-content .page-service .container .icon i{
+			padding-top: 12px;
+			font-size: 20px;
+		}
+		.section-content .page-service .container .icon  h5{
+			padding-top: 15px;
+		}
+		.section-content .image  {
+			display: hidden;
+		}
+		.section-content .image img{
+			border-radius: 3%;
+			width:100%;
+			height: 100%;
+			transition: transform .2s;
+	
+		}
+		.section-content .image:hover img{
+			/* transform: scale(1.2); */
+		}
+		.page-bestproduct{
+			padding-top: 40px;
+		}
+		.slide-holder{
+			margin:0 auto;
+			padding-top: 50px;
+
+		}
+		.slide-container { /*slide-container là khối bao mà slide-stage có thể "trượt" bên trong */
+			height:300px;
+			width: 100%;
+			overflow: hidden;
+			position:relative;
+		}
+		.slide-stage{
+			position: absolute;
+		}
+		.slide-image { /*Độ rộng của .slide-image có thể được thay đổi theo nhu cầu, ảnh hưởng đến độ rộng chung của slideshow*/
+			float:left;
+			width:221px;
+			text-align: center;
+	
+		}
+		.slide-image .img{
+			width:80%;
+		}
+		
+		.slide-image img{
+			width:100%;
+			margin:0 auto;
+		}
+		.slide-pager{
+			position:relative;
+		}
+		.slide-control-prev {
+			position: absolute;
+			text-align: center;
+			width: 25px;
+			height: 60px;
+			background: orange;
+			line-height: 60px;
+			color: #fff;
+			cursor: pointer;
+			top: 35px;
+			left: -30px;
+		}
+		.slide-control-next{
+			position: absolute;
+			text-align: center;
+			width: 25px;
+			height: 60px;
+			background: orange;
+			line-height: 60px;
+			color: #fff;
+			cursor: pointer;
+			right: -30px;
+			top: 35px;
+		}
+		.page-advertisement{
+			padding-top: 50px;
+			background: orange;
+			padding-bottom:50px;
+		}
+		.page-advertisement  img{
+			width: 80px;
+		    height: 80px;
+		    border-radius: 50%;
+		}
+		.page-productbycategory{
+			padding-top: 70px;
+			padding-bottom: 60px;
+		}
+		.page-productbycategory .productByCaterogy {
+			float: left;
+		}	
+		.page-productbycategory .productByCaterogy .image{
+			float:left;
+			width: 28%;
+		}
+		.page-productbycategory .productByCaterogy .content{
+			float:left;
+			padding-left:10px;
+			width: 50%;
+				font-weight:600;
+		}
+		.page-productbycategory .productByCaterogy .content p{
+			font-weight:600;
+		}
+		.page-productbycategory .h4{
+			text-transform: uppercase;
+			font-weight:600;
+			letter-spacing: 0.5px;
+		}
+		.page-news{
+			padding-top: 20px;
+			background:url("https://c.wallhere.com/photos/82/24/texture_bricks-360143.jpg!d");
+			background-position: center;
+			height: auto;
+			padding-bottom: 30px;
+		}
+		.page-news .item{
+			height: 260px;
+		}
+		.page-news .item img{
+			width: 100%;
+			height: 100%;
+		}
+		.page-news .item h5{
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    line-height: 25px;
+		    -webkit-line-clamp: 3;
+		    height: 75px;
+		    display: -webkit-box;
+		    -webkit-box-orient: vertical;
+		}
+		.page-onors{
+		   padding-top: 30px;
+		   padding-bottom: 30px;
+		}
+		.page-connect{
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+		.footer{
+			padding-top: 40px;
+			padding-bottom: 20px;
+			
+		}
+		.footer ul li{
+		   list-style-type: none;
+		   font-size: 14px;	 
+		   font-weight: 500;
+		}
+		.footer-bottom {
+			padding-top:20px;
+			padding-bottom:5px;
+			background: black;
+			color: white;
+		}
+		.page-detail-product{
+			float: left;
+			background: blue;
+			height: 200px;
+		}
+		.page-product-details{
+			padding-top: 180px;
+		}
+		.page-product-details  img{
+			width: 290px;
+		}
+		.page-description-product{
+			padding-top: 150px;
+		}
+		.page-description-product	.characteristics .h6{
+			text-transform: uppercase;
+		}
+		.page-description-product	.characteristics li{
+				font-size: 15px;
+				font-weight: 500;
+				padding-top: 10px;
+		}
+		.page-product-similar{
+			padding-top: 70px;
+			padding-bottom: 70px;
+		}
+		.page-product-similar .item{
+			margin-top: 20px;
+		}
+		.page-product-similar .item img{
+			height: 200px;
+			margin-left: 30px;
+		}
+		.box{
+		background: #ffa500;
+	}
+	.img img{
+		width: 100px;	
+		height: 100%;
+	}
+	._h6{
+	float: right;
+    margin-right: 53px;
+    margin-top: 2px;
+    font-size: 12pt;
+    color: red;
+    font-weight: 500;
+	}
+	.box-1{
+		width: 100px;
+	
+	}
+	.box-1>img{
+		width: 80%;
+		height: 80%;
+	}
+	.box-1>button{
+		width: 100%;
+	}
+	.loadBasketDetails{
+		padding-top: 200px;
+		padding-bottom: 60px;
+	}

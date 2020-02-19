@@ -136,8 +136,21 @@ public class RestApiInvoiceAdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println(e.getMessage());
+			System.err.println(e.getLocalizedMessage());
 		}
 		return null;
+	}
+	
+	@RequestMapping(value="/invoices/shippingbill/{idshippingbill}",method=RequestMethod.GET)
+	public List<Invoice> getInvoiceByIdShippingBill(@PathVariable("idshippingbill") String idshippingbill){
+		try {
+			return invoiceService.getInvoiceByIdShippingBill(idshippingbill);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			System.err.println(e.getLocalizedMessage());
+		}
+			return null;
 	}
 	
 }

@@ -27,12 +27,14 @@ import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.Product;
 import com.boss.storehelmets.model.ProductsDetails;
 import com.boss.storehelmets.model.SalesHistory;
+import com.boss.storehelmets.model.ShippingBill;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.BasketRepository;
 import com.boss.storehelmets.repository.BasketTotalRepository;
 import com.boss.storehelmets.repository.HistoryStoreEventRepository;
 import com.boss.storehelmets.repository.InvoiceRepository;
 import com.boss.storehelmets.repository.ProductRepository;
+import com.boss.storehelmets.repository.ShippingBillRepository;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService{
@@ -56,6 +58,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	@Autowired
 	HistoryStoreEventRepository historyStoreEventRepository;
+	
+	@Autowired
+	ShippingBillRepository shippingBillRepository;
 	 
 	@Transactional
 	@Override
@@ -308,8 +313,12 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return null;
 	}
 	
-
-	
+	@Override
+	public List<Invoice> getInvoiceByIdShippingBill(String idShippingBill) {
+		// TODO Auto-generated method stub
+		Optional<ShippingBill> shippingBill = shippingBillRepository.findById(idShippingBill);
+		return shippingBill.get().getInvoices();
+	}
 
 /*	@Override
 	public void deleteInvoice() {
