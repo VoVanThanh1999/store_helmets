@@ -1,6 +1,10 @@
 package com.boss.storehelmets.app.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class AppConstants {
+	
 	public static final String SUCCESS_CREATE = "thêm thành công";
 	public static final String SUCCESS_DELETE = "xóa thành công";
 	public static final String SUCCESS_UPDATE = "cập nhập thành công";

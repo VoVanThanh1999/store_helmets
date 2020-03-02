@@ -60,7 +60,6 @@ public class RestApiShippingBillController {
 	@RequestMapping(value = "/shippings/{idshiper}/{idadmin}",method = RequestMethod.POST)
 	public String addNewsShippingBill(@RequestBody List<Invoice> invoicesDto, @PathVariable("idshiper") String idshiper, @PathVariable("idadmin") String idadmin) {
 		try {
-			System.err.println(invoicesDto.get(0).getIdInvoice());
 			Optional<User> admin  = userSevice.findUserById(idadmin);
 			Optional<User> shiper = userSevice.findUserById(idshiper);
 			if (admin != null && shiper != null && invoicesDto != null) {
@@ -99,7 +98,7 @@ public class RestApiShippingBillController {
 		return null;
 	}
 	
-	@RequestMapping(value="shippings/beingtransported",method=RequestMethod.GET)
+	@RequestMapping(value="/shippings/beingtransported",method=RequestMethod.GET)
 	public List<ShippingBill> getShippingBillBeingTransported(){
 		try {
 			return shippingBillService.getShipppingBillBeingTransported();

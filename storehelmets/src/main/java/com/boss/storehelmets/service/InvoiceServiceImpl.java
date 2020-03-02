@@ -1,4 +1,5 @@
 package com.boss.storehelmets.service;
+
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -37,40 +38,40 @@ import com.boss.storehelmets.repository.ProductRepository;
 import com.boss.storehelmets.repository.ShippingBillRepository;
 
 @Service
-public class InvoiceServiceImpl implements InvoiceService{
+public class InvoiceServiceImpl implements InvoiceService {
 	@Autowired
 	ProductRepository productRepository;
-	
+
 	@Autowired
 	InvoiceRepository invoiceRepository;
-	
+
 	@Autowired
 	BasketDtoService basketDtoService;
-	
+
 	@Autowired
 	BasketTotalRepository basketTotalRepository;
-	
+
 	@Autowired
 	BasketRepository basketRepository;
-	
+
 	@Autowired
 	ProductService productService;
-	
+
 	@Autowired
 	HistoryStoreEventRepository historyStoreEventRepository;
-	
+
 	@Autowired
 	ShippingBillRepository shippingBillRepository;
-	 
+
 	@Transactional
 	@Override
-	public String inserNewInvoice(HttpServletRequest request, User user,Invoice invoiceDto) {
+	public String inserNewInvoice(HttpServletRequest request, User user, Invoice invoiceDto) {
 		// TODO Auto-generated method stub
 		try {
 			HttpSession session = request.getSession();
 			BastketDtoTotal bastketDtoTotal = basketDtoService.getTotalBasketDto(request);
 			List<BasketDto> basketDtos = (List<BasketDto>) session.getAttribute("basketDtoSession");
-			if (basketDtos != null ) {
+			if (basketDtos != null) {
 				Invoice invoice = new Invoice();
 				java.util.Date dateData = new java.util.Date();
 				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
@@ -97,15 +98,14 @@ public class InvoiceServiceImpl implements InvoiceService{
 					basketRepository.save(basket);
 					batkets.add(basket);
 				}
-				
+
 				bastketTotal.setTotalMoneyBasket(bastketDtoTotal.getTotalMoneyBasket());
 				bastketTotal.setBaskets(batkets);
 				invoice.setBastketTotal(bastketTotal);
 				invoiceRepository.save(invoice);
 				return AppConstants.ADD_INVOICE_SUCCESS;
 			}
-			
-		
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -113,36 +113,37 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 		return AppConstants.ADD_INVOICE_ERROR;
 	}
-	
+
 	@Transactional
 	@Override
-	public String confimInvoice( User user,String id) {
+	public String confimInvoice(User user, String id) {
 		// TODO Auto-generated method stub
 		try {
 			Optional<Invoice> invoice = invoiceRepository.findById(id);
 			if (invoice.isPresent()) {
-			   if  (!invoice.get().isStatusConfim()) {
-	
-				   	invoice.get().setStatusConfim(true);
-						invoice.get().setUserConfirm(user);
-						Set<Basket> bastketTotals = invoice.get().getBastketTotal().getBaskets();
-						for (Basket basket : bastketTotals) {
-							Optional<Product> product = productService.getById(basket.getIdProduct());
-							ProductsDetails productsDetails = product.get().getProductsDetails();			
-							int quantitySold = productsDetails.getQuantitySold() + basket.getNumOfCart();
-							productsDetails.setQuantitySold(quantitySold);
-							productsDetails.setQuantityExists(productsDetails.getNumberEntered() - productsDetails.getQuantitySold());
-							product.get().setProductsDetails(productsDetails);
-							if (productsDetails.getQuantityExists() > 1) {
-								productRepository.save(product.get());
-							}else {
-								return null;
-							}
-						}		
+				if (!invoice.get().isStatusConfim()) {
+
+					invoice.get().setStatusConfim(true);
+					invoice.get().setUserConfirm(user);
+					Set<Basket> bastketTotals = invoice.get().getBastketTotal().getBaskets();
+					for (Basket basket : bastketTotals) {
+						Optional<Product> product = productService.getById(basket.getIdProduct());
+						ProductsDetails productsDetails = product.get().getProductsDetails();
+						int quantitySold = productsDetails.getQuantitySold() + basket.getNumOfCart();
+						productsDetails.setQuantitySold(quantitySold);
+						productsDetails.setQuantityExists(
+								productsDetails.getNumberEntered() - productsDetails.getQuantitySold());
+						product.get().setProductsDetails(productsDetails);
+						if (productsDetails.getQuantityExists() > 1) {
+							productRepository.save(product.get());
+						} else {
+							return null;
+						}
+					}
 					java.util.Date dateData = new java.util.Date();
-					Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());	
-					HistoryStoreEvent event  = historyStoreEventRepository.findByDate(date);
-					if (event ==  null) {
+					Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
+					HistoryStoreEvent event = historyStoreEventRepository.findByDate(date);
+					if (event == null) {
 						event = new HistoryStoreEvent();
 						event.setDate(date);
 						Set<HistoryComfirmInvoice> historyComfirmInvoices = new HashSet<>();
@@ -153,8 +154,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 						historyComfirmInvoices.add(historyComfirmInvoice);
 						event.setHistoryComfirmInvoices(historyComfirmInvoices);
 						historyStoreEventRepository.save(event);
-					}else {
-						Set<HistoryComfirmInvoice> historyComfirmInvoices =  event.getHistoryComfirmInvoices();
+					} else {
+						Set<HistoryComfirmInvoice> historyComfirmInvoices = event.getHistoryComfirmInvoices();
 						HistoryComfirmInvoice historyComfirmInvoice = new HistoryComfirmInvoice();
 						historyComfirmInvoice.setInvoice(invoice.get());
 						historyComfirmInvoice.setUser(user);
@@ -176,12 +177,12 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 		return null;
 	}
-	
-	public List<Invoice> getInvoiceHaveStatusConfimIsTrue(){
-		
+
+	public List<Invoice> getInvoiceHaveStatusConfimIsTrue() {
+
 		return null;
 	}
-	
+
 	@Override
 	public List<Invoice> getAllInvoice() {
 		// TODO Auto-generated method stub
@@ -201,7 +202,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 	public List<Invoice> getInvoicesByUserId(User user) {
 		// TODO Auto-generated method stub
 		List<Invoice> invoices = invoiceRepository.findInvoiceByUserIdCreate(user.getIdUser());
-		
+
 		return invoices;
 	}
 
@@ -218,7 +219,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			Page<Invoice> page = invoiceRepository.findInvoiceAndGetInPage(PageRequest.of(0, 5));
 			switch (valuekey) {
 			case "loadAtStart":
-				return	page;
+				return page;
 			case "previousPageable":
 				Page<Invoice> pagePrevious = invoiceRepository.findInvoiceAndGetInPage(page.previousPageable());
 				return pagePrevious;
@@ -226,7 +227,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				Page<Invoice> pageNext = invoiceRepository.findInvoiceAndGetInPage(page.nextPageable());
 				return pageNext;
 			default:
-				
+
 				return null;
 			}
 		} catch (Exception e) {
@@ -249,21 +250,23 @@ public class InvoiceServiceImpl implements InvoiceService{
 		Optional<Invoice> invoice = invoiceRepository.findById(id);
 		return invoice.get();
 	}
-	
 
 	@Override
 	public Page<Invoice> getInvoicesByStatusConfimIsTrueAndSuccesIsFalse(String key) {
 		// TODO Auto-generated method stub
 		try {
-			Page<Invoice> page = invoiceRepository.findInvoiceGetStatusConfimIsTrueAndSuccessIsFalse(PageRequest.of(0, 5));
+			Page<Invoice> page = invoiceRepository
+					.findInvoiceGetStatusConfimIsTrueAndSuccessIsFalse(PageRequest.of(0, 5));
 			switch (key) {
 			case "loadAtStart":
-				return	page;
+				return page;
 			case "previousPageable":
-				Page<Invoice> pagePrevious = invoiceRepository.findInvoiceGetStatusConfimIsTrueAndSuccessIsFalse(page.previousPageable());
+				Page<Invoice> pagePrevious = invoiceRepository
+						.findInvoiceGetStatusConfimIsTrueAndSuccessIsFalse(page.previousPageable());
 				return pagePrevious;
 			case "nextPageable":
-				Page<Invoice> pageNext = invoiceRepository.findInvoiceGetStatusConfimIsTrueAndSuccessIsFalse(page.nextPageable());
+				Page<Invoice> pageNext = invoiceRepository
+						.findInvoiceGetStatusConfimIsTrueAndSuccessIsFalse(page.nextPageable());
 				return pageNext;
 			default:
 				return null;
@@ -274,6 +277,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 		return null;
 	}
+
 //	get tong so tien ma hoa don đang  vận chuyện
 	@Override
 	public int getTotalMoneyInvouceAwaitingApproval() {
@@ -291,10 +295,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 	public List<Invoice> getInvoiceStatusTransportIsTrue() {
 		// TODO Auto-generated method stub
 		try {
-			List<Invoice> invoices = invoiceRepository.findAll()
-					.stream()
-					.filter(i ->i.isStatusTransport() == true && i.isStatusSuccess() == false)
-					.map(temp->{
+			List<Invoice> invoices = invoiceRepository.findAll().stream()
+					.filter(i -> i.isStatusTransport() == true && i.isStatusSuccess() == false).map(temp -> {
 						Invoice invoice = new Invoice();
 						invoice.setIdInvoice(temp.getIdInvoice());
 						invoice.setNameCustomer(temp.getNameCustomer());
@@ -303,8 +305,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 						invoice.setNhanVienGiaoHang(temp.getNhanVienGiaoHang());
 						invoice.setUserConfirm(temp.getUserConfirm());
 						return invoice;
-					})
-					.collect(Collectors.toList());
+					}).collect(Collectors.toList());
 			return invoices;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -312,7 +313,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public List<Invoice> getInvoiceByIdShippingBill(String idShippingBill) {
 		// TODO Auto-generated method stub
@@ -320,35 +321,20 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return shippingBill.get().getInvoices();
 	}
 
-/*	@Override
-	public void deleteInvoice() {
-		// TODO Auto-generated method stub
-		List<Invoice> invoices = invoiceRepository.findAll();
-		java.util.Date dateData = new java.util.Date();
-		Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
-		for (Invoice invoice : invoices) {
-			int year = dateData.getYear() - invoice.getDateCreat().getYear();
-			int mounth = dateData.getMonth() - invoice.getDateCreat().getMonth();
-			if (year>1 || mounth >2) {
-				invoiceRepository.delete(invoice);
-				return "xoa thanh cong";
-			}
-		}
-<<<<<<< HEAD
-		return null;
-	}
+	/*
+	 * @Override public void deleteInvoice() { // TODO Auto-generated method stub
+	 * List<Invoice> invoices = invoiceRepository.findAll(); java.util.Date dateData
+	 * = new java.util.Date(); Date date = new Date(dateData.getYear(),
+	 * dateData.getMonth(), dateData.getDate()); for (Invoice invoice : invoices) {
+	 * int year = dateData.getYear() - invoice.getDateCreat().getYear(); int mounth
+	 * = dateData.getMonth() - invoice.getDateCreat().getMonth(); if (year>1 ||
+	 * mounth >2) { invoiceRepository.delete(invoice); return "xoa thanh cong"; } }
+	 * <<<<<<< HEAD return null; }
+	 * 
+	 * @Override public List<Invoice> getInvoicesByUserId(User user) { // TODO
+	 * Auto-generated method stub List<Invoice> invoice =
+	 * invoiceRepository.findInvoiceByUserIdCreate(user.getIdUser()); return
+	 * invoice; } ======= }
+	 */
 
-	@Override
-	public List<Invoice> getInvoicesByUserId(User user) {
-		// TODO Auto-generated method stub
-		List<Invoice> invoice = invoiceRepository.findInvoiceByUserIdCreate(user.getIdUser());
-		return invoice;
-	}
-=======
-	}*/
-
-	
-	
-	
-	
 }

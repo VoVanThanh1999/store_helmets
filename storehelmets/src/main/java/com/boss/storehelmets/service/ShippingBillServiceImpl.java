@@ -29,6 +29,7 @@ import com.boss.storehelmets.model.Roles;
 import com.boss.storehelmets.model.SalesHistory;
 import com.boss.storehelmets.model.ShippingBill;
 import com.boss.storehelmets.model.User;
+import com.boss.storehelmets.repository.HistoryCreateShippingbillRepository;
 import com.boss.storehelmets.repository.HistoryStoreEventRepository;
 import com.boss.storehelmets.repository.InvoiceRepository;
 import com.boss.storehelmets.repository.ProductRepository;
@@ -37,6 +38,10 @@ import com.boss.storehelmets.repository.UserRepository;
 
 @Service
 public class ShippingBillServiceImpl implements ShippingBillService {
+	
+	public static final String XACNHANHOADONTHANHCONG="Bạn đã xác nhận hóa đơn thành công";
+	public static final String XACNHANHOADONTHATBAI = "Xác nhận hóa đơn thất bại";
+	
 	@Autowired
 	UserRepository userRepository;
 
@@ -60,9 +65,12 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 
 	@Autowired
 	HistoryStoreEventRepository historyStoreEventRepository;
-	
+
 	@Autowired
 	UserSevice userSevice;
+	
+	@Autowired
+	HistoryCreateShippingbillRepository historyCreateShippingbillRepository;
 	
 	@Transactional
 	@Override
@@ -103,28 +111,33 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 					historyCreateShippingbill.setShippingBill(shippingBill);
 					historyCreateShippingbill.setDate(date);
 					historyCreateShippingbill.setUserShipper(shipper);
+					historyCreateShippingbillRepository.save(historyCreateShippingbill);
 					createShippingbills.add(historyCreateShippingbill);
 					historyStoreEvent.setHistoryCreateShippingbills(createShippingbills);
-				}else {
-					Set<HistoryCreateShippingbill> createShippingbills = new HashSet<>();
+					
+					historyStoreEventRepository.save(historyStoreEvent);
+				} else {
+					Set<HistoryCreateShippingbill> createShippingbills =historyStoreEvent.getHistoryCreateShippingbills();
 					HistoryCreateShippingbill historyCreateShippingbill = new HistoryCreateShippingbill();
-					historyCreateShippingbill.setDate(date);
 					historyCreateShippingbill.setAdminCreate(adminCreate);
 					historyCreateShippingbill.setShippingBill(shippingBill);
 					historyCreateShippingbill.setDate(date);
 					historyCreateShippingbill.setUserShipper(shipper);
+					historyCreateShippingbillRepository.save(historyCreateShippingbill);
 					createShippingbills.add(historyCreateShippingbill);
 					historyStoreEvent.setHistoryCreateShippingbills(createShippingbills);
+					historyStoreEventRepository.save(historyStoreEvent);
 				}
-					
 				
 				shippingBillRepository.save(shippingBill);
 				return AppConstants.SUCCESS_ADD_SHIPPINGBILL;
 			}
+	
 
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.err.println(e.getMessage());
+			e.printStackTrace();
+			
 		}
 		return null;
 	}
@@ -241,9 +254,8 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 					for (Basket basket : invoice.getBastketTotal().getBaskets()) {
 						Optional<Product> product = productRepository.findById(basket.getIdBasket());
 						ProductsDetails details = product.get().getProductsDetails();
-						
-					}
 
+					}
 				}
 			}
 		}
@@ -252,14 +264,21 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 
 	@Override
 	public List<User> getUserHaveRoleIsShippers() {
-		// TODO Auto-generated method stub 
-		List<User> users = userRepository.findAll();
-		for (User user : users) {
-			for (Roles roles : user.getRoles()) {
-				if(roles.getRoleName().equalsIgnoreCase("ROLE_SHIPPER"));
-				List<User> shipper = Arrays.asList(user);
-				return shipper;
+		// TODO Auto-generated method stub
+		try {
+			List<User> users = userRepository.findAll();
+			List<User> shipper = new ArrayList<>();
+			for (User user : users) {
+				for (Roles roles : user.getRoles()) {
+					if (roles.getRoleName().equalsIgnoreCase("ROLE_SHIPPER")) {
+						shipper.add(user);
+					}
+				}
 			}
+			return shipper;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
 		}
 		return null;
 	}
@@ -267,19 +286,24 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 	@Override
 	public List<ShippingBill> getShipppingBillBeingTransported() {
 		// TODO Auto-generated method stub
-		List<ShippingBill> shippingBills = shippingBillRepository.findAll()
-				.stream().filter(s->s.isStatusShippingbill() == false )
-				.map(temp ->{
-					ShippingBill shippingBill = new ShippingBill();
-					shippingBill.setIdShippingBill(temp.getIdShippingBill());
-					shippingBill.setDate(temp.getDate());
-					shippingBill.setInvoices(temp.getInvoices());
-					shippingBill.setTotalMoneyInvoice(temp.getTotalMoneyInvoice());
-					shippingBill.setShipper(temp.getShipper());
-					shippingBill.setAdminCreate(temp.getAdminCreate());
-					return shippingBill;
-				}).collect(Collectors.toList());
-		return shippingBills;
+		try {
+			List<ShippingBill> shippingBills = shippingBillRepository.findAll().stream()
+					.filter(s -> s.isStatusShippingbill() == false).map(temp -> {
+						ShippingBill shippingBill = new ShippingBill();
+						shippingBill.setIdShippingBill(temp.getIdShippingBill());
+						shippingBill.setDate(temp.getDate());
+						shippingBill.setInvoices(temp.getInvoices());
+						shippingBill.setTotalMoneyInvoice(temp.getTotalMoneyInvoice());
+						shippingBill.setShipper(temp.getShipper());
+						shippingBill.setAdminCreate(temp.getAdminCreate());
+						return shippingBill;
+					}).collect(Collectors.toList());
+			return shippingBills;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+		}
+		return null;
 	}
 
 	@Override
@@ -288,6 +312,37 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 		return null;
 	}
 
+	@Override
+	public float getMoneyShippingBillBeingTransported() {
+		// TODO Auto-generated method stub
+		List<ShippingBill> shippingBills = getShipppingBillBeingTransported();
+		float money = 0;
+		for (ShippingBill shippingBill : shippingBills) {
+			money += shippingBill.getTotalMoneyInvoice();
+		}
+		return money;
+	}
+
+	@Override
+	public String xacNhanHoanThanhHoaDon(String idShippingBill, String idManger) {
+		// TODO Auto-generated method stub
+		try {
+			Optional<ShippingBill> shippingBill = shippingBillRepository.findById(idShippingBill);
+			if(shippingBill.get().isXacNhanTuTaiXe() && !shippingBill.get().isStatusShippingbill()) {
+				java.util.Date dateData = new java.util.Date();
+				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
+				shippingBill.get().setNgayAdminXacNhanThanhCong(date);
+				shippingBill.get().setChuyenChoAdmin(true);
+				Optional<User> adminManager = userSevice.findUserById(idManger);
+				shippingBill.get().setAdminXacNhanHoanThanhHoaDon(adminManager.get());
+				return ShippingBillServiceImpl.XACNHANHOADONTHANHCONG;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ShippingBillServiceImpl.XACNHANHOADONTHATBAI;
+	}
 
 	
 

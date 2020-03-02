@@ -35,19 +35,19 @@ public class HistoryStoreEvent {
 	@Column(name="total_deductible_amount")
 	private double totalDeductibleAmount;
 	
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_history_event")
 	private Set<SalesHistory> salesHistory;
 	
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_history_event")
 	private Set<HistoryImportProduct> productImportHistories;
 	
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_history_event")
 	private Set<HistoryComfirmInvoice> historyComfirmInvoices;
 	
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_history_event")
 	private Set<HistoryCreateShippingbill> historyCreateShippingbills;
 	

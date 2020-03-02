@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout_admin :: head">
+</head>
+<body>
+	<div th:replace="layout_admin :: header">
+	</div>
+	<div th:replace="layout_admin :: nav-left">
+	</div>	
+	<div class="home-page">
+		<h4 class="text-center pt-5">Những hóa đơn đang vận chuyển</h4>
+		<br/>
+		<table class="table table-striped">
+		    <thead>
+		        <tr>
+		            <th> Mã hóa đơn </th>
+		            <th> Tiền hóa đơn </th>
+		            <th> Tiền thu được </th>
+		            <th> Tiền chưa thu được</th>
+		            <th> Tiền đã hủy</th>
+		            <th> Danh sách đơn hàng</th>
+		            <th> Success</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		  		<tr th:each="shippingBill , state : ${shippingBills}">
+		  			<td  th:utext="${shippingBill.idShippingBill}"></td>
+		  			<td  th:utext="${shippingBill.totalMoneyInvoice}"></td>
+		  			<td  th:utext="${shippingBill.totalMoneyCollected}"></td>
+		  			<td  th:utext="${shippingBill.totalMoneyNotYetCollected}"></td>
+		  			<td  th:utext="${shippingBill.tienDaHuy}"></td>
+		  			<td class="btn btn-danger"><a href="#" th:href="@{/shipper/chitiethoadon/idhoadon(idhoadon=${shippingBill.idShippingBill})}" class="btn text-white">Xem chi tiết</a></td>
+		  			<td><a href="#" class="btn btn-success"><i class="fas fa-check"></i></a></td>
+		  		</tr>	 
+		    </tbody>
+		</table>
+	</div>
+	<div class="viewDetails">
+		
+	</div>
+<script type="text/javascript" th:replace="layout :: js_layout"></script>	
+<script type="text/javascript">
+	function changeMoney(){
+		
+	}
+</script>
+</body>
+</html>

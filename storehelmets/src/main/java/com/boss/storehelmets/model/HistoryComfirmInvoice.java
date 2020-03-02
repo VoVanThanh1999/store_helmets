@@ -19,7 +19,7 @@ public class HistoryComfirmInvoice {
 	@Column(name="id_history_comfirm_invoice")
 	private String idHistoryComfirmInvoice;
 	
-	@OneToOne()
+	@OneToOne
 	private User user;
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)

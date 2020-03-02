@@ -32,5 +32,7 @@ public interface ShippingBillService {
 	
 	public Page<ShippingBill> getShipppingBillBeingTransportedByPage(PageRequest pageRequest);
 	
+	public float getMoneyShippingBillBeingTransported();
 	
+	public String xacNhanHoanThanhHoaDon(String idShippingBill,String idManger);
 }

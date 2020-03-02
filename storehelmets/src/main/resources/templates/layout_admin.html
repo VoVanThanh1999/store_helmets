@@ -115,7 +115,6 @@
 		<div class="container mt-1 bg-warning item">
 			<p class="h5 text-white " style="font-weight: 300" id="shippingBillId">Shipper - manager</p>
 			<div id="" class="btn dropdownItem" style="background: orange; color:white">
-				
 				<p>Shipping - Confirm</p>
 				<p>Invoice - Confirm</p>
 				<p>Shippbill - View</p>
@@ -125,7 +124,11 @@
 			</div>
 		</div>
 		<div class="container mt-1 bg-warning item">
-			<p class="h5 text-white " style="font-weight: 300">Money</p>
+			<p class="h5 text-white " style="font-weight: 300" id="idMoney">Money</p>
+			<div id="dropdownMoney" class="btn dropdownItem" style="background: orange; color:white">
+				<p id="tienDangChoLay">Tiền đang chờ lấy</p>
+				<p>Tiền đã bán hàng</p>
+			</div>
 		</div>
 		<div class="container mt-1 bg-warning item">
 			<p class="h5 text-white " style="font-weight: 300">Manager - user</p>
@@ -147,6 +150,9 @@ function loadUsername(){
 	$("#inoivceId").hover(function(){
 		document.getElementById("dropdownInoivce").style.display = "block";
 	});
+	$("#idMoney").hover(function(){
+		document.getElementById("dropdownMoney").style.display = "block";
+	});
 	$("#shippingBillId").hover(function(){
 		document.getElementById("dropdownShippingBillId").style.display = "block";
 		$("#dropdownShippingBillId").css("weight","400px");
@@ -154,6 +160,7 @@ function loadUsername(){
 	$(".container").hover(function(){
 		document.getElementById("dropdownInoivce").style.display = "none";
 		document.getElementById("dropdownShippingBillId").style.display = "none";
+		document.getElementById("dropdownMoney").style.display = "none";
 	});
 </script>
 </body>

@@ -125,6 +125,7 @@ function nextPagesInvoiceConfirm(key){
 	
 }
  function viewDetailCustomer(id){
+	 debugger;
 	 if(id == null){
 		 return;
 	 }
@@ -161,6 +162,7 @@ function nextPagesInvoiceConfirm(key){
  }
  
  function viewDetailBasket(id){
+	 debugger;
 	 var request =	 $.ajax({
 			url: "/api/v1/admins/invoices/"+id,
 			method:"GET",
@@ -505,7 +507,7 @@ $('#dangVanChuyen').click(function(){
 				<div>
 					 <div style="font-size: 50px;margin-left: 400px;margin-top: -20px;" class="icon" onclick="remove()"> <i class="fas fa-minus-circle"></i></div>
 					 <label for="nameCustomer" class="">Họ tên</label>
-			    	 <input class="form-control col-md-6"  id="nameCustomer" value=`+msg.nameCustomer+`>
+			    	 <input class="form-control col-md-6"  id="nameCustomer" value=`+msg.fullName+`>
 			    	  <label for="countryCustomer" >Tỉnh / Thành phố</label>
 			    	 <input class="form-control col-md-6"  id="countryCustomer" value=`+msg.address1+`>
 			    	  <label for="addressCustomer" >Địa chỉ</label>
@@ -522,3 +524,22 @@ $('#dangVanChuyen').click(function(){
 			 alert( "Request failed: " + textStatus );
 		 });
 }
+ function xacNhanGiaoHangThanhCong(){
+	 console.log('dsad');
+ }
+
+ function xacNhanHuyHang(idInvoice,IdShippingbill){
+	 console.log(idInvoice,IdShippingbill); 
+	 var xacNhan =  confirm("Khách hàng có thực sự hủy đơn hàng?");
+	 if(xacNhan == true){
+		 $.ajax({
+			method: "PATCH",
+			contentType: "application/json",
+			dataType: 'json',
+			url: "/api/v1/shippers/shippingbills/"+IdShippingbill+"/cancel/invoices/"+idInvoice,
+		 })
+		.done(function( msg ) {
+			alert(msg);
+		});
+	 }
+ }

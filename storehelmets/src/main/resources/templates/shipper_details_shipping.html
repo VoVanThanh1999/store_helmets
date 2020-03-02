@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout_admin :: head">
+</head>
+<body>
+	<div th:replace="layout_admin :: header">
+	</div>
+	<div th:replace="layout_admin :: nav-left">
+	</div>	
+	<div class="home-page">
+		<div style="margin-left: 140px;">
+			<h4 class=" text-center pt-5 float-left">Danh sách các đơn đặt hàng của hóa đơn: </h4>
+			<h5 id="idShippingbill" th:utext="${idHoaDon}" class=" float-left pt-5 ml-3 mt-1"></h5>
+		</div>
+		<br/>
+		<br/>
+		<table class="table  table-border" style="margin-top: 130px;">
+		    <thead>
+		       <tr>
+		          <th>Mã hóa đơn</th>
+		       	  <th>Trạng thái</th>
+		       	  <th>Thông tin khách hàng</th>
+		       	  <th>Thông tin giỏ hàng</th>
+		       	  <th>Giao hàng</th>
+		       	  <th>Hủy đơn</th>
+		       </tr>
+		    </thead>
+		    <tbody id="loadDonDatHang">
+		  		
+		    </tbody>
+		</table>
+	</div>
+	<div class="viewDetails">
+		
+	</div>
+
+<script type="text/javascript" th:replace="layout_admin :: js_layout_admin"></script>	
+<script type="text/javascript" th:src="@{/jquery/admin/invoices.js}"></script>
+<script type="text/javascript" th:replace="layout :: js_layout"></script>	
+<script type="text/javascript">
+loadUsername();
+function loadUsername(){
+	   $.ajax({
+		   url: "/api/v1/users/username",
+		   method:"GET"
+		 })
+		 .done(function( data ) {
+		   $('#nameProfile').html(data);
+		 });
+}
+hienThiDonDatHang();
+	function hienThiDonDatHang(){
+		 var idShippingbill = $('#idShippingbill').html(); 
+		 var request =	 $.ajax({
+				url: "/api/v1/shippers/shippingbills/"+idShippingbill+"/invoices",
+				method:"GET",
+				contentType: "application/json",
+				dataType: 'json',
+			 });
+			 request.done(function( data ) {
+				for(i=0;i<data.length;i++){
+					$("#loadDonDatHang").append(
+						`	<tr>
+					          <td>`+data[i].idInvoice+`</td>
+					       	  <td></td>
+					       	  <td><p class="btn btn-danger" onclick=viewDetailCustomer("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
+					       	  <td><p class="btn btn-danger" onclick=viewDetailBasket("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
+					       	  <td><p class="btn btn-success" onclick="xacNhanGiaoHangThanhCong()">Xác nhận<p></td>
+					       	  <td><p class="btn btn-secondary" onclick=xacNhanHuyHang("`+data[i].idInvoice+`","`+idShippingbill+`")>Xác nhận<p></td>
+					       </tr>	`		
+					);		
+				}
+			 });
+			 request.fail(function( jqXHR, textStatus ) {
+				 alert( "Request failed: " + textStatus );
+			 });
+		
+		
+			 
+	}
+
+</script>
+</body>
+</html>

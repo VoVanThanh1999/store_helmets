@@ -1,5 +1,10 @@
+
 package com.boss.storehelmets.model;
+
 import java.sql.Date;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -16,67 +22,73 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
-@Table(name="invoice")
+@Table(name = "invoice")
 public class Invoice {
-	
+
 	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-	@Column(name="id_invoice")
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@Column(name = "id_invoice")
 	private String idInvoice;
-	
-	@Column(name="name_customer")
+
+	@Column(name = "name_customer")
 	@NotNull
 	private String nameCustomer;
-	
-	@Column(name="address1")
+
+	@Column(name = "address1")
 	private String address1;
-	
-	@Column(name="address2")
+
+	@Column(name = "address2")
 	private String address2;
-	
-	@Column(name="tel")
+
+	@Column(name = "tel")
 	private int tel;
-	
-	@Column(name="note")
+
+	@Column(name = "note")
 	private String note;
-	
-	@Column(name="date_create")
+
+	@Column(name = "date_create")
 	private Date dateCreat;
-	
-	@Column(name="date_confirm")
+
+	@Column(name = "date_confirm")
 	private Date dateConfirm;
-	
-	@Column(name="email")
+
+	@Column(name = "delivery")
+	private Date dateDeliverySuccessOrCancel;
+
+	@Column(name = "email")
 	@Email
 	private String email;
-	
-	@Column(name="statusConfim")
-	private boolean	statusConfim;
-	
-	@Column(name="statusSuccess")
-	private boolean	statusSuccess;
-	
-	@Column(name="statusTransport")
-	private boolean	statusTransport;
-	
-	@Column(name="statusCancel")
+
+	@Column(name = "statusConfim")
+	private boolean statusConfim;
+
+	@Column(name = "statusSuccess")
+	private boolean statusSuccess;
+
+	@Column(name = "xac_nhan_tu_tai_xe")
+	private boolean xacNhanTuTaiXe;
+
+	@Column(name = "statusTransport")
+	private boolean statusTransport;
+
+	@Column(name = "statusCancel")
 	private boolean statusCancel;
-	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinColumn(name="id_basket_total")
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_basket_total")
 	BastketTotal bastketTotal;
-	
+
 	@OneToOne
-	@JoinColumn(name="id_user")
+	@JoinColumn(name = "id_user")
 	User userConfirm;
-	
+
 	@OneToOne
 	User userCreate;
-	
+
 	@OneToOne
 	private User nhanVienGiaoHang;
-	
+
 	/**
 	 * @return the idInvoice
 	 */
@@ -175,8 +187,6 @@ public class Invoice {
 		this.email = email;
 	}
 
-
-
 	/**
 	 * @return the bastketTotal
 	 */
@@ -244,7 +254,7 @@ public class Invoice {
 	public void setStatusCancel(boolean statusCancel) {
 		this.statusCancel = statusCancel;
 	}
-	
+
 	public String getNote() {
 		return note;
 	}
@@ -268,11 +278,21 @@ public class Invoice {
 	public void setNhanVienGiaoHang(User nhanVienGiaoHang) {
 		this.nhanVienGiaoHang = nhanVienGiaoHang;
 	}
-	
 
-	
-	
-	
-	
-	
+	public boolean isXacNhanTuTaiXe() {
+		return xacNhanTuTaiXe;
+	}
+
+	public void setXacNhanTuTaiXe(boolean xacNhanTuTaiXe) {
+		this.xacNhanTuTaiXe = xacNhanTuTaiXe;
+	}
+
+	public Date getDateDeliverySuccessOrCancel() {
+		return dateDeliverySuccessOrCancel;
+	}
+
+	public void setDateDeliverySuccessOrCancel(Date dateDeliverySuccessOrCancel) {
+		this.dateDeliverySuccessOrCancel = dateDeliverySuccessOrCancel;
+	}
+
 }

@@ -1,4 +1,5 @@
 package com.boss.storehelmets.application;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +15,7 @@ import com.boss.storehelmets.service.InvoiceService;
 @SpringBootApplication
 @EntityScan("com.boss.storehelmets.model")
 @ComponentScan(basePackages = {"com.boss.storehelmets.dto",
-					"com.boss.storehelmets.securityconfig",
+					"com.boss.storehelmets.securityconfig", 
 					 "com.boss.storehelmets.securityjwt",
 				   "com.boss.storehelmets.repository",
 				 "com.boss.storehelmets.user.resources",
@@ -44,20 +45,19 @@ public class StorehelmetsApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-	/*	User user = new User(); 
-		user.setEmail("mrt.tai2@yahoo.com");
+		/*User user = new User(); 
+		user.setEmail("mrt.tai4@yahoo.com");
 		user.setPassword(passwordEncoder.encode("123456"));
 		Set<Roles> roles = new HashSet<Roles>();	
-		Roles role = new Roles();
+		Roles role = new Roles();	
 		role.setRoleName("ROLE_ADMIN"); 
 		roles.add(role);
 		Roles roles2 = new Roles();
-		roles2.setRoleName("ROLE_DRIVER");
+		roles2.setRoleName("ROLE_SHIPPER");
 		roles.add(roles2);
 		user.setRoles(roles);
 		userRepository.save(user);
 		invoiceService.deleteInvoice();		*/																									
 	}
 	
-
 }
