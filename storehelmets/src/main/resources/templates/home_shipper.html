@@ -22,16 +22,16 @@
 		            <th> Success</th>
 		        </tr>
 		    </thead>
-		    <tbody>
-		  		<tr th:each="shippingBill , state : ${shippingBills}">
+		    <tbody id="loadTable">
+		  	<!-- 	<tr th:each="shippingBill , state : ${shippingBills}">
 		  			<td  th:utext="${shippingBill.idShippingBill}"></td>
 		  			<td  th:utext="${shippingBill.totalMoneyInvoice}"></td>
 		  			<td  th:utext="${shippingBill.totalMoneyCollected}"></td>
 		  			<td  th:utext="${shippingBill.totalMoneyNotYetCollected}"></td>
 		  			<td  th:utext="${shippingBill.tienDaHuy}"></td>
 		  			<td class="btn btn-danger"><a href="#" th:href="@{/shipper/chitiethoadon/idhoadon(idhoadon=${shippingBill.idShippingBill})}" class="btn text-white">Xem chi tiết</a></td>
-		  			<td><a href="#" class="btn btn-success"><i class="fas fa-check"></i></a></td>
-		  		</tr>	 
+		  			<td><p class="btn btn-success"><i class="fas fa-check"></i></p></td>
+		  		</tr>	  -->
 		    </tbody>
 		</table>
 	</div>
@@ -40,8 +40,65 @@
 	</div>
 <script type="text/javascript" th:replace="layout :: js_layout"></script>	
 <script type="text/javascript">
-	function changeMoney(){
+	hienThiNhungHoaDonVanChuyen();
+	function hienThiNhungHoaDonVanChuyen(){
+		debugger;
+		 var request =   $.ajax({
+			  url: "/api/v1/users/auth/me",
+			  contentType: "application/json",
+			  methodType:"GET",
+			  method:"GET"
+		});
+		request.done(function( data ) {
+			if(data.idUser != null){
+				console.log(data.idUser);
+				var request1 = $.ajax({
+					url: "/api/v1/shippers/shippingbills/"+data.idUser,
+					method:"GET",
+					contentType: "application/json",
+				 });
+				request1.done(function( msg ) {
+					for(i=0;i<msg.length;i++){
+						if(msg[i].totalMoneyNotYetCollected==0){
+							$("#loadTable").append(`
+								<tr>
+								  <td>`+msg[i].idShippingBill+`</td>
+								  <td>`+msg[i].totalMoneyInvoice+`</td>
+								  <td>`+msg[i].totalMoneyCollected+`</td>
+								  <td>`+msg[i].totalMoneyNotYetCollected+`</td>
+								  <td>`+msg[i].tienDaHuy+`</td>
+								  <td class="btn btn-danger"><a href=/shipper/chitiethoadon/idhoadon?idhoadon=`+msg[i].idShippingBill+` class="btn text-white">Xem chi tiết</a></td>
+								  <td><p class="btn btn-success"><i class="fas fa-check"></i></p></td>
+							  	</tr>	  												
+							`);
+						}else{
+							$("#loadTable").append(`
+								<tr>
+								  <td>`+msg[i].idShippingBill+`</td>
+								  <td>`+msg[i].totalMoneyInvoice+`</td>
+								  <td>`+msg[i].totalMoneyCollected+`</td>
+								  <td>`+msg[i].totalMoneyNotYetCollected+`</td>
+								  <td>`+msg[i].tienDaHuy+`</td>
+								  <td class="btn btn-danger"><a href=/shipper/chitiethoadon/idhoadon?idhoadon=`+msg[i].idShippingBill+` class="btn text-white">Xem chi tiết</a></td>
+								  <td><p class="btn btn-secondary" disable="disable"><i class="fas fa-check"></i></p></td>
+							  	</tr>	  												
+							`);
+						}
+						
+					}
+					
+				 });
+				request1.fail(function( jqXHR, textStatus ) {
+					console.log("loi tai ady");
+				 }); 
+			}
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			alert(textStatus);
+		});	
 		
+		
+		 
 	}
 </script>
 </body>

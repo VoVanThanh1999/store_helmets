@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boss.storehelmets.model.Invoice;
+import com.boss.storehelmets.model.ShippingBill;
 import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.service.ShipperService;
 import com.boss.storehelmets.service.ShipperServiceImpl;
@@ -32,7 +33,13 @@ public class RestApiShipperController {
 	
 	public static final Logger LOGGER = LogManager.getLogger(RestApiShipperController.class);
 	
-	@RequestMapping(value="/shippingbills/{idShippingBill}/invoices")
+	
+	@RequestMapping(value="/shippingbills/{idShipper}",method=RequestMethod.GET)
+	public List<ShippingBill> getShippingbillByShipper(@PathVariable("idShipper") String idShipper){
+		return shipperService.getShippingBillByIdShipper(idShipper);
+	}
+	
+	@RequestMapping(value="/shippingbills/{idShippingBill}/invoices",method=RequestMethod.GET)
 	public List<Invoice> getInvoiceByShippingBill(@PathVariable("idShippingBill") String idShippingBill){
 		try {
 			List<Invoice> invoices = shipperService.getInvoiceByShipping(idShippingBill);
@@ -67,16 +74,28 @@ public class RestApiShipperController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			String username = auth.getName();
 			Optional<User> user = userSevice.findUserByEmail(username);
-			
 			return shipperService.confirmInvoiceInShipping(idShippingBill, invoices, user.get().getIdUser());
 		} catch (Exception e) {
 			// TODO: handle exception
-			LOGGER.getClass();
+			LOGGER.warn("Xác nhận giao hàng");
 			e.printStackTrace();
 		}
 			return ShipperServiceImpl.ErrorConfirmInvoice;
 	}
 	
+	public String chuyenHoaDonChoAdmin(String idShipping) {
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String username = auth.getName();
+			Optional<User> user = userSevice.findUserByEmail(username);
+			return	shipperService.chuyenDonGiaoHangChoAdminQuanLy(idShipping, user.get().getIdUser());
+		} catch (Exception e) {
+			// TODO: handle exception
+			LOGGER.warn("chuyển hóa đơn xong admin");
+			e.printStackTrace();
+		}
+		return ShipperServiceImpl.ErrorTransferredToTheManager;
+	}
 	
 	
 }

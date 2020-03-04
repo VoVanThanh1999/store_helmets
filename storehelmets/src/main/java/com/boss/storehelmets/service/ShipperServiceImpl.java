@@ -18,6 +18,7 @@ import com.boss.storehelmets.model.HistoryShipperShippingBill;
 import com.boss.storehelmets.model.Invoice;
 import com.boss.storehelmets.model.ShippingBill;
 import com.boss.storehelmets.repository.HistoryShipperRepository;
+import com.boss.storehelmets.repository.InvoiceRepository;
 import com.boss.storehelmets.repository.ShippingBillRepository;
 
 @Service
@@ -40,13 +41,17 @@ public class ShipperServiceImpl implements ShipperService {
 	@Autowired
 	HistoryShipperRepository historyShipperRepository;
 
+	@Autowired
+	InvoiceRepository invoiceRepository;
+
 	@Transactional
 	@Override
 	public List<ShippingBill> getShippingBillByIdShipper(String idShipper) {
 		// TODO Auto-generated method stub
 		try {
-			List<ShippingBill> shippingBills = shippingBillRepository.findAll().stream().filter(
-					s -> s.getShipper().getIdUser().equalsIgnoreCase(idShipper) && s.isStatusShippingbill() == false)
+			List<ShippingBill> shippingBills = shippingBillRepository.findAll().stream()
+					.filter(s -> s.getShipper().getIdUser().equalsIgnoreCase(idShipper)
+							&& s.isStatusShippingbill() == false && !s.isXacNhanTuTaiXe())
 					.map(temp -> {
 						ShippingBill shippingBill = new ShippingBill();
 						shippingBill.setIdShippingBill(temp.getIdShippingBill());
@@ -84,7 +89,7 @@ public class ShipperServiceImpl implements ShipperService {
 		}
 		return null;
 	}
-	
+
 	@Transactional
 	@Override
 	public String confirmInvoiceInShipping(String idShipping, String idInvoice, String idShipper) {
@@ -93,7 +98,11 @@ public class ShipperServiceImpl implements ShipperService {
 			Optional<ShippingBill> shippingBill = shippingBillRepository.findById(idShipping);
 			List<Invoice> invoices = shippingBill.get().getInvoices();
 			for (Invoice invoice : invoices) {
-				if (invoice.getIdInvoice().equalsIgnoreCase(idInvoice)) {
+
+				if (invoice.getIdInvoice().equalsIgnoreCase(idInvoice) && invoice.isXacNhanTuTaiXe() == false) {
+					System.out.println("test nhe");
+					shippingBill.get().setTotalMoneyCollected(shippingBill.get().getTotalMoneyCollected()
+							+ invoice.getBastketTotal().getTotalMoneyBasket());
 					invoice.setXacNhanTuTaiXe(true);
 					invoice.setStatusCancel(false);
 					java.util.Date dateData = new java.util.Date();
@@ -128,8 +137,11 @@ public class ShipperServiceImpl implements ShipperService {
 						historyShipper.setHistoryShipperInvoices(historyShipperInvoices);
 						historyShipperRepository.save(historyShipper);
 					}
+					shippingBillRepository.save(shippingBill.get());
+					invoiceRepository.save(invoice);
+					return ShipperServiceImpl.SuccessConfirmInvoice;
 				}
-				return ShipperServiceImpl.SuccessConfirmInvoice;
+
 			}
 
 		} catch (Exception e) {
@@ -216,7 +228,8 @@ public class ShipperServiceImpl implements ShipperService {
 			Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
 			if (shippingBill.get().getShipper().getIdUser().equalsIgnoreCase(idShipper)) {
 				for (Invoice invoice : shippingBill.get().getInvoices()) {
-					if (invoice.getIdInvoice().equals(idInvoice)) {
+					if (invoice.getIdInvoice().equals(idInvoice) && !invoice.isXacNhanTuTaiXe()
+							&& !invoice.isStatusCancel()) {
 						invoice.setStatusCancel(true);
 						invoice.setXacNhanTuTaiXe(true);
 						invoice.setDateDeliverySuccessOrCancel(date);
@@ -272,7 +285,7 @@ public class ShipperServiceImpl implements ShipperService {
 			return getProceeds;
 		} catch (Exception e) {
 			// TODO: handle exception
-		 	e.printStackTrace();
+			e.printStackTrace();
 		}
 		return 0;
 	}
@@ -295,7 +308,7 @@ public class ShipperServiceImpl implements ShipperService {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		return ShipperServiceImpl.ErrorTransferredToTheManager;
 	}
 

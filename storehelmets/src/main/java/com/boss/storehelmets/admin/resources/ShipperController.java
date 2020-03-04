@@ -39,11 +39,11 @@ public class ShipperController {
 	@RequestMapping(value="/trangchu", method=RequestMethod.GET)
 	public String homeShipper(ModelMap modelMap) {
 		try {
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			/*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			String username = auth.getName();
 			Optional<User> user = userSevice.findUserByEmail(username);
 			List<ShippingBill> shippingBills = shipperService.getShippingBillByIdShipper(user.get().getIdUser());
-			modelMap.addAttribute("shippingBills", shippingBills);
+			modelMap.addAttribute("shippingBills", shippingBills);*/
 			return "home_shipper";
 		} catch (Exception e) {
 			// TODO: handle exception

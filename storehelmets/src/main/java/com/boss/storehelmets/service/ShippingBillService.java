@@ -35,4 +35,6 @@ public interface ShippingBillService {
 	public float getMoneyShippingBillBeingTransported();
 	
 	public String xacNhanHoanThanhHoaDon(String idShippingBill,String idManger);
+	
+	public List<ShippingBill> hienThiNhungHoaDonThanhCong();
 }

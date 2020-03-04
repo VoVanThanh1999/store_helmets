@@ -344,6 +344,22 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 		return ShippingBillServiceImpl.XACNHANHOADONTHATBAI;
 	}
 
+	@Override
+	public List<ShippingBill> hienThiNhungHoaDonThanhCong() {
+		// TODO Auto-generated method stub
+		try {
+			return shippingBillRepository
+					.findAll()
+					.stream().filter(s ->s.isChuyenChoAdmin()==true)
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+
 	
 
 }

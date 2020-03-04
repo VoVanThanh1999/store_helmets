@@ -125,7 +125,6 @@ function nextPagesInvoiceConfirm(key){
 	
 }
  function viewDetailCustomer(id){
-	 debugger;
 	 if(id == null){
 		 return;
 	 }
@@ -162,7 +161,6 @@ function nextPagesInvoiceConfirm(key){
  }
  
  function viewDetailBasket(id){
-	 debugger;
 	 var request =	 $.ajax({
 			url: "/api/v1/admins/invoices/"+id,
 			method:"GET",
@@ -338,7 +336,6 @@ function nextPagesInvoiceConfirm(key){
  });
  
  function createInvoice(){
-	 debugger;
 	 var idShipper =	$( "#idShipper" ).val();
 	 if(idShipper == null){
 		 return;
@@ -359,7 +356,7 @@ function nextPagesInvoiceConfirm(key){
 		   method:"GET"
 		});
 		request.done(function( data ) {
-			console.log(data);
+			alert(data);
 			var request =   
 				$.ajax({
 				 url: "/api/v1/admins/shippings/"+idShipper+"/"+data.idUser,
@@ -369,7 +366,7 @@ function nextPagesInvoiceConfirm(key){
 				 data:JSON.stringify(invoiceObjects),
 			});
 			request.done(function( data ) {
-				console.log(data);
+				alert(data);
 			});
 			request.fail(function( jqXHR, textStatus ) {
 				console.log(textStatus);
@@ -382,7 +379,6 @@ function nextPagesInvoiceConfirm(key){
  }
  
  function giaoBillChoShipper(id,index){
-	 debugger;
 	 $(".tr"+index).css("background", "yellow");
 	 $(".tr"+index).find('input').attr("disabled", "disabled");
 	 let invoices = JSON.parse(sessionStorage.getItem("invoices"));
@@ -524,21 +520,34 @@ $('#dangVanChuyen').click(function(){
 			 alert( "Request failed: " + textStatus );
 		 });
 }
- function xacNhanGiaoHangThanhCong(){
-	 console.log('dsad');
+ function xacNhanGiaoHangThanhCong(idInvoice,idShippingbill){
+	 var xacNhan =  confirm("Xác nhận giao hàng !");
+	 if(xacNhan == true){
+		 var request =  $.ajax({
+			method: "PATCH",
+			contentType: "application/json",
+			dataType: 'json',
+			url: "/api/v1/shippers/shippingbills/"+idShippingbill+"/confirm/invoices/"+idInvoice,
+		 })
+		 request.done(function(data) {
+			 alert(data);
+		 })
+		request .fail(function(data) {
+			 alert(data);
+		 })
+	 }
  }
 
  function xacNhanHuyHang(idInvoice,IdShippingbill){
-	 console.log(idInvoice,IdShippingbill); 
 	 var xacNhan =  confirm("Khách hàng có thực sự hủy đơn hàng?");
 	 if(xacNhan == true){
-		 $.ajax({
+		 var request=$.ajax({
 			method: "PATCH",
 			contentType: "application/json",
 			dataType: 'json',
 			url: "/api/v1/shippers/shippingbills/"+IdShippingbill+"/cancel/invoices/"+idInvoice,
 		 })
-		.done(function( msg ) {
+		request.done(function( msg ) {
 			alert(msg);
 		});
 	 }

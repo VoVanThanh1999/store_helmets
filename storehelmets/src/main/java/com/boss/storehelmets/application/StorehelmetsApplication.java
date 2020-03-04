@@ -1,5 +1,8 @@
 package com.boss.storehelmets.application;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +12,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.boss.storehelmets.model.Roles;
+import com.boss.storehelmets.model.User;
 import com.boss.storehelmets.repository.UserRepository;
 import com.boss.storehelmets.service.InvoiceService;
 
@@ -45,9 +51,10 @@ public class StorehelmetsApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		/*User user = new User(); 
-		user.setEmail("mrt.tai4@yahoo.com");
+	/*	User user = new User(); 
+		user.setEmail("taixe@yahoo.com");
 		user.setPassword(passwordEncoder.encode("123456"));
+		user.setFullName("Bac tai");
 		Set<Roles> roles = new HashSet<Roles>();	
 		Roles role = new Roles();	
 		role.setRoleName("ROLE_ADMIN"); 
@@ -57,7 +64,7 @@ public class StorehelmetsApplication implements CommandLineRunner{
 		roles.add(roles2);
 		user.setRoles(roles);
 		userRepository.save(user);
-		invoiceService.deleteInvoice();		*/																									
+		invoiceService.deleteInvoice();	*/																						
 	}
 	
 }

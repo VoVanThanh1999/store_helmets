@@ -58,18 +58,43 @@ hienThiDonDatHang();
 				dataType: 'json',
 			 });
 			 request.done(function( data ) {
+				 console.log(data);
 				for(i=0;i<data.length;i++){
-					$("#loadDonDatHang").append(
-						`	<tr>
-					          <td>`+data[i].idInvoice+`</td>
-					       	  <td></td>
-					       	  <td><p class="btn btn-danger" onclick=viewDetailCustomer("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
-					       	  <td><p class="btn btn-danger" onclick=viewDetailBasket("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
-					       	  <td><p class="btn btn-success" onclick="xacNhanGiaoHangThanhCong()">Xác nhận<p></td>
-					       	  <td><p class="btn btn-secondary" onclick=xacNhanHuyHang("`+data[i].idInvoice+`","`+idShippingbill+`")>Xác nhận<p></td>
-					       </tr>	`		
-					);		
-				}
+					if(data[i].xacNhanTuTaiXe==false){
+						$("#loadDonDatHang").append(
+							`	<tr>
+								    <td>`+data[i].idInvoice+`</td>
+								    <td>Chưa giao</td>
+								    <td><p class="btn btn-danger" onclick=viewDetailCustomer("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
+								    <td><p class="btn btn-danger" onclick=viewDetailBasket("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
+								    <td><p class="btn btn-success" onclick=xacNhanGiaoHangThanhCong("`+data[i].idInvoice+`","`+idShippingbill+`")>Xác nhận<p></td>
+								    <td><p class="btn btn-danger" onclick=xacNhanHuyHang("`+data[i].idInvoice+`","`+idShippingbill+`")>Xác nhận<p></td>
+						</tr>	`);		
+					 }
+					if(data[i].statusCancel==true){
+						$("#loadDonDatHang").append(
+							`	<tr>
+								    <td>`+data[i].idInvoice+`</td>
+								    <td>Đã hủy</td>
+								    <td><p class="btn btn-danger" onclick=viewDetailCustomer("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
+								    <td><p class="btn btn-danger" onclick=viewDetailBasket("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
+								    <td><p class="btn btn-secondary" disable="disable" onclick=xacNhanGiaoHangThanhCong("`+data[i].idInvoice+`","`+idShippingbill+`")>Xác nhận<p></td>
+								    <td><p class="btn btn-secondary" disable="disable" onclick=xacNhanHuyHang("`+data[i].idInvoice+`","`+idShippingbill+`")>Xác nhận<p></td>
+						</tr>	`);		
+					 }
+					if((data[i].statusCancel==false) && (data[i].xacNhanTuTaiXe==true)){
+						$("#loadDonDatHang").append(
+							`	<tr>
+								    <td>`+data[i].idInvoice+`</td>
+								    <td>Đã giao</td>
+								    <td><p class="btn btn-danger" onclick=viewDetailCustomer("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
+								    <td><p class="btn btn-danger" onclick=viewDetailBasket("`+data[i].idInvoice+`")>Xem chi tiết<p></td>
+								    <td><p class="btn btn-secondary" disable="disable" onclick=xacNhanGiaoHangThanhCong("`+data[i].idInvoice+`","`+idShippingbill+`")>Xác nhận<p></td>
+								    <td><p class="btn btn-secondary" disable="disable" onclick=xacNhanHuyHang("`+data[i].idInvoice+`","`+idShippingbill+`")>Xác nhận<p></td>
+						</tr>	`);		
+					 }
+				 }
+				
 			 });
 			 request.fail(function( jqXHR, textStatus ) {
 				 alert( "Request failed: " + textStatus );
