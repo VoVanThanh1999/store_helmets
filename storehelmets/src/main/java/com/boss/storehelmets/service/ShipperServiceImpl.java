@@ -1,7 +1,6 @@
 package com.boss.storehelmets.service;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +48,7 @@ public class ShipperServiceImpl implements ShipperService {
 	public List<ShippingBill> getShippingBillByIdShipper(String idShipper) {
 		// TODO Auto-generated method stub
 		try {
-			List<ShippingBill> shippingBills = shippingBillRepository.findAll().stream()
+			return shippingBillRepository.findAll().stream()
 					.filter(s -> s.getShipper().getIdUser().equalsIgnoreCase(idShipper)
 							&& s.isStatusShippingbill() == false && !s.isXacNhanTuTaiXe())
 					.map(temp -> {
@@ -64,7 +63,6 @@ public class ShipperServiceImpl implements ShipperService {
 										- getMoneyCancelInShippingBill(temp.getIdShippingBill()));
 						return shippingBill;
 					}).collect(Collectors.toList());
-			return shippingBills;
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println(e.getMessage());
@@ -100,7 +98,6 @@ public class ShipperServiceImpl implements ShipperService {
 			for (Invoice invoice : invoices) {
 
 				if (invoice.getIdInvoice().equalsIgnoreCase(idInvoice) && invoice.isXacNhanTuTaiXe() == false) {
-					System.out.println("test nhe");
 					shippingBill.get().setTotalMoneyCollected(shippingBill.get().getTotalMoneyCollected()
 							+ invoice.getBastketTotal().getTotalMoneyBasket());
 					invoice.setXacNhanTuTaiXe(true);
@@ -174,10 +171,11 @@ public class ShipperServiceImpl implements ShipperService {
 					java.util.Date dateData = new java.util.Date();
 					Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
 					shippingBill.get().setNgayHoanThanh(date);
-					shippingBill.get().setTotalMoneyNotYetCollected(moneyCancel);
+					shippingBill.get().setTienDaHuy(moneyCancel);
 					shippingBill.get().setTotalMoneyCollected(shippingBill.get().getTotalMoneyInvoice() - moneyCancel);
 					shippingBill.get().setTotalMoneyInvoice(shippingBill.get().getTotalMoneyInvoice());
 					shippingBill.get().setXacNhanTuTaiXe(true);
+					shippingBill.get().setChuyenChoAdmin(true);
 					HistoryShipper historyShipper = historyShipperRepository.findByDate(date);
 					if (historyShipper == null) {
 						historyShipper = new HistoryShipper();
@@ -294,8 +292,10 @@ public class ShipperServiceImpl implements ShipperService {
 	public String chuyenDonGiaoHangChoAdminQuanLy(String idShipping, String idShipper) {
 		// TODO Auto-generated method stub
 		try {
+			System.out.println("Bước 1");
 			Optional<ShippingBill> shippingBill = shippingBillRepository.findById(idShipping);
 			if (shippingBill.get().isXacNhanTuTaiXe() == true && shippingBill.get().isStatusShippingbill() == false) {
+				System.err.println("Bước 2");
 				shippingBill.get().setChuyenChoAdmin(true);
 				java.util.Date dateData = new java.util.Date();
 				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
@@ -303,13 +303,65 @@ public class ShipperServiceImpl implements ShipperService {
 				shippingBillRepository.save(shippingBill.get());
 				return ShipperServiceImpl.SuccessTransferredToTheManager;
 			}
-			shippingBill.get().setChuyenChoAdmin(true);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 
 		return ShipperServiceImpl.ErrorTransferredToTheManager;
+	}
+
+	@Override
+	public List<ShippingBill> hienThiShippingBillDangChoXacNhan(String idShipper) {
+		// TODO Auto-generated method stub
+		try {
+			return shippingBillRepository
+					.findShippingBillsByShipper(idShipper)
+					.stream().filter(s->s.getShipper().getIdUser().equals(idShipper) && s.isStatusShippingbill()==false  && s.isXacNhanTuTaiXe()==true )
+					.map(temp ->{
+						ShippingBill shippingBill = new ShippingBill();
+						shippingBill.setIdShippingBill(temp.getIdShippingBill());
+						shippingBill.setTotalMoneyInvoice(temp.getTotalMoneyInvoice());
+						shippingBill.setTotalMoneyCollected(temp.getTotalMoneyCollected());
+						shippingBill.setTotalMoneyNotYetCollected(temp.getTotalMoneyNotYetCollected());
+						shippingBill.setNgayChuyenChoAdmin(temp.getNgayChuyenChoAdmin());
+						shippingBill.setInvoices(temp.getInvoices());
+						shippingBill.setShipper(temp.getShipper());
+						shippingBill.setAdminCreate(temp.getAdminCreate());
+						shippingBill.setNgayHoanThanh(temp.getNgayHoanThanh());
+						shippingBill.setTienDaHuy(temp.getTienDaHuy());
+						return shippingBill;
+					}).collect(Collectors.toList());
+		} catch (Exception e) {
+			// TODO: handle exception
+			LOGGER.warn("Hiển thị hóa đơn đang chờ xác nhận");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<ShippingBill> hienThiShippingBillDaGiaoThanhCong(String idShipper) {
+		// TODO Auto-generated method stub
+		try {
+			return shippingBillRepository
+					.hienThiNhungHoaDonThanhCongCuaShipper(idShipper)
+					.stream()
+					.map(temp ->{
+						ShippingBill shippingBill = new ShippingBill();
+						shippingBill.setIdShippingBill(temp.getIdShippingBill());
+						shippingBill.setTotalMoneyInvoice(temp.getTotalMoneyInvoice());
+						shippingBill.setTotalMoneyCollected(temp.getTotalMoneyCollected());
+						shippingBill.setTienDaHuy(temp.getTienDaHuy());
+						shippingBill.setNgayHoanThanh(temp.getNgayHoanThanh());
+						shippingBill.setNgayAdminXacNhanThanhCong(temp.getNgayAdminXacNhanThanhCong());
+						return shippingBill;
+					}).collect(Collectors.toList());
+		} finally {
+			// TODO: handle finally clause
+			LOGGER.warn("Hiển thị hóa đơn đã giao thành công");
+		}
+		
 	}
 
 }

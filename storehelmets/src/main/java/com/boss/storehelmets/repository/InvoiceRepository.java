@@ -42,4 +42,14 @@ public interface InvoiceRepository extends JpaRepository<Invoice, String>{
 			value="SELECT i FROM Invoice i Where i.statusConfim = true and i.statusSuccess= false and i.statusTransport = true"
 			)
 	Page<Invoice> findInvoiceBeingShipped(Pageable pageable);
+	
+	@Query(
+		value="SELECT i FROM Invoice i Where i.xacNhanHoanThanhTuAdmin = true and i.statusCancel= true"	
+			)
+	List<Invoice> hienThiDonDatHangDaHuy();
+	
+	@Query(
+			value="SELECT i FROM Invoice i Where i.xacNhanHoanThanhTuAdmin = true and i.statusCancel= false"	
+				)
+	List<Invoice> hienThiHoaDonThanhCong();
 }

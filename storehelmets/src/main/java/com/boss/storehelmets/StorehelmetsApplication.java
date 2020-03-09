@@ -1,4 +1,4 @@
-package com.boss.storehelmets.application;
+package com.boss.storehelmets;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,24 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.boss.storehelmets.model.Roles;
 import com.boss.storehelmets.model.User;
+import com.boss.storehelmets.repository.InvoiceRepository;
+import com.boss.storehelmets.repository.ShippingBillRepository;
 import com.boss.storehelmets.repository.UserRepository;
 import com.boss.storehelmets.service.InvoiceService;
 
 @SpringBootApplication
-@EntityScan("com.boss.storehelmets.model")
-@ComponentScan(basePackages = {"com.boss.storehelmets.dto",
-					"com.boss.storehelmets.securityconfig", 
-					 "com.boss.storehelmets.securityjwt",
-				   "com.boss.storehelmets.repository",
-				 "com.boss.storehelmets.user.resources",
-			   "com.boss.storehelmets.admin.resources",
-			  "com.boss.storehelmets.app.utils",
-			"com.boss.storehelmets.app.utils",
-			"com.boss.storehelmets.springmvc.config",
-		 "com.boss.storehelmets.service",
-		"com.boss.storehelmets.exception"})
-@EnableJpaRepositories(basePackages = {"com.boss.storehelmets.repository"})
-@ComponentScan("com.boss.storehelmets.admin.resources")
 @EnableCaching
 public class StorehelmetsApplication implements CommandLineRunner{
 	@Autowired
@@ -44,6 +32,13 @@ public class StorehelmetsApplication implements CommandLineRunner{
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	InvoiceRepository invoiceRepository;
+	
+	@Autowired
+	ShippingBillRepository shippingBillRepository;
+
+	
 	public static void main(String[] args) {
 		SpringApplication.run(StorehelmetsApplication.class, args);
 	}
@@ -51,8 +46,9 @@ public class StorehelmetsApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-	/*	User user = new User(); 
-		user.setEmail("taixe@yahoo.com");
+		
+		/*User user = new User(); 
+		user.setEmail("taixene@yahoo.com");
 		user.setPassword(passwordEncoder.encode("123456"));
 		user.setFullName("Bac tai");
 		Set<Roles> roles = new HashSet<Roles>();	
@@ -64,7 +60,7 @@ public class StorehelmetsApplication implements CommandLineRunner{
 		roles.add(roles2);
 		user.setRoles(roles);
 		userRepository.save(user);
-		invoiceService.deleteInvoice();	*/																						
+		invoiceService.deleteInvoice();		*/																			
 	}
 	
 }

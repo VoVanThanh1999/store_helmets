@@ -66,4 +66,26 @@ public class ShipperController {
 		return null;
 	}
 	
+	@RequestMapping(value="/dangchoxacnhan",method=RequestMethod.GET)
+	public String hienThiHoaDangChoXacNhan() {
+		try {
+			return"shipper_dangchoxacnhan";
+		} catch (Exception e) {
+			// TODO: handle exception
+			LOGGER.debug("Debug log message");
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/dathanhcong",method=RequestMethod.GET)
+	public String hienThiHoaDonDaGiaoThanhCong() {
+		try {
+			return"shipper_dagiaothanhcong";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

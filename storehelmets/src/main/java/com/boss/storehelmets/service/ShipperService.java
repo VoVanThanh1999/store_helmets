@@ -25,5 +25,9 @@ public interface ShipperService {
 	
 	public String chuyenDonGiaoHangChoAdminQuanLy(String idShipping,String idShipper);
 	
-
+	public List<ShippingBill> hienThiShippingBillDangChoXacNhan(String idShipper);
+	
+	public List<ShippingBill> hienThiShippingBillDaGiaoThanhCong(String idShipper);
+	
+	
 }

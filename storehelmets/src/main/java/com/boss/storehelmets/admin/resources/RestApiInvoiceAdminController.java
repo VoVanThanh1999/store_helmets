@@ -153,4 +153,13 @@ public class RestApiInvoiceAdminController {
 			return null;
 	}
 	
+	@RequestMapping(value="/invoices/cancelled",method=RequestMethod.GET)
+	public List<Invoice> hienThiHoaDonDaHuy(){
+		return invoiceService.hienThiDonDatHangDaHuy();
+	}
+	
+	@RequestMapping(value="/invoices/successful")
+	public List<Invoice> hienThiHoaDonThanhCong(){
+		return invoiceService.hienThiDonDatHangThanhCong();
+	}
 }

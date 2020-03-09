@@ -139,7 +139,7 @@ function nextPagesInvoiceConfirm(key){
 			$(".home-page").css("opacity","0.2");
 			$(".viewDetails").html(`
 				<div>
-					 <div style="font-size: 50px;margin-left: 400px;margin-top: -20px;" class="icon" onclick="remove()"> <i class="fas fa-minus-circle"></i></div>
+					 <div style="font-size: 50px;margin-left: 400px;margin-top: 100px;" class="icon" onclick="remove()"> <i class="fas fa-minus-circle"></i></div>
 					 <label for="nameCustomer" class="">Họ tên khách hàng</label>
 			    	 <input class="form-control col-md-6"  id="nameCustomer" value=`+msg.nameCustomer+`>
 			    	  <label for="countryCustomer" >Tỉnh / Thành phố</label>
@@ -169,14 +169,13 @@ function nextPagesInvoiceConfirm(key){
 		 });
 		 request.done(function( msg ) {
 			 var bastket = msg.bastketTotal.baskets;
-			 console.log(msg);
 			$(".viewDetails").css("display", "block");
 			$(".home-page").css("opacity","0.1");
 			$(".viewDetails").css("margin-left","-300px");
 			$(".viewDetails").css("width","100%");
 			$(".viewDetails").html(`
 				<div>
-					<div style="font-size: 50px;margin-left: 800px" class="icon" onclick="remove()"> <i class="fas fa-minus-circle"></i></div>
+					<div style="font-size: 50px;margin-left: 800px;margin-top: 105px;" class="icon" onclick="remove()"> <i class="fas fa-minus-circle"></i></div>
 					<p class="text-center h3" style="padding-bottom: 80px;">Thông tin giỏ hàng</p>
 					
 					<table class="table">
@@ -485,7 +484,136 @@ $('#dangVanChuyen').click(function(){
 			}
 		 }); 
  }
-
+ $('#daHoanThanh').click(function(){
+		$(".home-page").html(``);
+		$(".home-page").html(`
+				<div class="awaiting-confirmation">
+			<br/>
+				<h4 class="text-center text-white" style="padding-bottom: 40px;">Đơn đặt hàng đã thành công</h4>
+					<div class="row">
+						<div class="col-md-6" style="margin-top: -20px;">
+							
+						</div>
+						<div class="col-md-6">
+							<div class="search float-right col-md-6">
+								<div class="row  no-gutters">
+									<label class="text-white">Tìm kiếm khách hàng</label><br/>
+									<input class="form-control "/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br/>
+					<br/>
+					<table class="table container  table-striped">
+					  <thead>
+					    <tr>
+					      <th scope="col">Họ tên khách hàng</th>
+					      <th scope="col">Thông tin giỏ hàng</th>
+					      <th scope="col">Ngày xác nhận hóa đơn</th>
+					      <th scope="col">Ngày giao thành công</th>
+					      <th scope="col">Nhân viên giao hàng</th>
+					      <th scope="col">Admin xác nhận</th>
+					    </tr>
+					  </thead>
+					  <tbody id="idTableInvoice">
+				
+					  </tbody>
+					</table>
+					
+				</div>		
+			`);
+		donDatHangVanChuyenThanhCong();
+	});
+ function donDatHangVanChuyenThanhCong(){
+	 $.ajax({
+			url: "/api/v1/admins/invoices/successful",
+			method:"GET",
+			contentType: "application/json",
+			dataType: 'json',
+		 })
+		 .done(function( data ) {
+			 $("#idTableInvoice").html(``);
+			for(i=0;i<data.length;i++){
+				$("#idTableInvoice").append(
+					`"<tr class="tr`+i+`">
+			 			 <td>`+data[i].nameCustomer+`</td>
+						 <td><button class="btn btn-danger" onclick= viewDetailBasket("`+data[i].idInvoice+`")>Xem chi tiết</button></td>
+						 <td>`+data[i].dateConfirm+`</td>
+						 <td>`+data[i].dateDeliverySuccessOrCancel+`</td>
+						 <td><button class="btn btn-warning"onclick=viewDetailCustomer("`+data[i].idInvoice+`")>Xem chi tiết</button></td>
+						 <td><button class="btn btn-success" onclick=viewDetailAdmin("`+data[i].userConfirm.idUser+`")>Xem chi tiết</button></td>
+					</tr>"`	
+				);
+			}
+		 }); 
+ }
+ $('#daHuy').click(function(){
+		$(".home-page").html(``);
+		$(".home-page").html(`
+				<div class="awaiting-confirmation">
+			<br/>
+				<h4 class="text-center text-white" style="padding-bottom: 40px;">Đơn đặt hàng đã thành công</h4>
+					<div class="row">
+						<div class="col-md-6" style="margin-top: -20px;">
+							
+						</div>
+						<div class="col-md-6">
+							<div class="search float-right col-md-6">
+								<div class="row  no-gutters">
+									<label class="text-white">Tìm kiếm khách hàng</label><br/>
+									<input class="form-control "/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br/>
+					<br/>
+					<table class="table container  table-striped">
+					  <thead>
+					    <tr>
+					      <th scope="col">Họ tên khách hàng</th>
+					      <th scope="col">Thông tin giỏ hàng</th>
+					      <th scope="col">Ngày xác nhận hóa đơn</th>
+					      <th scope="col">Ngày hủy đơn hàng</th>
+					      <th scope="col">Nhân viên giao hàng</th>
+					      <th scope="col">Admin xác nhận</th>
+					    </tr>
+					  </thead>
+					  <tbody id="idTableInvoice">
+				
+					  </tbody>
+					</table>
+					
+				</div>		
+			`);
+		donDatHangDaHuy();
+	});
+ function donDatHangDaHuy(){
+	 $.ajax({
+			url: "/api/v1/admins/invoices/cancelled",
+			method:"GET",
+			contentType: "application/json",
+			dataType: 'json',
+		 })
+		 .done(function( data ) {
+			 $("#idTableInvoice").html(``);
+			for(i=0;i<data.length;i++){
+				$("#idTableInvoice").append(
+					`"<tr class="tr`+i+`">
+			 			 <td>`+data[i].nameCustomer+`</td>
+						 <td><button class="btn btn-danger" onclick= viewDetailBasket("`+data[i].idInvoice+`")>Xem chi tiết</button></td>
+						 <td>`+data[i].dateConfirm+`</td>
+						 <td>`+data[i].dateDeliverySuccessOrCancel+`</td>
+						 <td><button class="btn btn-warning"onclick=viewDetailCustomer("`+data[i].idInvoice+`")>Xem chi tiết</button></td>
+						 <td><button class="btn btn-success" onclick=viewDetailAdmin("`+data[i].userConfirm.idUser+`")>Xem chi tiết</button></td>
+					</tr>"`	
+				);
+			}
+		 }); 
+ }
+ 
+ 
  function viewDetailAdmin(id){
 	 if(id == null){
 		 return;
@@ -501,7 +629,7 @@ $('#dangVanChuyen').click(function(){
 			$(".home-page").css("opacity","0.2");
 			$(".viewDetails").html(`
 				<div>
-					 <div style="font-size: 50px;margin-left: 400px;margin-top: -20px;" class="icon" onclick="remove()"> <i class="fas fa-minus-circle"></i></div>
+					 <div style="font-size: 50px;margin-left: 400px;margin-top: 120px;" class="icon" onclick="remove()"> <i class="fas fa-minus-circle"></i></div>
 					 <label for="nameCustomer" class="">Họ tên</label>
 			    	 <input class="form-control col-md-6"  id="nameCustomer" value=`+msg.fullName+`>
 			    	  <label for="countryCustomer" >Tỉnh / Thành phố</label>

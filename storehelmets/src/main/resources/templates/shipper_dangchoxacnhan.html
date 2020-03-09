@@ -5,44 +5,10 @@
 <body>
 	<div th:replace="layout_admin :: header">
 	</div>
-	<div th:fragment="nav-left-shipper"  style="padding-top: 90px;width: 245px;margin-bottom: -27%; ">
-		<div class="profile">
-			<div class="avartar" style="margin-left: 8px; background: white;width: 60px;height: 74px;margin-top: 11px;">
-				<img class="img-fluid" alt="avartar" src="https://cdn3.iconfinder.com/data/icons/shipping-and-delivery-2-1/512/54-512.png">
-			</div>
-			<p class="text-center ml-5 h6  font-weight-bold text-black " style="margin-top: -80px;" id="nameProfile"></p>
-			<p style=" float:left; margin-left: 113px; color: blue;" class="h6">Online</p>
-			<div class="status " style="
-			    width: 20px;
-			    float:left;
-			    height: 20px;
-			    background: #26ff12;
-			    border: 50%;
-			    border-radius: 50%;
-			    margin-left: 14px;
-			  
-			"></div>
-		</div>
-		<br/>
-		<br/>
-		<br/>
-		<div>
-			<div class="container mt-1 bg-warning item">
-				<a href="/shipper/trangchu"  style="font-weight: 300" class="h5 text-white">Trang chủ</a>
-			</div>
-			<div class="container mt-1 bg-warning item">
-				<a href="/shipper/dangchoxacnhan"  style="font-weight: 300" class="h5 text-white">Đang chờ xác nhận</a>
-			</div>
-			<div class="container mt-1 bg-warning item">
-				<a href="/shipper/dathanhcong"  style="font-weight: 300" class="h5 text-white">Đang giao thành công</a>
-			</div>
-			<div class="container mt-1 bg-warning item">
-				<p class="h5 text-white " style="font-weight: 300" id="shippingBillId">Lịch sử</p>
-			</div>
-		</div>
-	</div>
+	<div th:replace="home_shipper :: nav-left-shipper"></div>
+	
 	<div class="home-page">
-		<h4 class="text-center pt-5">Những hóa đơn đang vận chuyển</h4>
+		<h4 class="text-center pt-5">Những hóa đơn đang chờ admin xác nhân</h4>
 		<br/>
 		<table class="table table-striped">
 		    <thead>
@@ -53,10 +19,10 @@
 		            <th> Tiền chưa thu được</th>
 		            <th> Tiền đã hủy</th>
 		            <th> Danh sách đơn hàng</th>
-		            <th> Success</th>
+		            <th> Ngày giao đơn hàng</th>
 		        </tr>
 		    </thead>
-		    <tbody id="loadTable">
+		    <tbody id="loadTable-dangChoXacNhan">
 		  	<!-- 	<tr th:each="shippingBill , state : ${shippingBills}">
 		  			<td  th:utext="${shippingBill.idShippingBill}"></td>
 		  			<td  th:utext="${shippingBill.totalMoneyInvoice}"></td>

@@ -37,4 +37,11 @@ public interface ShippingBillService {
 	public String xacNhanHoanThanhHoaDon(String idShippingBill,String idManger);
 	
 	public List<ShippingBill> hienThiNhungHoaDonThanhCong();
+	
+	public List<ShippingBill> hienThiNhungHoaDonDangChoDuyet();
+	
+	public List<ShippingBill> hienThiShippingbillsThanhCong();
+	
+	
+	
 }

@@ -8,6 +8,8 @@ import javax.management.relation.Role;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import com.boss.storehelmets.repository.UserRepository;
 import com.boss.storehelmets.securityjwt.JwtAuthenticationFilter;
 import com.boss.storehelmets.securityjwt.JwtTokenProvider;
 import com.boss.storehelmets.service.InvoiceService;
+import com.boss.storehelmets.service.ShipperService;
 import com.boss.storehelmets.service.ShippingBillService;
 import com.boss.storehelmets.service.UserDetailServiceImpl;
 import com.boss.storehelmets.service.UserSevice;
@@ -50,6 +53,9 @@ public class RestApiShippingBillController {
 	
 	@Autowired
 	JwtAuthenticationFilter authenticationFilter;
+	
+	@Autowired
+	ShipperService shipperService;
 	
 	@RequestMapping(value="/shippings/drivers/shippers")
 	public List<User> getUserHaveRoleIsShipper(){
@@ -98,6 +104,7 @@ public class RestApiShippingBillController {
 		return null;
 	}
 	
+//	hien thi hoa don dang cho duyet
 	@RequestMapping(value="/shippings/beingtransported",method=RequestMethod.GET)
 	public List<ShippingBill> getShippingBillBeingTransported(){
 		try {
@@ -110,5 +117,32 @@ public class RestApiShippingBillController {
 		return null;
 	}
 	
+	@RequestMapping(value="/shippings/deliveredsuccessfully",method=RequestMethod.GET)
+	public List<ShippingBill> hienThiHoaDonDangChoXacNhan(){
+		try {
+			return shippingBillService.hienThiNhungHoaDonDangChoDuyet();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
+	@RequestMapping(value="/shippingbills/{idShippingBill}",method=RequestMethod.PUT)
+	public String xacNhanHoanThanhHoaDon(@PathVariable("idShippingBill") String idShippingBill) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Optional<User> user = userSevice.findUserByEmail(username);
+		return shippingBillService.xacNhanHoanThanhHoaDon(idShippingBill, user.get().getIdUser());
+	}
+	
+	@RequestMapping(value="/shippingbills/awaitingconfirmation")
+	public List<ShippingBill> hienThiShippingBillDangChoDuyet(){
+		return shippingBillService.hienThiNhungHoaDonDangChoDuyet();
+	}
+	
+	@RequestMapping(value="/shippingbills/successful")
+	public List<ShippingBill> hienThiHoaDonDaThanhCong(){
+		return shippingBillService.hienThiShippingbillsThanhCong();
+	}
 }

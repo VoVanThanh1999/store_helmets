@@ -321,6 +321,18 @@ public class InvoiceServiceImpl implements InvoiceService {
 		return shippingBill.get().getInvoices();
 	}
 
+	@Override
+	public List<Invoice> hienThiDonDatHangThanhCong() {
+		// TODO Auto-generated method stub
+		return invoiceRepository.hienThiHoaDonThanhCong();
+	}
+
+	@Override
+	public List<Invoice> hienThiDonDatHangDaHuy() {
+		// TODO Auto-generated method stub
+		return invoiceRepository.hienThiDonDatHangDaHuy();
+	}
+
 	/*
 	 * @Override public void deleteInvoice() { // TODO Auto-generated method stub
 	 * List<Invoice> invoices = invoiceRepository.findAll(); java.util.Date dateData

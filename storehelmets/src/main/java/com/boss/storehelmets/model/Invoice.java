@@ -74,6 +74,9 @@ public class Invoice {
 
 	@Column(name = "statusCancel")
 	private boolean statusCancel;
+	
+	@Column(name="xac_nhan_hoan_thanh_tu_admin")
+	private boolean xacNhanHoanThanhTuAdmin;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_basket_total")
@@ -295,4 +298,13 @@ public class Invoice {
 		this.dateDeliverySuccessOrCancel = dateDeliverySuccessOrCancel;
 	}
 
+	public boolean isXacNhanHoanThanhTuAdmin() {
+		return xacNhanHoanThanhTuAdmin;
+	}
+
+	public void setXacNhanHoanThanhTuAdmin(boolean xacNhanHoanThanhTuAdmin) {
+		this.xacNhanHoanThanhTuAdmin = xacNhanHoanThanhTuAdmin;
+	}
+	
+	
 }

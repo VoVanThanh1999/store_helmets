@@ -36,4 +36,7 @@ public interface InvoiceService {
 	
 	public List<Invoice> getInvoiceByIdShippingBill(String idShippingBill);
 	
+	public List<Invoice> hienThiDonDatHangThanhCong();
+	
+	public List<Invoice> hienThiDonDatHangDaHuy();
 }

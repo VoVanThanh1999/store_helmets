@@ -69,7 +69,6 @@ public class ViewUserController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e.getMessage());
 		}	
 		return "login-user";
 	}

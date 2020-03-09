@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout_admin :: head">
+</head>
+<body>
+	<div th:replace="layout_admin :: header">
+	</div>
+	<div th:replace="home_shipper :: nav-left-shipper"></div>
+	
+	<div class="home-page">
+		<h4 class="text-center pt-5">Những hóa đơn đã giao thành công</h4>
+		<br/>
+		<table class="table table-striped">a
+		    <thead>
+		        <tr>
+		            <th> Mã hóa đơn </th>
+		            <th> Tiền hóa đơn </th>
+		            <th> Tiền thu được </th>
+		            <th> Tiền đã hủy</th>
+		            <th> Danh sách đơn hàng</th>
+		            <th> Ngày giao đơn hàng</th>
+		            <th> Ngày admin xác nhận</th>
+		        </tr>
+		    </thead>
+		    <tbody id="loadTable-daGiaoThanhCong">
+		  	<!-- 	<tr th:each="shippingBill , state : ${shippingBills}">
+		  			<td  th:utext="${shippingBill.idShippingBill}"></td>
+		  			<td  th:utext="${shippingBill.totalMoneyInvoice}"></td>
+		  			<td  th:utext="${shippingBill.totalMoneyCollected}"></td>
+		  			<td  th:utext="${shippingBill.totalMoneyNotYetCollected}"></td>
+		  			<td  th:utext="${shippingBill.tienDaHuy}"></td>
+		  			<td class="btn btn-danger"><a href="#" th:href="@{/shipper/chitiethoadon/idhoadon(idhoadon=${shippingBill.idShippingBill})}" class="btn text-white">Xem chi tiết</a></td>
+		  			<td><p class="btn btn-success"><i class="fas fa-check"></i></p></td>
+		  		</tr>	  -->
+		    </tbody>
+		</table>
+	</div>
+	<div class="viewDetails">
+		
+	</div>
+<script type="text/javascript" th:replace="layout :: js_layout"></script>	
+<script type="text/javascript" src="/jquery/admin/shipper.js"></script>
+
+<script type="text/javascript" th:fragment="js_layout_admin">
+loadUsername();
+function loadUsername(){
+	   $.ajax({
+		   url: "/api/v1/users/username",
+		   method:"GET"
+		 })
+		 .done(function( data ) {
+		   $('#nameProfile').html(data+" (Shipper)");
+		 });
+}
+	
+</script>
+</body>
+</html>

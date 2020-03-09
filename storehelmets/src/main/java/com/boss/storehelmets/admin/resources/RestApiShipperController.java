@@ -39,6 +39,11 @@ public class RestApiShipperController {
 		return shipperService.getShippingBillByIdShipper(idShipper);
 	}
 	
+	@RequestMapping(value="/shippingbills/shippers/{idShipper}",method=RequestMethod.GET)
+	public List<ShippingBill> hienThiHoaDonDaGiaoThanhCong(@PathVariable("idShipper")String idShipper){
+		return shipperService.hienThiShippingBillDaGiaoThanhCong(idShipper);
+	}
+	
 	@RequestMapping(value="/shippingbills/{idShippingBill}/invoices",method=RequestMethod.GET)
 	public List<Invoice> getInvoiceByShippingBill(@PathVariable("idShippingBill") String idShippingBill){
 		try {
@@ -83,18 +88,34 @@ public class RestApiShipperController {
 			return ShipperServiceImpl.ErrorConfirmInvoice;
 	}
 	
-	public String chuyenHoaDonChoAdmin(String idShipping) {
+	@RequestMapping(value="/shippingbills/{idShipping}",method=RequestMethod.PUT)
+	public String chuyenHoaDonChoAdmin(@PathVariable("idShipping") String idShipping) {
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			String username = auth.getName();
 			Optional<User> user = userSevice.findUserByEmail(username);
-			return	shipperService.chuyenDonGiaoHangChoAdminQuanLy(idShipping, user.get().getIdUser());
+			return	shipperService.confirmShipping(idShipping, user.get().getIdUser());
 		} catch (Exception e) {
 			// TODO: handle exception
 			LOGGER.warn("chuyển hóa đơn xong admin");
 			e.printStackTrace();
 		}
 		return ShipperServiceImpl.ErrorTransferredToTheManager;
+	}
+	@RequestMapping(value="/shippingbills/awaitingconfirmation",method=RequestMethod.GET)
+	public List<ShippingBill> hienThiShippingbillDangChoXacNhan(){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Optional<User> user = userSevice.findUserByEmail(username);
+		return	shipperService.hienThiShippingBillDangChoXacNhan(user.get().getIdUser());
+	}
+	
+	@RequestMapping(value="/shippingbills/deliveredsuccessfully",method=RequestMethod.GET)
+	public List<ShippingBill> hienThiShippingbillDaGiaoThanhCCong(){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Optional<User> user = userSevice.findUserByEmail(username);
+		return shipperService.hienThiShippingBillDaGiaoThanhCong(user.get().getIdUser());
 	}
 	
 	
