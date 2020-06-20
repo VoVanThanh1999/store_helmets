@@ -49,26 +49,31 @@
 						  <thead>
 						    <tr>
 						      <th class="h5">Sản phẩm</th>
+						       <th class="h5">Số lượng</th>
 						      <th class="h5">Tổng</th>
 						    </tr>
 						  </thead>
 						  <tbody  th:each="basket : ${basketDtos}">
 						  	<tr>
 						      <td th:utext="${basket.nameProduct}"></td>
+						       <td th:utext="${basket.numOfCart}"></td>
 						      <td class="productPrice"   th:utext="${basket.price}"></td>
 						    </tr>	
 						  </tbody>
 						  <tfoot>
 						  	 <tr>
 						      <td ><h6 class="text-secondary">Tổng phụ</h6></td>
+						            <td></td>
 						      <td class="tongPhu h6 text-warning" th:utext="${basketDtoTotal.totalMoneyBasket}"></td>
 						    </tr>
 						    <tr>
 						      <td class="h6 text-secondary">Giao hàng</td>
+						      <td></td>
 						      <td class="text-warning">Giao hàng miễn phí</td>
 						    </tr>
 						    <tr>
 						      <td class="h5">Tổng tiền</td>
+						         <td></td>
 						      <td class="tongTien h5 text-danger" th:utext="${basketDtoTotal.totalMoneyBasket}"></td>
 						    </tr>
 						    

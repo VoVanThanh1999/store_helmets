@@ -51,7 +51,7 @@ public class Product {
 	@JoinColumn(name="id_user")
 	private User userCreat;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_products_details")
 	private ProductsDetails productsDetails;
 

@@ -1,3 +1,4 @@
+
 package com.boss.storehelmets.service;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -112,7 +113,6 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	@CacheEvict(value = "products",allEntries = true)
-	@CachePut
 	@Transactional
 	@Override
 	public String deleteProduct(String id) {
@@ -129,7 +129,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 
-	@CachePut
+
 	@CacheEvict(value = "products",allEntries = true)
 	@Transactional
 	@Override
@@ -151,7 +151,7 @@ public class ProductServiceImpl implements ProductService{
 		}
 	}
 	
-	@CachePut
+
 	@CacheEvict(value = "products",allEntries = true)
 	@Transactional
 	@Override
@@ -161,7 +161,7 @@ public class ProductServiceImpl implements ProductService{
 			if (product != null) {
 				java.util.Date dateData = new java.util.Date();
 				Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
-			
+			/*
 				if (historyStoreEventRepository.findByDate(date) == null) {
 					HistoryStoreEvent historyStoreEvent = new HistoryStoreEvent();
 					Set<HistoryImportProduct> productImportHistories = new HashSet<>();
@@ -188,7 +188,7 @@ public class ProductServiceImpl implements ProductService{
 					float priceProduct = (float) (event.getTotalMoneySold() + product.getProductsDetails().getAmount());
 					event.setTotalMoneySold(priceProduct);
 					historyStoreEventRepository.save(event);
-				}
+				}*/
 				productRepository.save(product);
 				return AppConstants.SUCCESS_CREATE;
 			}

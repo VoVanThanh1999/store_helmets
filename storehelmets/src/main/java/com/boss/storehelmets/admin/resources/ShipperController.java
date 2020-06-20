@@ -35,6 +35,21 @@ public class ShipperController {
 	
 	public static final Logger LOGGER = LogManager.getLogger(ShipperController.class);
 	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String login() {
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String username = auth.getName();
+			Optional<User> optional = userSevice.findUserByEmail(username);
+			if (optional.get()!=null) {
+				return "redirect:/";
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}	
+		return "login-shipper";
+	}
+	
 	
 	@RequestMapping(value="/trangchu", method=RequestMethod.GET)
 	public String homeShipper(ModelMap modelMap) {

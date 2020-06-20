@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService{
 //	get sản phẩm bằng id chi tiết danh mục có danh mục sản phẩm
 	@Transactional
 	@Override
-	@Cacheable(value = "product")
+	@Cacheable(value = "products")
 	public List<Product> getProductsByCategoryDetails(String id) {
 		// TODO Auto-generated method stub
 		try {
@@ -91,6 +92,7 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Transactional
 	@Override
+	@CacheEvict(value="category",allEntries=true)
 	public String addCategory(Category categoryInput, User user) {
 		// TODO Auto-generated method stub
 		if (categoryInput!= null) {
@@ -106,6 +108,7 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Transactional
 	@Override
+	@CacheEvict(value="category",allEntries=true)
 	public String deleteCategory(String id) {
 		// TODO Auto-generated method stub
 		try {
@@ -123,6 +126,7 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Transactional
 	@Override
+	@CacheEvict(value="category",allEntries=true)
 	public String updateCategory(Category categoryInput, User user) {
 		// TODO Auto-generated method stub
 		try {
@@ -145,6 +149,7 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Transactional
 	@Override
+	@CacheEvict(value="category",allEntries=true)
 	public String updateCategoryDetails(CategoryDetails categoryDetails,User user) {
 		try {
 			Optional<CategoryDetails> optional = categoryDetailsRepository.findById(categoryDetails.getId());
@@ -163,6 +168,7 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Transactional
 	@Override
+	@CacheEvict(value="category",allEntries=true)
 	public String addCategoryDetails( CategoryDetails categoryDetailsInput) {
 		try {
 			CategoryDetails categoryDetails = new CategoryDetails();
@@ -182,6 +188,7 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Transactional
 	@Override
+	@CacheEvict(value="category",allEntries=true)
 	public String deleteCategoryDetails(String id) {
 		try {
 			Optional<CategoryDetails> categoryDetails = categoryDetailsRepository.findById(id);

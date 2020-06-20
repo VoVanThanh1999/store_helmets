@@ -100,7 +100,7 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 				shippingBill.setShipper(shipper);
 				shippingBill.setDate(date);
 				invoiceRepository.saveAll(invoices);
-				HistoryStoreEvent historyStoreEvent = historyStoreEventRepository.findByDate(date);
+				/*HistoryStoreEvent historyStoreEvent = historyStoreEventRepository.findByDate(date);
 				if (historyStoreEvent == null) {
 					historyStoreEvent = new HistoryStoreEvent();
 					historyStoreEvent.setDate(date);
@@ -129,7 +129,7 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 					historyStoreEvent.setHistoryCreateShippingbills(createShippingbills);
 					historyStoreEventRepository.save(historyStoreEvent);
 				}
-
+*/
 				shippingBillRepository.save(shippingBill);
 				return AppConstants.SUCCESS_ADD_SHIPPINGBILL;
 			}
@@ -352,10 +352,10 @@ public class ShippingBillServiceImpl implements ShippingBillService {
 
 						}
 					}
-					 invoiceRepository.save(invoice); 
+					invoiceRepository.save(invoice);
 				}
 
-				 shippingBillRepository.save(shippingBill.get()); 
+				shippingBillRepository.save(shippingBill.get());
 				return ShippingBillServiceImpl.XACNHANHOADONTHANHCONG;
 			}
 		} catch (Exception e) {

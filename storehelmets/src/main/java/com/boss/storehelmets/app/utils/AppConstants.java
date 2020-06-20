@@ -36,7 +36,7 @@ public class AppConstants {
 	public static final CharSequence INVALID_FILE_DELIMITER = "..";
 	public static final String INDEX_PAGE_URI = "/index";
 	public static final String INDEX_PAGE = "index";
-	public static final String TEMP_DIR = "C:\\Users\\Welcome\\Desktop\\image\\";
+	public static final String TEMP_DIR = "C:\\Users\\Administrator\\Desktop\\image\\";
 	public static final String INVALID_FILE_DIMENSIONS = "Invalid file dimensions. File dimension should note be more than 300 X 300";
 	public static final String INVALID_FILE_FORMAT = "Only PNG, JPEG and JPG images are allowed";
 	public static final String PNG_FILE_FORMAT = ".png";

@@ -78,7 +78,8 @@ loadChiTietSanPham();
 				  for(var i =0;i<result.length;i++){
 					  $('#products-basket').append(`
 						 <tr>
-							<th scope="row"><img style="width:70px" class="img-fluid" src="`+result[i].imageProduct+`"> <p class="float-left  h5">`+result[i].nameProduct+`</p></th>
+					  		<th><p class="text-warning h6 font-weight-bold">`+result[i].nameProduct+`</p></th>
+							<th scope="row"><img style="width:70px" class="img-fluid" src="`+result[i].imageProduct+`"></th>
 						    <td><p class="text-warning h6 font-weight-bold">`+formatNumber(result[i].price,'-',',')+` đ</p></td>
 						  	<td><input class="col-md-2 btn-danger btn" disabled="disabled" value=`+result[i].numOfCart+`></td>
 							<td><p class="text-warning h6 font-weight-bold">`+formatNumber(result[i].totalMoney,'-',',')+` đ</p></td>

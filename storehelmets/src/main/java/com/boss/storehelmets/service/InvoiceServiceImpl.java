@@ -142,7 +142,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 					}
 					java.util.Date dateData = new java.util.Date();
 					Date date = new Date(dateData.getYear(), dateData.getMonth(), dateData.getDate());
-					HistoryStoreEvent event = historyStoreEventRepository.findByDate(date);
+					/*HistoryStoreEvent event = historyStoreEventRepository.findByDate(date);
 					if (event == null) {
 						event = new HistoryStoreEvent();
 						event.setDate(date);
@@ -164,7 +164,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 						event.setHistoryComfirmInvoices(historyComfirmInvoices);
 						historyStoreEventRepository.save(event);
 					}
-					historyStoreEventRepository.save(event);
+					historyStoreEventRepository.save(event);*/
 					invoiceRepository.save(invoice.get());
 					return AppConstants.SUCCESS_UPDATE;
 				}

@@ -81,6 +81,7 @@ public class RestApiShippingBillController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
+			System.out.println("loi tai day");
 			return AppConstants.ERROR_ADD_SHIPPINGBILL;
 		}
 		return AppConstants.ERROR_ADD_SHIPPINGBILL;

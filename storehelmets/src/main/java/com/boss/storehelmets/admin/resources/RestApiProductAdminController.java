@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +38,15 @@ import com.boss.storehelmets.service.ProductService;
 import com.boss.storehelmets.service.UserDetailServiceImpl;
 import com.boss.storehelmets.service.UserSevice;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @Controller
 @RequestMapping(value = "/api/v1/admins")
+@Api(value="Product APIs")
 public class RestApiProductAdminController {
 
 	@Autowired
@@ -68,6 +75,13 @@ public class RestApiProductAdminController {
 	
 	
 	
+	@ApiOperation(value = "Thêm sản phẩm vào kho")
+	@ApiResponses(value = {
+            @ApiResponse(code=200,message="Thành công"),
+            @ApiResponse(code = 401, message = "Chưa xác thực"),
+            @ApiResponse(code = 403, message = "Truy cập bị cấm"),
+            @ApiResponse(code = 404, message = "Không tìm thấy")
+    })
 	@RequestMapping(value = "/products",method = RequestMethod.POST)
 	public String addNewProduct(@RequestBody Product productInput ,HttpServletRequest request) {
 		try {

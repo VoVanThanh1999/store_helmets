@@ -53,7 +53,10 @@ public class ProductsDetails {
 	
 	@Column(name="weight")
 	private String weight;
-
+	
+	@OneToOne
+	private Product product;
+	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="id_products_details")
 	private Set<ProductImage> productImages;
@@ -78,6 +81,14 @@ public class ProductsDetails {
 	 */
 	public void setIdProductsDetails(String idProductsDetails) {
 		this.idProductsDetails = idProductsDetails;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	/**

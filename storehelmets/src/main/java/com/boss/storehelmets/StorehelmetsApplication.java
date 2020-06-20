@@ -48,19 +48,19 @@ public class StorehelmetsApplication implements CommandLineRunner{
 		// TODO Auto-generated method stub
 		
 		/*User user = new User(); 
-		user.setEmail("taixene@yahoo.com");
+		user.setEmail("viet1@donga.edu.vn");
 		user.setPassword(passwordEncoder.encode("123456"));
-		user.setFullName("Bac tai");
+		user.setFullName("Admin Việt ");
 		Set<Roles> roles = new HashSet<Roles>();	
 		Roles role = new Roles();	
 		role.setRoleName("ROLE_ADMIN"); 
+		Roles role1 = new Roles();
+		role1.setRoleName("ROLE_SHIPPER");
+		roles.add(role1);
 		roles.add(role);
-		Roles roles2 = new Roles();
-		roles2.setRoleName("ROLE_SHIPPER");
-		roles.add(roles2);
 		user.setRoles(roles);
 		userRepository.save(user);
-		invoiceService.deleteInvoice();		*/																			
+		invoiceService.deleteInvoice();			*/													
 	}
 	
 }
